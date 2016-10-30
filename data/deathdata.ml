@@ -16,38 +16,38 @@ let icd_category_map = Hashtbl.create num_icd_categories;;
 (* Hashtbl.reset icd_category_map; *)
 
 let icd_categories = [
-  ([('A',0,999); ('B',0,999)], "Certain infectious and parasitic diseases");
-  ([('C',0,999); ('D',0,489)], "Neoplasms");
-  ([('D',500,899)], "Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism");
-  ([('E',0,909)], "Endocrine, nutritional and metabolic diseases");
-  ([('F',0,999)], "Mental and behavioural disorders");
-  ([('G',0,999)], "Diseases of the nervous system");
-  ([('H',0,599)], "Diseases of the eye and adnexa");
-  ([('H',600,959)], "Diseases of the ear and mastoid process");
-  ([('I',0,999)], "Diseases of the circulatory system");
-  ([('J',0,999)], "Diseases of the respiratory system");
-  ([('K',0,939)], "Diseases of the digestive system");
-  ([('L',0,999)], "Diseases of the skin and subcutaneous tissue");
-  ([('M',0,999)], "Diseases of the musculoskeletal system and connective tissue");
-  ([('N',0,999)], "Diseases of the genitourinary system");
-  ([('O',0,999)], "Pregnancy, childbirth and the puerperium");
-  ([('P',0,969)], "Certain conditions originating in the perinatal period");
-  ([('Q',0,999)], "Congenital malformations, deformations and chromosomal abnormalities");
-  ([('R',0,999)], "Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified");
-  ([('S',0,999); ('T',0,989)], "Injury, poisoning and certain other consequences of external causes");
-  ([('V',10,999); ('W',0,999); ('X',0,999); ('Y',0,989)], "External causes of morbidity and mortality");
-  ([('Z',0,999)], "Factors influencing health status and contact with health services");
-  ([('U',0,859)], "Codes for special purposes")
+  ([('A',0,999); ('B',0,999)], "Certain infectious and parasitic diseases", "Infection or Parasite");
+  ([('C',0,999); ('D',0,489)], "Neoplasms", "Cancer");
+  ([('D',500,899)], "Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism", "Immune Disease");
+  ([('E',0,909)], "Endocrine, nutritional and metabolic diseases", "Endocrine and Metabolic");
+  ([('F',0,999)], "Mental and behavioural disorders", "Mental Disorder");
+  ([('G',0,999)], "Diseases of the nervous system", "Nervous System");
+  ([('H',0,599)], "Diseases of the eye and adnexa", "Eye");
+  ([('H',600,959)], "Diseases of the ear and mastoid process", "Ear");
+  ([('I',0,999)], "Diseases of the circulatory system", "Circulatory");
+  ([('J',0,999)], "Diseases of the respiratory system", "Respiratory");
+  ([('K',0,939)], "Diseases of the digestive system", "Digestive");
+  ([('L',0,999)], "Diseases of the skin and subcutaneous tissue", "Skin");
+  ([('M',0,999)], "Diseases of the musculoskeletal system and connective tissue", "Musculoskeletal");
+  ([('N',0,999)], "Diseases of the genitourinary system", "Genitourinary");
+  ([('O',0,999)], "Pregnancy, childbirth and the puerperium", "Childbirth and Pregnancy");
+  ([('P',0,969)], "Certain conditions originating in the perinatal period", "Perinatal");
+  ([('Q',0,999)], "Congenital malformations, deformations and chromosomal abnormalities", "Chromosomal Abnormalities");
+  ([('R',0,999)], "Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified", "Abnormal Causes");
+  ([('S',0,999); ('T',0,989)], "Injury, poisoning and certain other consequences of external causes", "Consequences of External Causes");
+  ([('V',10,999); ('W',0,999); ('X',0,999); ('Y',0,989)], "External causes of morbidity and mortality", "Direct External Causes");
+  ([('Z',0,999)], "Factors influencing health status and contact with health services", "Inability to Access Care");
+  ([('U',0,859)], "Codes for special purposes", "Special Reasons")
 ];;
 
-(* define the lookup function *)
+(* define the lookup function: give pair of both short and long form name *)
 let lookup_fun range name =
   fun num -> if cause_range range num then Some name else None;;
 
 (* populate the map *)
 let setup_icd_map =
-  List.iter (fun (cl,name) ->
-    List.iter (fun (tag,lo,hi) -> Hashtbl.add icd_category_map tag (lookup_fun (lo,hi) name)) cl
+  List.iter (fun (cl,name,shortform) ->
+    List.iter (fun (tag,lo,hi) -> Hashtbl.add icd_category_map tag (lookup_fun (lo,hi) (name,shortform))) cl
   ) icd_categories;;
 
 (* simple accessor to map *)
@@ -58,7 +58,7 @@ let disease_type tag =
   List.fold_left (fun acc rangefun -> match rangefun num with
     | None -> acc
     | Some entry -> entry
-  ) "" entries;;
+  ) ("","") entries;;
 
 (* helper to fold a hashtable into a (key,value) pair list *)
 let hash_to_list h =
@@ -170,10 +170,10 @@ let humanized_graph humanized_data =
  *   dict of "nodename" : {ct,[edges]} *)
 let graph_to_json graph_data =
   let chop_last s = String.sub s 0 (String.length s - 1) in
-  List.fold_left (fun acc (name,ct,edges) ->
-    let edgestr = List.fold_left (fun eacc (ename,ect) ->
-      eacc ^ sprintf "{'name': '%s', 'count': %d}," ename ect) "" edges in
-    acc ^ sprintf "'%s': {'count': %d, 'edges': [%s]}," name ct (chop_last edgestr)
+  List.fold_left (fun acc ((name,short),ct,edges) ->
+    let edgestr = List.fold_left (fun eacc ((ename,eshort),ect) ->
+      eacc ^ sprintf "{'name': '%s', 'short': '%s', 'count': %d}," ename eshort ect) "" edges in
+    acc ^ sprintf "'%s': {'short': '%s', 'count': %d, 'edges': [%s]}," name short ct (chop_last edgestr)
   ) "" graph_data
   |> chop_last
   |> sprintf "{%s}"
