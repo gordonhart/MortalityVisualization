@@ -6,18 +6,17 @@ html, body {
   color: #222222;
   margin: 0;
   padding: 0;
-  font-size: 16px; }
+  font-size: 16px;
+  text-align: center; }
 
 h1 {
-  margin: 1em auto;
+  margin-bottom: 1em;
   font-size: 2em;
-  text-align: center;
   font-family: "Playfair Display SC", Courier, serif; }
 
 h4 {
   margin: 1em auto;
   font-size: 1em;
-  text-align: center;
   font-family: "Playfair Display SC", Courier, serif; }
 
 p {
@@ -26,12 +25,51 @@ p {
   margin: 0 auto 1em auto;
   font-family: "Open Sans", Arial, sans; }
 
+button {
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  border-radius: 25px;
+  -moz-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  -webkit-transition: all 0.25s ease;
+  -ms-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  font-family: "Open Sans", Arial, sans;
+  cursor: pointer;
+  width: 150px;
+  padding: 1em;
+  outline: none;
+  border: none;
+  background: #222222;
+  color: #FAFAFA; }
+  button.overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: -6em;
+    z-index: 1000;
+    opacity: 0.25; }
+  button:hover {
+    opacity: 0.75; }
+
+.header-block {
+  background: #222222;
+  color: #FAFAFA;
+  margin-bottom: 2em;
+  padding: 2em; }
+
+.viz {
+  padding: 2em 0; }
+
 #cyto {
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
-  z-index: 999; }
+  z-index: 999;
+  text-align: left; }
 
 /*# sourceMappingURL=viz.css.map */

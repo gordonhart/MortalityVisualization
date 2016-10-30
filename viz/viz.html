@@ -8,17 +8,34 @@
 
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+
+    <script type="text/javascript" src="viz.js"></script>
     <script type="text/javascript" src="graph_viz.js"></script>
   </head>
 
   <body>
-    <h1>STAT 3622 Visualization</h1>
-    <h4>Gordon Hart</h4>
-    <h4>3035338963</h4>
-    <h4>Fall 2016</h4>
+    <div class="header-block">
+      <h1>STAT 3622 Visualization</h1>
+      <h4>Gordon Hart</h4>
+      <h4>3035338963</h4>
+      <h4>Fall 2016</h4>
+    </div>
 
     <!-- <p>test</p> -->
-    <div id="cyto"></div>
+    <div id="viz1" class="viz">
+      <h4>Cause of Death with Pre-Existing Conditions</h4>
+      <p>In the given dataset, more than 30,000 deaths in 2014 in the United States are recorded. The deaths are given with their primary cause of death and up to 20 pre-existing conditions that the patient is recorded as suffering from.</p>
+      <p>The below graph presents a visualization where the nodes represent the primary cause of death and the edges represent the pre-existing conditions.</p>
+      <button id="to-cyto">View</button>
+      <div id="cyto"></div>
+      <button id="after-cyto" class="overlay">Next</button>
+    </div>
+
+    <div id="viz2" class="viz">
+      <h4>Second Viz</h4>
+      <p>This is where the second viz starts</p>
+    </div>
+
   </body>
 
 </html>

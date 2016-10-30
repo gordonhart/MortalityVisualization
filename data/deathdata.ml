@@ -61,8 +61,15 @@ let disease_type tag =
   ) ("","") entries;;
 
 (* helper to fold a hashtable into a (key,value) pair list *)
-let hash_to_list h =
-  Hashtbl.fold (fun key value acc -> (key,value) :: acc) h [];;
+let loh h = Hashtbl.fold (fun key value acc -> (key,value) :: acc) h [];;
+
+(* expand a (key,value) pair list into a hashtable, with custom definiton
+ * for how key,value are passed *)
+let hol keymap l =
+  let tbl = Hashtbl.create (List.length l) in
+  List.iter (fun item -> keymap item
+    |> fun (k,v) -> Hashtbl.add tbl k v) l;
+  tbl;;
 
 
 
@@ -127,7 +134,7 @@ let category_count humanized_data =
       Hashtbl.replace counts cause (Hashtbl.find counts cause + 1)
     else Hashtbl.add counts cause 1
   ) humanized_data;
-  hash_to_list counts;;
+  loh counts;;
 
 (* turn a humanized dataset into a list of nodes
  *   (name, count, [(edge1, count); (edge2, count)...])
@@ -141,27 +148,24 @@ let category_count humanized_data =
  * where preexisting hashtable is indexed by type, with count as value *)
 let humanized_graph humanized_data =
 
-  (* define the node hashtable and a reusable increment function *)
-  let nodes = Hashtbl.create num_icd_categories in
+  (* define the node hashtable, populate with an entry for each disease *)
+  let nodes = hol (fun (code,name,short) ->
+    ((name,short),(0,Hashtbl.create num_icd_categories))) icd_categories in
+
+  (* reusable increment function *)
   let inc_table table incfun base key =
-    if Hashtbl.mem table key then
-      Hashtbl.replace table key (incfun (Hashtbl.find table key))
+    if Hashtbl.mem table key then Hashtbl.replace table key (incfun (Hashtbl.find table key))
     else Hashtbl.add table key (base ()) in
 
   (* iterate through data, building counts *)
   List.iter (fun (cod,multiple) -> inc_table nodes
     (fun (ct,preex_ht) -> (* regular case: update existing hashtable *)
       List.iter (inc_table preex_ht (fun c -> c+1) (fun () -> 1)) multiple;
-      (ct+1,preex_ht))
-    (fun () -> (* base case: create new hashtable *)
-      let preex_ht = Hashtbl.create num_icd_categories in
-      List.iter (inc_table preex_ht (fun c -> c+1) (fun () -> 1)) multiple;
-      (1,preex_ht))
-    cod) humanized_data;
+      (ct+1,preex_ht)) (* following will never be called (already initialized) *)
+    (fun () -> failwith "never reach here") cod) humanized_data;
 
   (* fold hashtable ot hashtables to list *)
-  Hashtbl.fold (fun cond (ct,preex_ht) acc ->
-    (cond,ct,hash_to_list preex_ht) :: acc) nodes [];;
+  Hashtbl.fold (fun cond (ct,preex_ht) acc -> (cond,ct,loh preex_ht) :: acc) nodes [];;
 
 
 
@@ -169,7 +173,9 @@ let humanized_graph humanized_data =
 (* finally, transform the directed graph structure to json:
  *   dict of "nodename" : {ct,[edges]} *)
 let graph_to_json graph_data =
-  let chop_last s = String.sub s 0 (String.length s - 1) in
+  let chop_last s =
+    let len = String.length s in
+    if len > 0 then String.sub s 0 (len - 1) else s in
   List.fold_left (fun acc ((name,short),ct,edges) ->
     let edgestr = List.fold_left (fun eacc ((ename,eshort),ect) ->
       eacc ^ sprintf "{'name': '%s', 'short': '%s', 'count': %d}," ename eshort ect) "" edges in

@@ -7,25 +7,39 @@ $white: #FAFAFA;
 $header: 'Playfair Display SC', Courier, serif;
 $regular: 'Open Sans', Arial, sans;
 
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin transition($transition) {
+  -moz-transition:    all $transition ease;
+  -o-transition:      all $transition ease;
+  -webkit-transition: all $transition ease;
+  -ms-transition:     all $transition ease;
+  transition:         all $transition ease;
+}
+
 html,body {
   background: $white;
   color: $black;
   margin: 0;
   padding: 0;
   font-size: 16px;
+  text-align: center;
 }
 
 h1 {
-  margin: 1em auto;
+  margin-bottom: 1em;
   font-size: 2em;
-  text-align: center;
   font-family: $header;
 }
 
 h4 {
   margin: 1em auto;
   font-size: 1em;
-  text-align: center;
   font-family: $header;
 }
 
@@ -36,13 +50,50 @@ p {
   font-family: $regular;
 }
 
+button {
+  @include border-radius(25px);
+  @include transition(0.25s);
+  font-family: $regular;
+  cursor: pointer;
+  width: 150px;
+  padding: 1em;
+  outline: none;
+  border: none;
+  background: $black;
+  color: $white;
+  &.overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: -6em;
+    z-index: 1000;
+    opacity: 0.25;
+  }
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.header-block {
+  background: $black;
+  color: $white;
+  margin-bottom: 2em;
+  padding: 2em;
+}
+
+.viz {
+  padding: 2em 0;
+}
+
 #cyto {
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   z-index: 999;
+  text-align: left;
 }
 
 
