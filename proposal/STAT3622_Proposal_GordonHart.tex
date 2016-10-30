@@ -1,0 +1,124 @@
+\documentclass{article}
+
+% IMPORTS =========================================================================
+\usepackage[letterpaper, portrait, margin=1in]{geometry}
+\usepackage[sc,bf]{titlesec} % smallcaps, bold title headers
+\usepackage[T1]{fontenc} % T1 font encoding
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[parfill]{parskip} % this makes new paragraphs spaced out instead of indented
+\usepackage{amsmath, amssymb} % amssymb for the checkmark
+\usepackage{enumerate, listings} % for sublists
+\usepackage{courier}
+\usepackage{color}
+\usepackage{float}
+\usepackage{fancyhdr} % custom headers, footers
+\usepackage{mathtools} % for dcases
+% \IMPORTS ------------------------------------------------------------------------
+
+% SETUP ===========================================================================
+\newcommand{\courseName}{STAT 3622}
+\newcommand{\assignmentNumber}{Project Proposal}
+\newcommand{\studentNumber}{3035338963}
+
+\titlespacing{\section}{0pt}{48pt}{0pt}
+\definecolor{light-gray}{gray}{0.95} % lightest
+\definecolor{header-gray}{gray}{0.8}
+\definecolor{comment-gray}{gray}{0.6} % darker
+\lstset{
+    breaklines=true, % allows line wrapping in lstlistings
+    basicstyle=\ttfamily, % set style to courier font
+    tabsize=4,
+    commentstyle=\color{comment-gray},
+    backgroundcolor=\color{light-gray},
+    xleftmargin=12pt, % keep in line with rest of document
+    xrightmargin=12pt,
+	framexleftmargin=12pt,
+	framexrightmargin=12pt,
+	framextopmargin=6pt,
+	framexbottommargin=6pt,
+	frame=tb,
+	framerule=0pt,
+	showstringspaces=false % keeps the spaces from being shown when in quotes
+}
+\newcommand{\bigO}{\mathcal{O}} % big-O symbol easily aliased
+\newcommand{\inlinecode}[1]{ % colored inline code block
+	\fcolorbox{light-gray}{light-gray}{\lstinline[columns=fixed]{#1}}
+}
+\newcommand{\note}[1]{ % indented italics "Note:"
+	\begin{quote}\textit{Note}: {#1}\end{quote}
+}
+\newcommand{\ans}[1]{
+	\fcolorbox{light-gray}{light-gray}{#1}
+}
+\pagestyle{fancy} % setup custom headers/footers
+\renewcommand{\headrulewidth}{0pt} % no underline on header
+\lhead{\textcolor{header-gray}{\courseName}}
+\rhead{\textcolor{header-gray}{\assignmentNumber}}
+\lfoot{\textcolor{header-gray}{\studentNumber}}
+\cfoot{\textcolor{header-gray}{\textbf{Gordon Hart}}}
+\rfoot{\textbf{\thepage}} % page numbers on bottom right of page
+\renewcommand{\thesubsection}{\thesection\Alph{subsection}} % sets A, B subsection titles
+% \SETUP --------------------------------------------------------------------------
+
+% TITLE ===========================================================================
+\newcommand{\assignmentTitlePage}{\begingroup % new command for making title page
+\vspace*{-26pt}
+\vspace*{2in} % blank space at top
+
+\colorbox{light-gray}{\begin{minipage}[b][2in][b]{0.75\textwidth}
+\newlength{\indentLength}
+\setlength{\indentLength}{\dimexpr\textwidth-0.25in\relax}
+\parbox{\indentLength}{
+\begin{flushright}
+\Huge
+\textbf{\courseName}\\
+\assignmentNumber\vspace{0.35in}
+\end{flushright}}
+\end{minipage}}
+
+\vspace{0.35in}
+
+\setlength{\indentLength}{\dimexpr0.75\textwidth-0.25in\relax}
+\begin{minipage}{\indentLength}
+\begin{flushright}\Large\today\\
+\vspace{0.25in}\Large
+\textbf{Gordon Hart}\\
+\textit{\studentNumber}\\
+\vspace{0.25in}\normalsize
+\textit{gordonhart@hku.hk}\\
+\vspace{3.5in}\normalsize
+\textit{University of Hong Kong\\Department of Statistics and Actuarial Science}
+\end{flushright}
+\end{minipage}
+\endgroup}
+% \TITLE --------------------------------------------------------------------------
+
+\begin{document}
+
+\newgeometry{margin=0in} % no margin on title page
+\assignmentTitlePage % create title page
+\thispagestyle{empty} % no number on title page
+
+\setcounter{page}{0} % start page numbering on 1 on the first non-title page
+\restoregeometry % restore default geometry (margins)
+
+% BODY ============================================================================
+% Q1 ==============================================================================
+\input{tex_files/S1}
+\input{tex_files/S2}
+\input{tex_files/S3}
+% \Q1 -----------------------------------------------------------------------------
+% \BODY ---------------------------------------------------------------------------
+
+% APPENDIX ========================================================================
+% \newpage
+% \appendix
+% \section*{Appendix}
+% \renewcommand{\thesubsection}{\Alph{subsection}} % sets A, B subsection titles
+
+% \subsection{Appendix First Part}
+% \APPENDIX -----------------------------------------------------------------------
+
+\end{document}
+

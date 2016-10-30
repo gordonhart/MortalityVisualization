@@ -1,0 +1,4 @@
+VS14MORT:
+  - 31729 lines
+  - given indices in guide are +1 from ocaml indices (not zero indexed)
+  - 17259 male deaths to only 14470 female deaths
