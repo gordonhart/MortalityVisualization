@@ -8,9 +8,11 @@
 
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <script type="text/javascript" src="viz.js"></script>
     <script type="text/javascript" src="graph_viz.js"></script>
+    <script type="text/javascript" src="timeseries.js"></script>
   </head>
 
   <body>
@@ -35,7 +37,10 @@
     <div id="viz2" class="viz">
       <h3>Second Viz</h3>
       <p>This is where the second viz starts</p>
+      <button id="to-timeseries">View</button>
       <div id="timeseries"></div>
+      <div id="timeseries-no72"></div>
+      <button id="remove-outliers" class="overlay">Remove Outliers</button>
     </div>
 
   </body>

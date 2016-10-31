@@ -1,18 +1,28 @@
 
 // 1968-78 Cause of Death Timeseries
 
-let render_timeseries = (data) => {
-  let trace = [];
+let render_timeseries = (data,include_outliers) => {
+  let traces = [];
+
   for(let key in data) {
     let thiscause = data[key];
-    trace.push({
+    let dataxy = { x:[], y:[] };
+    for(let i in thiscause) {
+      let el = thiscause[i];
+      if(!(!include_outliers && el[0]===72)) {
+        dataxy.x.push("19"+el[0]);
+        dataxy.y.push(el[1]);
+      }
+    }
+    traces.push({
       type: "scatter",
       mode: "lines",
-      x: thiscause.map((el) => el[0]),
-      y: thiscause.map((el) => el[1]),
+      x: dataxy.x,
+      y: dataxy.y,
       line: {
         width: 1
-      }
+      },
+      name: key
     });
   }
 
@@ -21,19 +31,34 @@ let render_timeseries = (data) => {
     yaxis: {title: "Number of Deaths"},
     xaxis: {
       showgrid: false,
-      tickformat: "%B, %Y"
+      fixedaxis: true
     },
-    margin: {
-      l: 40, b: 10, r: 10, t: 20
+    paper_bgcolor: "rgba(0,0,0,0)",
+    plot_bgcolor: "rgba(0,0,0,0)",
+    font: {
+      family: "Playfair Display SC"
     }
   };
 
-  Plotly.plot(document.getElementById('contour-plot'), [trace], layout, {showLink: false});
+  if(include_outliers) {
+    Plotly.plot(document.getElementById("timeseries"), traces, layout, {showLink: false});
+  } else {
+    Plotly.plot(document.getElementById("timeseries-no72"), traces, layout, {showLink: false});
+  }
 };
 
 $(() => {
-  let ts_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes_2014.json?token=AJM69rAXl5g1qwYfhF1MS97TDH5Ko-TDks5YIBdIwA%3D%3D";
-  $.get(ts_json, (data) => {
-    render_timeseries(JSON.parse(data));
+  var data;
+  let ts_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/yearly_causes_68-78.json?token=AJM69t9q2Un1bjigZjm-gu4bkKd8n1g2ks5YIEOSwA%3D%3D";
+  $.get(ts_json, (strdata) => {
+    data = JSON.parse(strdata);
+    render_timeseries(data,true);
+  });
+
+  $("#remove-outliers").on('click', () => {
+    $("#timeseries").hide();
+    $("#timeseries-no72").show();
+    $("#remove-outliers").hide();
+    render_timeseries(data,false);
   });
 });

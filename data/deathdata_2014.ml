@@ -53,12 +53,18 @@ let setup_icd_map =
 (* simple accessor to map *)
 let disease_type tag =
   let code = String.get tag 0 in
-  let num = ios (String.sub tag 1 (String.length tag - 1)) in
-  let entries = Hashtbl.find_all icd_category_map code in
-  List.fold_left (fun acc rangefun -> match rangefun num with
-    | None -> acc
-    | Some entry -> entry
-  ) ("Codes for special purposes","Special Reasons") entries;;
+  try
+    let num = ios (String.sub tag 1 (String.length tag - 1)) in
+    let entries = Hashtbl.find_all icd_category_map code in
+    List.fold_left (fun acc rangefun -> match rangefun num with
+      | None -> acc
+      | Some entry -> entry
+    ) ("Codes for special purposes","Special Reasons") entries
+  with _ -> failwith (sprintf "%s" (String.sub tag 1 (String.length tag-1)));;
+
+(* remove the pesky 171st character *)
+let clean_lines ls =
+  maptr (fun l -> String.set l 170 ' '; l) ls;;
 
 (*
  *
@@ -91,7 +97,7 @@ let range_query data (b,e) = data
  * note that the first two digits of each preexisting condition
  * are more or less meaningless, so they are discarded *)
 let multiple_causes data = data
-  |> List.map (fun l ->
+  |> maptr (fun l ->
       (String.sub l start_icd len_icd (* cause *)
         |> Str.global_replace (Str.regexp " +") "",
        String.sub l start_multiple len_multiple (* multiple conditions *)
@@ -109,8 +115,8 @@ let preexisting_counts mc_data =
 
 (* transform an mc list to names *)
 let humanized mc_data =
-  List.map (fun (cause,multiple) ->
-    (disease_type cause, List.map disease_type multiple)
+  maptr (fun (cause,multiple) ->
+    (disease_type cause, maptr disease_type multiple)
   ) mc_data;;
 
 (* count the number of deaths from each of the ICD categories *)

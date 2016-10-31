@@ -35,3 +35,9 @@ let lines fname =
   ~~|> fname
   |> Str.split (Str.regexp "\n");;
 
+(* tail recursive map to prevent overflow *)
+let maptr f l =
+  let rec m acc = function
+    | [] -> acc
+    | h::t -> m ((f h) :: acc) t in
+  m [] l;;

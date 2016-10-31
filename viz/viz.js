@@ -11,4 +11,5 @@ let scroll_listener = (button,target) => {
 $(() => {
   scroll_listener("to-cyto","cyto");
   scroll_listener("after-cyto","viz2");
+  scroll_listener("to-timeseries","timeseries");
 });
