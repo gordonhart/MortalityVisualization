@@ -82,12 +82,16 @@ button {
   font-family: "Raleway", Arial, sans;
   color: #FAFAFA;
   width: 100%;
-  height: 100px;
+  height: 60px;
   top: 0;
   left: 0;
   background: #662d91;
-  line-height: 100px;
+  line-height: 60px;
   display: none;
   z-index: 1001; }
+
+#timeseries {
+  width: 100%;
+  height: 100vh; }
 
 /*# sourceMappingURL=viz.css.map */

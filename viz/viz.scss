@@ -7,6 +7,7 @@ $white: #FAFAFA;
 $accent: #662d91;
 $header: 'Playfair Display SC', Courier, serif;
 $regular: 'Raleway', Arial, sans;
+$info-height: 60px;
 
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
@@ -109,12 +110,18 @@ button {
   font-family: $regular;
   color: $white;
   width: 100%;
-  height: 100px;
+  height: $info-height;
   top: 0;
   left: 0;
   background: $accent;
-  line-height: 100px;
+  line-height: $info-height;
   display: none;
   z-index: 1001;
 }
+
+#timeseries {
+  width: 100%;
+  height: 100vh;
+}
+
 

@@ -15,6 +15,26 @@ let random_color = () => {
   }
   return color;
 }
+let rainbow_color = (index) => {
+  var size    = 22;
+  var rainbow = new Array(size);
+
+  let sin_to_hex = (i,phase) => {
+    var sin = Math.sin(Math.PI / size * 2 * i + phase);
+    var int = Math.floor(sin * 127) + 128;
+    var hex = int.toString(16);
+    return hex.length === 1 ? "0"+hex : hex;
+  }
+
+  for (var i=0; i<size; i++) {
+    var red   = sin_to_hex(i, 0 * Math.PI * 2/3); // 0   deg
+    var blue  = sin_to_hex(i, 1 * Math.PI * 2/3); // 120 deg
+    var green = sin_to_hex(i, 2 * Math.PI * 2/3); // 240 deg
+    rainbow[i] = "#"+ red + green + blue;
+  }
+
+  return rainbow[index];
+};
 
 let render_graph = (data) => {
 
@@ -31,13 +51,14 @@ let render_graph = (data) => {
       "background-color": black
     }
   }];
+  let color = 0;
   for(let key in data) {
     let thisnode = data[key];
     nodes.push({
       data: {
         id: thisnode.short,
         name: key,
-        score: Math.log(thisnode.count+1) * 20,
+        score: Math.log(thisnode.count+2) * 20,
         count: thisnode.count
       }
       /* position: {
@@ -45,9 +66,7 @@ let render_graph = (data) => {
         y: (Math.random() - 0.5) * 500
       }, */
     });
-      console.log(thisnode.short);
     for(let i in thisnode.edges) {
-      console.log(thisnode.short);
       let thisedge = thisnode.edges[i];
       nodes.push({
         data: {
@@ -62,7 +81,7 @@ let render_graph = (data) => {
         // class: thisnode.short
       });
     }
-    let thiscolor = random_color();
+    let thiscolor = rainbow_color(color); // random_color();
     styles.push({
       // selector: "node[class=\"" + thisnode.short + "\"]",
       selector: 'node[id = "' + thisnode.short + '"]',
@@ -76,7 +95,7 @@ let render_graph = (data) => {
         "text-outline-width": "2px",
         "text-wrap": "wrap",
         "overlay-padding": "10px",
-        "font-size": "18px",
+        "font-size": "24px",
         "z-index": "10",
         "width": "data(score)",
         "height": "data(score)"
@@ -93,6 +112,7 @@ let render_graph = (data) => {
         "target-arrow-color": thiscolor
       }
     })
+    color++;
   }
   // console.log(nodes);
 
@@ -102,8 +122,8 @@ let render_graph = (data) => {
     container: document.getElementById("cyto"),
     layout: {
       name: "circle",
-      idealEdgeLength: 200,
-      nodeOverlap: 10 // 20
+      fit: true,
+      sort: (a,b) => a.data("count") - b.data("count")
     },
     style: styles,
     elements: nodes,
@@ -122,7 +142,7 @@ let render_graph = (data) => {
 };
 
 $(() => {
-  let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes.json?token=AJM69oGx5z6-dRFbqvdEHmn794HZJ_5oks5YIBZqwA%3D%3D";
+  let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes_2014.json?token=AJM69rAXl5g1qwYfhF1MS97TDH5Ko-TDks5YIBdIwA%3D%3D";
   $.get(graph_json, (data) => {
     render_graph(JSON.parse(data));
   });
