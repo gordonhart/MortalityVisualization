@@ -59,7 +59,7 @@ button {
   button:hover {
     opacity: 0.75; }
 
-.header-block {
+#header-block {
   background: #222222;
   color: #FAFAFA;
   margin-bottom: 2em;

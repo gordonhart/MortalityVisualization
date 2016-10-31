@@ -1,7 +1,8 @@
 
 (* category number(s), category name *)
 let num_nchs_categories = 37;;
-let nchs_start,nchs_len = 74,3;;
+let icd8_start,icd8_len = 74,3;;
+let icd9_start,icd9_len = 156,3;;
 let nchs_categories = [
   ([010],"Tuburculosis");
   ([020],"Venereal Diseases");
@@ -44,7 +45,7 @@ let nchs_code_to_name code =
 
 (* get list of causes with counts, from raw line data:
  *   (cause name, count) *)
-let get_1968_causes data =
+let get_icdX_causes (start,len) data =
 
   (* helper function to remove unused categories and combine different
    * instances of the same category *)
@@ -53,17 +54,22 @@ let get_1968_causes data =
       |> List.iter (fun (cause,count) -> inc_table tbl (fun ct -> ct+count) (fun () -> count) cause)) in
 
   list_from_hash num_nchs_categories
-    (fun tbl -> List.iter (fun l -> String.sub l nchs_start nchs_len
+    (fun tbl -> List.iter (fun l -> String.sub l start len
       |> ios
       |> inc_table tbl (fun prevct -> prevct + 1) (fun () -> 1)) data)
   |> fold_categories;;
 
+(* good for 68 - 78 *)
+let get_icd8_causes = get_icdX_causes (icd8_start,icd8_len);;
+(* good for 79 - 91 *)
+let get_icd9_causes = get_icdX_causes (icd9_start,icd9_len);;
+
 (* read the linedata for years in the range, data in file "MORT__" *)
-let read_yearly range =
+let read_yearly causefun range =
   List.map (fun year ->
     sprintf "MORT%02d" year
     |> lines
-    |> get_1968_causes
+    |> causefun
     |> fun causes -> (year,causes)
   ) range;;
 
@@ -92,5 +98,19 @@ let timeseries_to_json ts_data =
   |> Str.global_replace (Str.regexp "'") "\"";;
 
 (* and the full pipeline:
- *   "yearly_causes_68-78.json" <|~~ (read_yearly (68|..|78) |> yearly_timeseries_causes |> timeseries_to_json)
+ *   "yearly_causes_68-78.json" <|~~ (read_yearly get_icd8_causes (68|..|78) |> yearly_timeseries_causes |> timeseries_to_json)
  *)
+
+(*
+ * 1968-1988 together:
+ * read_yearly get_icd8_causes (68|..|78) @ read_yearly get_icd9_causes
+ * (79|..|88)
+ *)
+
+(* generate and save the json file for timeseries cause of death data *)
+let timeseries_1968_1991 fname =
+  ((read_yearly get_icd8_causes (68|..|78)) @ (read_yearly get_icd9_causes (79|..|91)))
+  |> yearly_timeseries_causes
+  |> timeseries_to_json
+  |> fun ts -> fname <|~~ ts;;
+

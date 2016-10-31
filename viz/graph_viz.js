@@ -75,7 +75,7 @@ let render_graph = (data) => {
           source: thisnode.short,
           target: thisedge.short,
           // weight: thisedge.count / 200 // Math.log(thisedge.count+1) * 2
-          weight: Math.sqrt(thisedge.count) / 2.5, // Math.log(thisedge.count+1)
+          weight: Math.sqrt(thisedge.count+2) / 15, // Math.log(thisedge.count+1)
           count: thisedge.count
         }// ,
         // class: thisnode.short
@@ -106,7 +106,7 @@ let render_graph = (data) => {
       style: {
         "width": "data(weight)",
         "curve-style": "bezier",
-        "control-point-step-size": "150",
+        "control-point-step-size": "100",
         "line-color": thiscolor,
         "target-arrow-shape": "triangle-backcurve",
         "target-arrow-color": thiscolor
@@ -142,7 +142,8 @@ let render_graph = (data) => {
 };
 
 $(() => {
-  let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes_2014.json?token=AJM69tqJzlBAuQQt8WhNbN47yrNrZu6yks5YIEN2wA%3D%3D";
+  // let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes_2014.json?token=AJM69tqJzlBAuQQt8WhNbN47yrNrZu6yks5YIEN2wA%3D%3D";
+  let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes_2014_full.json?token=AJM69hq8Boja17Xk08tKJzZeVdNWpGBHks5YIFtywA%3D%3D";
   $.get(graph_json, (data) => {
     render_graph(JSON.parse(data));
   });
