@@ -49,7 +49,7 @@ let render_timeseries = (data,include_outliers) => {
 
 $(() => {
   var data;
-  let ts_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/yearly_causes_68-78.json?token=AJM69t9q2Un1bjigZjm-gu4bkKd8n1g2ks5YIEOSwA%3D%3D";
+  let ts_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/yearly_causes_68-91.json?token=AJM69gdvyA1VCgLPoTGRtrtDQtPPApX9ks5YIGp-wA%3D%3D";
   $.get(ts_json, (strdata) => {
     data = JSON.parse(strdata);
     render_timeseries(data,true);

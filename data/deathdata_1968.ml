@@ -15,7 +15,7 @@ let nchs_categories = [
   ([200],"Cerebrovascular Disease");
   ([210;220],"Circulatory Disease");
   ([230],"Influenza and Pneumonia");
-  ([240],"Bronchitis");
+  ([240],"Bronchitis / COPD");
   ([250],"Digestive Tract Disease");
   ([260],"Cirrhosis of the Liver");
   ([270],"Nephritis and Nephrosis");
@@ -61,7 +61,7 @@ let get_icdX_causes (start,len) data =
 
 (* good for 68 - 78 *)
 let get_icd8_causes = get_icdX_causes (icd8_start,icd8_len);;
-(* good for 79 - 91 *)
+(* good for 79 - 98 *)
 let get_icd9_causes = get_icdX_causes (icd9_start,icd9_len);;
 
 (* read the linedata for years in the range, data in file "MORT__" *)
@@ -108,8 +108,8 @@ let timeseries_to_json ts_data =
  *)
 
 (* generate and save the json file for timeseries cause of death data *)
-let timeseries_1968_1991 fname =
-  ((read_yearly get_icd8_causes (68|..|78)) @ (read_yearly get_icd9_causes (79|..|91)))
+let timeseries_1968_1998 fname =
+  ((read_yearly get_icd8_causes (68|..|78)) @ (read_yearly get_icd9_causes (79|..|98)))
   |> yearly_timeseries_causes
   |> timeseries_to_json
   |> fun ts -> fname <|~~ ts;;
