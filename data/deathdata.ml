@@ -58,7 +58,7 @@ let disease_type tag =
   List.fold_left (fun acc rangefun -> match rangefun num with
     | None -> acc
     | Some entry -> entry
-  ) ("","") entries;;
+  ) ("Codes for special purposes","Special Reasons") entries;;
 
 (* helper to fold a hashtable into a (key,value) pair list *)
 let loh h = Hashtbl.fold (fun key value acc -> (key,value) :: acc) h [];;

@@ -2,6 +2,10 @@
  * STAT 3622 Graph Visualization
  */
 
+let black = "#222222";
+let white = "#FAFAFA";
+let accent = "#662d91";
+
 // generate random color
 let random_color = () => {
   let letters = '0123456789ABCDEF';
@@ -15,45 +19,63 @@ let random_color = () => {
 let render_graph = (data) => {
 
   let nodes = [];
-  let styles = [];
+  let styles = [{
+    selector: "core",
+    style: {
+      "selection-box-color": accent,
+      "selection-box-opacity": 0.5
+    }
+  }, {
+    selector: "node:selected",
+    style: {
+      "background-color": black
+    }
+  }];
   for(let key in data) {
     let thisnode = data[key];
     nodes.push({
       data: {
-        id: key,
-        name: thisnode.short,
-        score: Math.log(thisnode.count+1) * 20
-      },
-      position: {
+        id: thisnode.short,
+        name: key,
+        score: Math.log(thisnode.count+1) * 20,
+        count: thisnode.count
+      }
+      /* position: {
         x: (Math.random() - 0.5) * 500,
         y: (Math.random() - 0.5) * 500
-      },
-      class: thisnode.short
+      }, */
     });
+      console.log(thisnode.short);
     for(let i in thisnode.edges) {
+      console.log(thisnode.short);
       let thisedge = thisnode.edges[i];
       nodes.push({
         data: {
           id: thisnode.short + "-" + thisedge.short,
-          class: thisnode.short,
-          source: key,
-          target: thisedge.name,
+          name: thisnode.short + "-" + thisedge.short,
+          source: thisnode.short,
+          target: thisedge.short,
           // weight: thisedge.count / 200 // Math.log(thisedge.count+1) * 2
-          weight: Math.log(Math.pow(thisedge.count,2)+1)
-        },
-        class: thisnode.short
+          weight: Math.sqrt(thisedge.count) / 2.5, // Math.log(thisedge.count+1)
+          count: thisedge.count
+        }// ,
+        // class: thisnode.short
       });
     }
+    let thiscolor = random_color();
     styles.push({
       // selector: "node[class=\"" + thisnode.short + "\"]",
-      selector: 'node[name = "' + thisnode.short + '"]',
+      selector: 'node[id = "' + thisnode.short + '"]',
       style: {
-        "content": "data(name)",
+        "content": "data(id)",
         "text-valign": "center",
         "text-halign": "center",
-        "background-color": random_color(),
-        "color": "#FAFAFA",
-        "overlay-padding": "6px",
+        "background-color": thiscolor,
+        "color": white,
+        "text-outline-color": black,
+        "text-outline-width": "2px",
+        "text-wrap": "wrap",
+        "overlay-padding": "10px",
         "font-size": "18px",
         "z-index": "10",
         "width": "data(score)",
@@ -61,30 +83,47 @@ let render_graph = (data) => {
       }
     });
     styles.push({
-      selector: 'edge[class = "' + thisnode.short + '"]',
+      selector: 'edge[source = "' + thisnode.short + '"]',
       style: {
         "width": "data(weight)",
-        "curve-style": "bezier"
+        "curve-style": "bezier",
+        "control-point-step-size": "150",
+        "line-color": thiscolor,
+        "target-arrow-shape": "triangle-backcurve",
+        "target-arrow-color": thiscolor
       }
     })
   }
   // console.log(nodes);
 
+  let cyto_info = $("#cyto-info");
   // for full sample code see http://jsbin.com/gist/7b511e1f48ffd044ad66?html,output
   var cyto = window.cyto = cytoscape({
     container: document.getElementById("cyto"),
     layout: {
-      name: "cose",
-      idealEdgeLength: 100,
-      nodeOverlap: 100 // 20
+      name: "circle",
+      idealEdgeLength: 200,
+      nodeOverlap: 10 // 20
     },
     style: styles,
-    elements: nodes
+    elements: nodes,
+    minZoom: 0.1,
+    maxZoom: 10
+  });
+  cyto.on('click', (event) => {
+    try {
+      let target = event.cyTarget._private.data;
+      cyto_info.html(target.name + ": " + target.count);
+      cyto_info.show();
+    } catch(e) {
+      cyto_info.hide();
+    }
   });
 };
 
 $(() => {
-  $.get("https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes.json?token=AJM69pYMYVpM2s3WJWqTPji2eDlXWcT4ks5YHyZOwA%3D%3D", (data) => {
+  let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes.json?token=AJM69nCSE7dlID-35ROChUvJ8Kzdd6HYks5YIA2mwA%3D%3D";
+  $.get(graph_json, (data) => {
     render_graph(JSON.parse(data));
   });
 });
