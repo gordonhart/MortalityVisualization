@@ -122,7 +122,7 @@ let render_graph = (data) => {
 };
 
 $(() => {
-  let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes.json?token=AJM69nCSE7dlID-35ROChUvJ8Kzdd6HYks5YIA2mwA%3D%3D";
+  let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes.json?token=AJM69oGx5z6-dRFbqvdEHmn794HZJ_5oks5YIBZqwA%3D%3D";
   $.get(graph_json, (data) => {
     render_graph(JSON.parse(data));
   });
