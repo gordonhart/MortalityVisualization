@@ -11,8 +11,8 @@ let render_timeseries = (normalized) => {
     let thiscause = thedata[key];
     let dataxy = { x:[], y:[] };
     for(let i in thiscause) {
-      dataxy.x.push("19"+el[0]);
-      dataxy.y.push(el[1]);
+      dataxy.x.push("19"+thiscause[i][0]);
+      dataxy.y.push(thiscause[i][1]);
     }
     traces.push({
       type: "scatter",
@@ -71,7 +71,7 @@ $(() => {
     render_timeseries(false);
   });
 
-  let ts_normalized = "";
+  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/normalized_yearly_causes_68-98.json?token=AJM69owp_vONjlabjI64yBndyd81ZvShks5YJD2WwA%3D%3D";
   $.get(ts_normalized, (strdata) => {
     data_normalized = JSON.parse(strdata);
   });

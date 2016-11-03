@@ -94,12 +94,12 @@ button {
   display: none;
   z-index: 1001; }
 
-#timeseries, #timeseries-no72 {
+#timeseries, #timeseries-normalized {
   width: 80%;
   height: 100vh;
   margin: auto; }
 
-#timeseries-no72 {
+#timeseries-normalized {
   display: none; }
 
 /*# sourceMappingURL=viz.css.map */
