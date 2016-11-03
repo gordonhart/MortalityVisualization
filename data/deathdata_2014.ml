@@ -40,6 +40,21 @@ let icd_categories = [
   ([('U',0,859)], "Codes for special purposes", "Special Reasons")
 ];;
 
+(* map data to cause of death, by number -- 113 cause codes *)
+let causes_113 data = data
+  |> List.map (fun l -> ios (String.sub l start_113 len_113));;
+
+(* map data to cause of death, by number -- ICD-10 codes *)
+let causes_icd data = data
+  |> List.map (fun l -> String.sub l start_icd len_icd);;
+
+(* boolean tester to check if a 113 cause is within a specified range, inclusive *)
+let cause_range (b,e) cause =
+  b <= cause && cause <= e;;
+
+let range_query data (b,e) = data
+  |> List.fold_left (fun acc c -> if cause_range (b,e) c then acc+1 else acc) 0;;
+
 (* define the lookup function: give pair of both short and long form name *)
 let lookup_fun range name =
   fun num -> if cause_range range num then Some name else None;;
@@ -76,27 +91,12 @@ let clean_lines ls =
 let genders data = data
   |> List.map (fun l -> String.get l gender_index);;
 
-(* map data to cause of death, by number -- 113 cause codes *)
-let causes_113 data = data
-  |> List.map (fun l -> ios (String.sub l start_113 len_113));;
-
-(* map data to cause of death, by number -- ICD-10 codes *)
-let causes_icd data = data
-  |> List.map (fun l -> String.sub l start_icd len_icd);;
-
-(* boolean tester to check if a 113 cause is within a specified range, inclusive *)
-let cause_range (b,e) cause =
-  b <= cause && cause <= e;;
-
-let range_query data (b,e) = data
-  |> List.fold_left (fun acc c -> if cause_range (b,e) c then acc+1 else acc) 0;;
-
 (* multiple causes of death of the form:
  *   (icd_cause, [icd_preexisting])
  *
  * note that the first two digits of each preexisting condition
  * are more or less meaningless, so they are discarded *)
-let multiple_causes data = data
+let lines_to_mulcause data = data
   |> maptr (fun l ->
       (String.sub l start_icd len_icd (* cause *)
         |> Str.global_replace (Str.regexp " +") "",
@@ -114,7 +114,7 @@ let preexisting_counts mc_data =
   |> List.mapi (fun i x -> (i+1,x));;
 
 (* transform an mc list to names *)
-let humanized mc_data =
+let mulcause_to_humanized mc_data =
   maptr (fun (cause,multiple) ->
     (disease_type cause, maptr disease_type multiple)
   ) mc_data;;
@@ -134,7 +134,7 @@ let category_count humanized_data =
  * intermediately, the nodes are stored as a hashtable of counts indexed
  * by disease category, with form (count, preexisting hashtable)
  * where preexisting hashtable is indexed by type, with count as value *)
-let humanized_graph humanized_data =
+let humanized_to_graph humanized_data =
 
   (* define the node hashtable, populate with an entry for each disease *)
   let nodes = hol (fun (code,name,short) ->
@@ -171,4 +171,13 @@ let graph_to_json graph_data =
  * full workflow from data read to json export:
  *   "fname" <|~~ (lines "infile" |> multiple_causes |> humanized |> humanized_graph |> graph_to_json);; *)
 
+(* function to create the json from start to finish for the viz1
+ * multiple cause graph *)
+let viz1_gendata fname =
+  lines "MORT14" (* read raw text lines from file MORT14 *)
+  |> lines_to_mulcause (* map lines to cause, [preexisting] pairs *)
+  |> mulcause_to_humanized (* map ICD codes to humanized names *)
+  |> humanized_to_graph (* transform to graph structure by summing occurrences *)
+  |> graph_to_json (* transform graph structure to json string *)
+  |> fun json -> fname <|~~ json;; (* write json string to file *)
 

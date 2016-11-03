@@ -1,7 +1,9 @@
 
 // 1968-78 Cause of Death Timeseries
 
-let render_timeseries = (data,include_outliers) => {
+var data;
+var data_normalized;
+let render_timeseries = (include_outliers) => {
   let traces = [];
 
   for(let key in data) {
@@ -22,6 +24,7 @@ let render_timeseries = (data,include_outliers) => {
       line: {
         width: 1
       },
+      visible: true,
       name: key
     });
   }
@@ -41,24 +44,83 @@ let render_timeseries = (data,include_outliers) => {
   };
 
   if(include_outliers) {
-    Plotly.plot(document.getElementById("timeseries"), traces, layout, {showLink: false});
+    let chart = document.getElementById("timeseries");
+    Plotly.newPlot(chart, traces, layout, {showLink: false});
   } else {
-    Plotly.plot(document.getElementById("timeseries-no72"), traces, layout, {showLink: false});
+    let chart = document.getElementById("timeseries-no72");
+    Plotly.newPlot(chart, traces, layout, {showLink: false});
   }
 };
 
+let filter_chart = (chart_div,names) => {
+  let chart = document.getElementById(chart_div);
+  // loop through data, hide all but the shown
+  for(let i in chart.data) {
+    let thisset = chart.data[i];
+    if(names.length == 0) {
+      thisset.visible = true;
+    } else if($.inArray(thisset.name,names) > 0) {
+      thisset.visible = "legendonly";
+    }
+  }
+  Plotly.redraw(chart);
+};
+
+// render a timeseries normalized to number of deaths in a yesr
+let render_normalized_timeseries = () => {
+  let traces = [];
+
+  for(let key in data_normalized) {
+    let thiscause = data_normalized[key];
+    let dataxy = { x:[], y:[] };
+    for(let i in thiscause) {
+      let el = thiscause[i];
+      if(!(!include_outliers && el[0]===72)) {
+        dataxy.x.push("19"+el[0]);
+        dataxy.y.push(el[1]);
+      }
+    }
+    traces.push({
+      type: "scatter",
+      mode: "lines",
+      x: dataxy.x,
+      y: dataxy.y,
+      line: {
+        width: 1
+      },
+      visible: true,
+      name: key
+    });
+  }
+
+  let layout = {
+    title: "Normalized Number of Deaths by Cause from 1968 to 1978",
+    yaxis: {title: "Percentage of Deaths in Year"},
+    xaxis: {
+      showgrid: false,
+      fixedaxis: true
+    },
+    paper_bgcolor: "rgba(0,0,0,0)",
+    plot_bgcolor: "rgba(0,0,0,0)",
+    font: {
+      family: "Playfair Display SC"
+    }
+  };
+
+  let chart = document.getElementById("timeseries-normalized");
+  Plotly.newPlot(chart, traces, layout, {showLink: false});
+};
+
 $(() => {
-  var data;
-  let ts_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/yearly_causes_68-91.json?token=AJM69gdvyA1VCgLPoTGRtrtDQtPPApX9ks5YIGp-wA%3D%3D";
+  let ts_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/yearly_causes_68-98.json?token=AJM69lD2TwirdkdB9JkwNe7hGgwMMl1Wks5YIHKWwA%3D%3D";
   $.get(ts_json, (strdata) => {
     data = JSON.parse(strdata);
-    render_timeseries(data,true);
+    render_timeseries(true);
   });
 
-  $("#remove-outliers").on('click', () => {
-    $("#timeseries").hide();
-    $("#timeseries-no72").show();
-    $("#remove-outliers").hide();
-    render_timeseries(data,false);
+  let ts_normalized = "";
+  $.get(ts_normalized, (strdata) => {
+    data_normalized = JSON.parse(strdata);
   });
 });
+

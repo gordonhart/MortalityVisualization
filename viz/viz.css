@@ -47,7 +47,7 @@ button {
   border: none;
   background: #662d91;
   color: #FAFAFA;
-  margin: 2em auto; }
+  margin: 4em auto; }
   button.overlay {
     position: absolute;
     left: 0;
@@ -61,12 +61,16 @@ button {
 
 #header-block {
   background: #222222;
-  color: #FAFAFA;
-  margin-bottom: 2em;
-  padding: 2em; }
+  color: #FAFAFA; }
 
-.viz {
-  padding: 2em 0; }
+.slide {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center; }
+
+.info {
+  margin: auto; }
 
 #cyto {
   width: 100%;
