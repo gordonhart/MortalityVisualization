@@ -2,17 +2,14 @@
 
   <head>
     <title>STAT 3622, Gordon Hart</title>
-
-    <link rel="stylesheet" href="viz.css">
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway" rel="stylesheet">
-
-    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-    <script type="text/javascript" src="viz.js"></script>
-    <script type="text/javascript" src="graph_viz.js"></script>
-    <script type="text/javascript" src="timeseries.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway">
+    <link rel="stylesheet" href="style/viz.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="js/viz.js"></script>
+    <script type="text/javascript" src="js/graph_viz.js"></script>
+    <script type="text/javascript" src="js/timeseries.js"></script>
   </head>
 
   <body>
@@ -25,44 +22,33 @@
       </div>
     </div>
 
-    <!-- <p>test</p> -->
     <div id="viz1" class="slide">
       <div class="info">
         <h3>Cause of Death with Pre-Existing Conditions</h3>
         <p>In the given dataset, more than 30,000 deaths in 2014 in the United States are recorded. The deaths are given with their primary cause of death and up to 20 pre-existing conditions that the patient is recorded as suffering from.</p>
-        <p>The below graph presents a visualization where the nodes represent the primary cause of death and the edges represent the pre-existing conditions.</p>
+        <p>The graph below...</p>
       </div>
-      <!-- <button id="to-cyto">View</button> -->
-      <!-- <button id="after-cyto" class="overlay">Next</button> -->
     </div>
-    <div class="slide">
+    <div id="cod-graph" class="slide">
       <div id="cyto"></div>
       <div id="cyto-info"></div>
     </div>
-
     <div id="viz2" class="slide">
       <div class="info">
-        <h3>Second Viz</h3>
-        <p>This is where the second viz starts</p>
-        <!-- <button id="to-timeseries">View</button> -->
-        <!-- <button id="remove-outliers" class="overlay">Remove Outliers</button> -->
+        <h3>Evolution of Cause of Death over Time</h3>
+        <p>something something</p>
       </div>
     </div>
-
-    <div class="slide">
+    <div id="cod-timeseries" class="slide">
       <div id="timeseries"></div>
       <div id="timeseries-no72"></div>
     </div>
-
     <div id="viz3" class="slide">
       <div class="info">
-        <h3>Third Viz</h3>
-        <p>This is where the third viz starts</p>
-        <!-- <button id="to-timeseries">View</button> -->
-        <!-- <button id="remove-outliers" class="overlay">Remove Outliers</button> -->
+        <h3>Third viz</h3>
+        <p>something else</p>
       </div>
     </div>
-
   </body>
 
 </html>

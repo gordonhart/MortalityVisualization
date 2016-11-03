@@ -87,11 +87,17 @@ let yearly_causes_to_timeseries yearly_cause_data =
       ) data
     ) yearly_cause_data);;
 
+(* normalize raw numbers to percentage of total deaths in a given year *)
+let normalize_yearly_causes yearly_causes =
+  List.map (fun (year,causes) ->
+    let total = List.fold_left (fun acc (cause,count) -> acc + count) 0 causes |> foi in
+    (year, List.map (fun (cause,count) -> (cause, (foi count) /. total)) causes)) yearly_causes;;
+
 (* finally, transform the yearly cause of death timeseries to json *)
-let timeseries_to_json ts_data =
+let normalized_timeseries_to_json ts_data =
   List.fold_left (fun acc (cause,years) ->
     let yearlist = List.fold_left (fun yacc (yr,ct) ->
-      yacc ^ (sprintf "[%d,%d]," yr ct)) "[" years in
+      yacc ^ (sprintf "[%d,%0.7f]," yr ct)) "[" years in
     acc ^ (sprintf "'%s': %s]," cause (chop_last yearlist))
   ) "" ts_data
   |> chop_last
@@ -114,6 +120,7 @@ let viz2_gendata (* timeseries_1968_1998 *) fname =
   |> fun y68_78 -> y68_78 @ (read_yearly_causes get_icd9_causes (79|..|98)) (* ICD9 set data *)
   (* |> fun y68_98 -> y68_98 @ (read_yearly_causes get_icd10_causes (99|..|14)) *)
   |> yearly_causes_to_timeseries (* map to timeseries data *)
-  |> timeseries_to_json (* transform to json string *)
+  |> normalize_yearly_causes
+  |> normalized_timeseries_to_json (* transform to json string *)
   |> fun json -> fname <|~~ json;; (* write json string out *)
 

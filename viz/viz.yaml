@@ -1,0 +1,49 @@
+jsfiles:
+  - "http://code.jquery.com/jquery-2.0.3.min.js"
+  - "http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"
+  - "https://cdn.plot.ly/plotly-latest.min.js"
+  - "js/viz.js"
+  - "js/graph_viz.js"
+  - "js/timeseries.js"
+
+cssfiles:
+  - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"
+  - "style/viz.css"
+
+header:
+  title: "STAT 3622 Visualization"
+  subtitles:
+    - "Gordon Hart"
+    - 3035338963
+    - "Fall 2016"
+
+slides:
+  - id: "viz1"
+    type: "slide"
+    contents:
+      - h3: "Cause of Death with Pre-Existing Conditions"
+      - p: "In the given dataset, more than 30,000 deaths in 2014 in the United States are recorded. The deaths are given with their primary cause of death and up to 20 pre-existing conditions that the patient is recorded as suffering from."
+      - p: "The graph below..."
+  - id: "cod-graph"
+    type: "viz"
+    contents:
+      - div: "cyto"
+      - div: "cyto-info"
+  - id: "viz2"
+    type: "slide"
+    contents:
+      - h3: "Evolution of Cause of Death over Time"
+      - p: "something something"
+  - id: "cod-timeseries"
+    type: "viz"
+    contents:
+      - div: "timeseries"
+      - div: "timeseries-normalized"
+  - id: "viz3"
+    type: "slide"
+    contents:
+      - h3: "Third viz"
+      - p: "something else"
+
+
+

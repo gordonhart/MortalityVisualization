@@ -1,0 +1,44 @@
+<html>
+
+  <head>
+    <title>STAT 3622, Gordon Hart</title>
+    {% for filename in data.cssfiles %}
+    <link rel="stylesheet" href="{{ filename }}">
+    {% endfor %}
+    {% for filename in data.jsfiles %}
+    <script type="text/javascript" src="{{ filename }}"></script>
+    {% endfor %}
+  </head>
+
+  <body>
+    <div id="header-block" class="slide">
+      <div class="info">
+        <h1>{{ data.header.title }}</h1>
+        {% for subtitle in data.header.subtitles %}
+        <h4>{{ subtitle }}</h4>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% for slide in data.slides %}
+    <div id="{{ slide.id }}" class="slide">
+      {% if slide.type == "slide" %}
+      <div class="info">
+        {% for element in slide.contents %}
+        {% for eltype,elcontents in element.items() %}
+        <{{ eltype }}>{{ elcontents }}</{{ eltype }}>
+        {% endfor %}
+        {% endfor %}
+      </div>
+      {% elif slide.type == "viz" %}
+      {% for element in slide.contents %}
+      {% for eltype,elid in element.items() %}
+      <{{ eltype }} id="{{ elid }}"></{{ eltype }}>
+      {% endfor %}
+      {% endfor %}
+      {% endif %}
+    </div>
+    {% endfor %}
+  </body>
+
+</html>

@@ -33,20 +33,20 @@ $(() => {
     },{
       forward: () => {
         $("#timeseries").hide();
-        $("#timeseries-no72").show();
-        render_timeseries(false);
+        $("#timeseries-normalized").show();
+        render_timeseries(true);
       },
       backward: () => {
         $("#timeseries").show();
-        $("#timeseries-no72").hide();
-        render_timeseries(true);
+        $("#timeseries-normalized").hide();
+        render_timeseries(false);
       },
     },{
-      forward: () => filter_chart("timeseries-no72",["Diabetes"]),
-      backward: () => filter_chart("timeseries-no72",[]) // render_timeseries(false)
+      forward: () => filter_chart("timeseries-normalized",["Diabetes"]),
+      backward: () => filter_chart("timeseries-normalized",[]) // render_timeseries(false)
     },{
       forward: () => scroll_to("viz3"),
-      backward: () => scroll_to("timeseries-no72")
+      backward: () => scroll_to("timeseries-normalized")
     },{ // terminator
       forward: () => {},
       backward: () => {}
