@@ -68,15 +68,7 @@ let filter_chart = (chart_div,names) => {
 };
 
 $(() => {
-  /*
-  let ts_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/yearly_causes_68-98.json?token=AJM69pY90hYCxdUhA5f0MCDSl95WQDRgks5YKVEMwA%3D%3D";
-  $.get(ts_json, (strdata) => {
-    data = JSON.parse(strdata);
-    render_timeseries(false);
-  });
-  */
-
-  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/normalized_yearly_causes_68-98.json?token=AJM69sQSZrKfLtKIu7SsXwUzkCr8fjYpks5YKVElwA%3D%3D";
+  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cod_normalized_68-14.json?token=AJM69nh7YSwsjiWBklI42n_AkaKqq8U9ks5YKVorwA%3D%3D";
   $.get(ts_normalized, (strdata) => {
     data_normalized = JSON.parse(strdata);
     render_timeseries();
