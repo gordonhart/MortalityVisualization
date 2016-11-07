@@ -53,8 +53,8 @@ let icd10_nchs_categories = [
   ([032],"Pregnancy Complications");
   ([033],"Perinatal Complications");
   ([034],"Congenital Anomalies");
-  ([035;036],"Other Unspecified Disease");
-  ([037],"Other Infectious Diseases");
+  ([035;036],"Other Infectious Diseases");
+  ([037],"Other Unspecified Disease");
   ([038],"Vehicular Accidents");
   ([039],"Other Accidental Causes");
   ([040],"Suicide");

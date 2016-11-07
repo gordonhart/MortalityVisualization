@@ -68,7 +68,7 @@ let filter_chart = (chart_div,names) => {
 };
 
 $(() => {
-  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cod_normalized_68-14.json?token=AJM69j92OmUb5RMzL5nEa0Eaoz5ek5k_ks5YKVs_wA%3D%3D";
+  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cod_normalized_68-14.json?token=AJM69tZWqqbOUc062kkor3Bb8GiH25fjks5YKV_AwA%3D%3D";
   $.get(ts_normalized, (strdata) => {
     data_normalized = JSON.parse(strdata);
     render_timeseries();

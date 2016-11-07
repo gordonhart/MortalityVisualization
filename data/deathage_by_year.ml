@@ -27,17 +27,18 @@ let icd8_9_age age =
   | 9 -> -1
   | _ -> 0;;
 
+let icd10_age age =
+  match ios (String.sub age 0 1) with
+  | 1 -> ios (String.sub age 1 3)
+  | 2 ->
+      let months = ios (String.sub age 1 3) in
+      if months >= 6 then 1 else 0
+  | 9 -> -1
+  | _ -> 0;;
 
 let icd8 = make_indexer (38,3) (34,1) ios icd8_9_age;;
 let icd9 = make_indexer (63,3) (58,1) ios icd8_9_age;;
-let icd10 = make_indexer (69,4) (68,1) (function "M" -> 1 | _ -> 2)
-  (fun age -> match ios (String.sub age 0 1) with
-    | 1 -> ios (String.sub age 1 3)
-    | 2 ->
-        let months = ios (String.sub age 1 3) in
-        if months >= 6 then 1 else 0
-    | 9 -> -1
-    | _ -> 0);;
+let icd10 = make_indexer (69,4) (68,1) (function "M" -> 1 | _ -> 2) icd10_age;;
 
 
 (* read age, gender at death *)
