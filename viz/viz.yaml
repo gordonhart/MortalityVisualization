@@ -3,8 +3,9 @@ jsfiles:
   - "http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"
   - "https://cdn.plot.ly/plotly-latest.min.js"
   - "js/viz.js"
-  - "js/graph_viz.js"
-  - "js/timeseries.js"
+  - "js/mulcause.js"
+  - "js/cod.js"
+  - "js/age.js"
 
 cssfiles:
   - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"
@@ -44,6 +45,9 @@ slides:
     contents:
       - h3: "Third viz"
       - p: "something else"
-
+  - id: "age-timeseries"
+    type: "viz"
+    contents:
+      - div: "ages"
 
 

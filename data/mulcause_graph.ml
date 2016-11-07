@@ -161,9 +161,7 @@ let graph_to_json graph_data =
       eacc ^ sprintf "{'name': '%s', 'short': '%s', 'count': %d}," ename eshort ect) "" edges in
     acc ^ sprintf "'%s': {'short': '%s', 'count': %d, 'edges': [%s]}," name short ct (chop_last edgestr)
   ) "" graph_data
-  |> chop_last
-  |> sprintf "{%s}"
-  |> Str.global_replace (Str.regexp "'") "\"";;
+  |> json_cleanup;;
 
 (* save to file with:
  * fname <|~~ data
@@ -174,7 +172,7 @@ let graph_to_json graph_data =
 (* function to create the json from start to finish for the viz1
  * multiple cause graph *)
 let viz1_gendata fname =
-  lines "MORT14" (* read raw text lines from file MORT14 *)
+  lines "raw/MORT14" (* read raw text lines from file MORT14 *)
   |> lines_to_mulcause (* map lines to cause, [preexisting] pairs *)
   |> mulcause_to_humanized (* map ICD codes to humanized names *)
   |> humanized_to_graph (* transform to graph structure by summing occurrences *)

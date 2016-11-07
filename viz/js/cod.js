@@ -50,15 +50,21 @@ let render_timeseries = (normalized) => {
   }
 };
 
+// hide all elements in the chart unless included in "names"
 let filter_chart = (chart_div,names) => {
   let chart = document.getElementById(chart_div);
   // loop through data, hide all but the shown
   for(let i in chart.data) {
     let thisset = chart.data[i];
-    if(names.length == 0) {
+    if(names.length == 0) { // show all with no names in list
       thisset.visible = true;
-    } else if($.inArray(thisset.name,names) > 0) {
-      thisset.visible = "legendonly";
+    } else {
+      if($.inArray(thisset.name,names) >= 0) {
+        thisset.visible = true;
+      } else {
+        console.log(thisset.name);
+        thisset.visible = "legendonly";
+      }
     }
   }
   Plotly.redraw(chart);
@@ -71,7 +77,7 @@ $(() => {
     render_timeseries(false);
   });
 
-  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/normalized_yearly_causes_68-98.json?token=AJM69owp_vONjlabjI64yBndyd81ZvShks5YJD2WwA%3D%3D";
+  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/normalized_yearly_causes_68-98.json?token=AJM69iXxk8ausP8BECBDZnxGyGGtiOX8ks5YJEFgwA%3D%3D";
   $.get(ts_normalized, (strdata) => {
     data_normalized = JSON.parse(strdata);
   });

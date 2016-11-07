@@ -42,7 +42,7 @@ $(() => {
         render_timeseries(false);
       },
     },{
-      forward: () => filter_chart("timeseries-normalized",["Diabetes"]),
+      forward: () => filter_chart("timeseries-normalized",["Diabetes","Vehicular Accidents"]),
       backward: () => filter_chart("timeseries-normalized",[]) // render_timeseries(false)
     },{
       forward: () => scroll_to("viz3"),
