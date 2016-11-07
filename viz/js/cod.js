@@ -1,11 +1,11 @@
 
 // 1968-78 Cause of Death Timeseries
 
-var data;
+// var data;
 var data_normalized;
-let render_timeseries = (normalized) => {
+let render_timeseries = (/* normalized */) => {
   let traces = [];
-  let thedata = normalized ? data_normalized : data;
+  let thedata = data_normalized; // normalized ? data_normalized : data;
 
   for(let key in thedata) {
     let thiscause = thedata[key];
@@ -28,8 +28,10 @@ let render_timeseries = (normalized) => {
   }
 
   let layout = {
-    title: (normalized ? "Normalized " : "") + "Number of Deaths by Cause from 1968 to 1978",
-    yaxis: {title: (normalized ? "Percentage" : "Number") + " of Deaths"},
+    title: "Death by Cause from 1968 to 2014",
+    yaxis: {
+      title: "Percentage of Deaths"
+    },
     xaxis: {
       showgrid: false,
       fixedaxis: true
@@ -41,13 +43,8 @@ let render_timeseries = (normalized) => {
     }
   };
 
-  if(!normalized) {
-    let chart = document.getElementById("timeseries");
-    Plotly.newPlot(chart, traces, layout, {showLink: false});
-  } else {
-    let chart = document.getElementById("timeseries-normalized");
-    Plotly.newPlot(chart, traces, layout, {showLink: false});
-  }
+  let chart = document.getElementById("cod");
+  Plotly.newPlot(chart, traces, layout, {showLink: false});
 };
 
 // hide all elements in the chart unless included in "names"
@@ -71,15 +68,18 @@ let filter_chart = (chart_div,names) => {
 };
 
 $(() => {
-  let ts_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/yearly_causes_68-98.json?token=AJM69lD2TwirdkdB9JkwNe7hGgwMMl1Wks5YIHKWwA%3D%3D";
+  /*
+  let ts_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/yearly_causes_68-98.json?token=AJM69pY90hYCxdUhA5f0MCDSl95WQDRgks5YKVEMwA%3D%3D";
   $.get(ts_json, (strdata) => {
     data = JSON.parse(strdata);
     render_timeseries(false);
   });
+  */
 
-  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/normalized_yearly_causes_68-98.json?token=AJM69iXxk8ausP8BECBDZnxGyGGtiOX8ks5YJEFgwA%3D%3D";
+  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/normalized_yearly_causes_68-98.json?token=AJM69sQSZrKfLtKIu7SsXwUzkCr8fjYpks5YKVElwA%3D%3D";
   $.get(ts_normalized, (strdata) => {
     data_normalized = JSON.parse(strdata);
+    render_timeseries();
   });
 });
 

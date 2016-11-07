@@ -28,9 +28,9 @@ $(() => {
       forward: () => scroll_to("viz2"),
       backward: () => scroll_to("cyto")
     },{
-      forward: () => scroll_to("timeseries"),
+      forward: () => scroll_to("cod"),
       backward: () => scroll_to("viz2")
-    },{
+    }, /*{
       forward: () => {
         $("#timeseries").hide();
         $("#timeseries-normalized").show();
@@ -41,12 +41,15 @@ $(() => {
         $("#timeseries-normalized").hide();
         render_timeseries(false);
       },
-    },{
-      forward: () => filter_chart("timeseries-normalized",["Diabetes","Vehicular Accidents"]),
-      backward: () => filter_chart("timeseries-normalized",[]) // render_timeseries(false)
+    }, */ {
+      forward: () => filter_chart("cod",["Diabetes","Vehicular Accidents"]),
+      backward: () => filter_chart("cod",[]) // render_timeseries(false)
     },{
       forward: () => scroll_to("viz3"),
-      backward: () => scroll_to("timeseries-normalized")
+      backward: () => scroll_to("cod")
+    },{
+      forward: () => scroll_to("ages"),
+      backward: () => scroll_to("viz3")
     },{ // terminator
       forward: () => {},
       backward: () => {}

@@ -142,8 +142,7 @@ let render_graph = (data) => {
 };
 
 $(() => {
-  // let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes_2014.json?token=AJM69tqJzlBAuQQt8WhNbN47yrNrZu6yks5YIEN2wA%3D%3D";
-  let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/multiple_causes_2014_full.json?token=AJM69hq8Boja17Xk08tKJzZeVdNWpGBHks5YIFtywA%3D%3D";
+  let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/multiple_causes_2014_full.json?token=AJM69iht9Od6s_YsvDjCevX7do92wpg4ks5YKVDpwA%3D%3D";
   $.get(graph_json, (data) => {
     render_graph(JSON.parse(data));
   });

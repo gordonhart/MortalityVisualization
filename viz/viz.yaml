@@ -38,8 +38,7 @@ slides:
   - id: "cod-timeseries"
     type: "viz"
     contents:
-      - div: "timeseries"
-      - div: "timeseries-normalized"
+      - div: "cod"
   - id: "viz3"
     type: "slide"
     contents:

@@ -94,12 +94,14 @@ button {
   display: none;
   z-index: 1001; }
 
-#timeseries, #timeseries-normalized {
+#cod {
   width: 80%;
   height: 100vh;
   margin: auto; }
 
-#timeseries-normalized {
-  display: none; }
+#ages {
+  width: 80%;
+  height: 100vh;
+  margin: auto; }
 
 /*# sourceMappingURL=viz.css.map */
