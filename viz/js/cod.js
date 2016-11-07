@@ -11,7 +11,7 @@ let render_timeseries = (/* normalized */) => {
     let thiscause = thedata[key];
     let dataxy = { x:[], y:[] };
     for(let i in thiscause) {
-      dataxy.x.push("19"+thiscause[i][0]);
+      dataxy.x.push(thiscause[i][0]);
       dataxy.y.push(thiscause[i][1]);
     }
     traces.push({
@@ -68,7 +68,7 @@ let filter_chart = (chart_div,names) => {
 };
 
 $(() => {
-  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cod_normalized_68-14.json?token=AJM69nh7YSwsjiWBklI42n_AkaKqq8U9ks5YKVorwA%3D%3D";
+  let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cod_normalized_68-14.json?token=AJM69j92OmUb5RMzL5nEa0Eaoz5ek5k_ks5YKVs_wA%3D%3D";
   $.get(ts_normalized, (strdata) => {
     data_normalized = JSON.parse(strdata);
     render_timeseries();

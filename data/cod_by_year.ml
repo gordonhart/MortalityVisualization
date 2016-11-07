@@ -40,7 +40,7 @@ let icd10_nchs_categories = [
   ([002;003],"Venereal Diseases");
   ([004;005;006;007;008;009;010;011;012;013;014;015],"Cancer");
   ([016],"Diabetes");
-  ([017],"Alzheimer's");
+  ([017],"Alzheimers");
   ([018;019;021;022],"Heart Disease");
   ([020;023],"Hypertension");
   ([024],"Cerebrovascular Disease");
@@ -70,20 +70,18 @@ let nchs_code_to_name code_map code =
 
 (*
  *
- * TIMESERIES PLOT 1968 - 2014
+ * COD TIMESERIES PLOT 1968 - 2014
  *
  *)
 
 (* get list of causes with counts, from raw line data:
  *   (cause name, count) *)
 let get_icdX_causes code_map (start,len) data =
-
   (* helper function to remove unused categories and combine different
    * instances of the same category *)
   let fold_categories cs = list_from_hash num_nchs_categories
     (fun tbl -> List.map (fun (c,ct) -> (nchs_code_to_name code_map c, ct)) cs
       |> List.iter (fun (cause,count) -> inc_table tbl (fun ct -> ct+count) (fun () -> count) cause)) in
-
   list_from_hash num_nchs_categories
     (fun tbl -> List.iter (fun l -> String.sub l start len
       |> ios
@@ -102,7 +100,8 @@ let get_icd10b_causes = get_icdX_causes icd10_nchs_categories (icd10b_start,icd1
  * map to a list of year, [causes with counts] pairs*)
 let read_yearly_causes causefun range =
   List.map (fun year ->
-    sprintf "raw/MORT%02d" year
+    String.sub (soi year) 2 2
+    |> sprintf "raw/MORT%s"
     |> lines
     |> causefun
     |> fun causes -> (year,causes)
@@ -148,10 +147,10 @@ let timeseries_to_json ts_data =
 
 (* generate and save the json file for timeseries cause of death data *)
 let viz2_gendata (* timeseries_1968_1998 *) fname =
-  read_yearly_causes get_icd8_causes (68|..|78) (* get first year set data (ICD8) *)
-  |> fun y68_78 -> y68_78 @ (read_yearly_causes get_icd9_causes (79|..|98)) (* ICD9 set data *)
-  |> fun y68_98 -> y68_98 @ (read_yearly_causes get_icd10a_causes (99 :: (0|..|2))) (* yes, ICD10 is encoded two different ways *)
-  |> fun y68_02 -> y68_02 @ (read_yearly_causes get_icd10b_causes (3|..|14))
+  read_yearly_causes get_icd8_causes (1968|..|1978) (* get first year set data (ICD8) *)
+  |> fun y68_78 -> y68_78 @ (read_yearly_causes get_icd9_causes (1979|..|1998)) (* ICD9 set data *)
+  |> fun y68_98 -> y68_98 @ (read_yearly_causes get_icd10a_causes (1999|..|2002)) (* yes, ICD10 is encoded two different ways *)
+  |> fun y68_02 -> y68_02 @ (read_yearly_causes get_icd10b_causes (2003|..|2014))
   |> normalize_yearly_causes
   |> yearly_causes_to_timeseries (* map to timeseries data *)
   |> timeseries_to_json (* transform to json string *)

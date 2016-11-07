@@ -20,11 +20,11 @@ let viz1_gendata fname =
 
 
 (* generate and save the json file for timeseries cause of death data *)
-let viz2_gendata fname =
-  read_yearly_causes get_icd8_causes (68|..|78) (* get first year set data (ICD8) *)
-  |> fun y68_78 -> y68_78 @ (read_yearly_causes get_icd9_causes (79|..|98)) (* ICD9 set data *)
-  |> fun y68_98 -> y68_98 @ (read_yearly_causes get_icd10a_causes (99 :: (0|..|2))) (* yes, ICD10 is encoded two different ways *)
-  |> fun y68_02 -> y68_02 @ (read_yearly_causes get_icd10b_causes (3|..|14))
+let viz2_gendata (* timeseries_1968_1998 *) fname =
+  read_yearly_causes get_icd8_causes (1968|..|1978) (* get first year set data (ICD8) *)
+  |> fun y68_78 -> y68_78 @ (read_yearly_causes get_icd9_causes (1979|..|1998)) (* ICD9 set data *)
+  |> fun y68_98 -> y68_98 @ (read_yearly_causes get_icd10a_causes (1999|..|2002)) (* yes, ICD10 is encoded two different ways *)
+  |> fun y68_02 -> y68_02 @ (read_yearly_causes get_icd10b_causes (2003|..|2014))
   |> normalize_yearly_causes
   |> yearly_causes_to_timeseries (* map to timeseries data *)
   |> timeseries_to_json (* transform to json string *)
