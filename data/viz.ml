@@ -1,4 +1,13 @@
 
+#use "general.ml";;
+#use "json.ml";;
+#use "stats.ml";;
+#use "mulcause_graph.ml";;
+#use "cod_by_year.ml";;
+#use "deathage_by_year.ml";;
+#use "cod_by_age.ml";;
+#use "education.ml";;
+
 
 (*
  * collection of the final functions required to assemble each visualization
@@ -15,8 +24,9 @@ let viz1_gendata fname =
   |> lines_to_mulcause (* map lines to cause, [preexisting] pairs *)
   |> mulcause_to_humanized (* map ICD codes to humanized names *)
   |> humanized_to_graph (* transform to graph structure by summing occurrences *)
-  |> graph_to_json (* transform graph structure to json string *)
-  |> fun json -> fname <|~~ json;; (* write json string to file *)
+  |> jsonify_graph (* transform graph structure to internal json format *)
+  |> json_to_string
+  |~~> fname;; (* write json string to file *)
 
 
 (* generate and save the json file for timeseries cause of death data *)
@@ -29,7 +39,7 @@ let viz2_gendata (* timeseries_1968_1998 *) fname =
   |> yearly_causes_to_timeseries (* map to timeseries data *)
   |> timeseries_to_json (* transform to internal json format *)
   |> json_to_string
-  |> fun json -> fname <|~~ json;; (* write json string out *)
+  |~~> fname;;
 
 
 (* find mean age at death for each year *)
@@ -39,16 +49,13 @@ let viz3_gendata fname =
   |> fun y68_78 -> y68_78 @ (List.map (read_and_map icd9) ((79|..|99) @ (0|..|2)))
   |> fun y68_02 -> y68_02 @ (List.map (read_and_map icd10) (3|..|14))
   |> List.mapi (fun i (m,f) -> (1968 + i,m,f))
-  |> agedata_to_json
-  |> fun json -> fname <|~~ json;;
+  |> jsonify_agedata
+  |> json_to_string
+  |~~> fname;;
 
 
 (* read, format, and write out life expectancy data (completely different source) *)
 let viz3_lifeexp fname =
-  let lifeexp_to_json l =
-    `Dict [("data",
-      `List (List.map (fun (yr,f,m) ->
-        `Dict [("year",`Int yr);("female",`Float f);("male",`Float m)]) l))] in
   lines "raw/LifeExpectancy1950-2050.csv"
   |> List.map (Str.split (Str.regexp ","))
   |> List.tl
@@ -56,9 +63,10 @@ let viz3_lifeexp fname =
   |> List.map (fun (yr,f,m) -> (String.sub yr (String.length yr - 4) 4,f,m))
   |> List.map (fun (yr,f,m) -> (ios yr, fos f, fos m))
   |> List.fold_left (fun acc (yr,f,m) -> if yr < 1965 || yr > 2014 then acc else (yr,f,m)::acc) []
-  |> lifeexp_to_json
+  |> fun l -> `Dict [("data", `List (List.map (fun (yr,f,m) ->
+       `Dict [("year",`Int yr);("female",`Float f);("male",`Float m)]) l))]
   |> json_to_string
-  |> fun json -> fname <|~~ json;;
+  |~~> fname;;
 
 
 (* generate mean,stdev age at death for each death cause over years 1968-2014 *)
@@ -73,7 +81,17 @@ let viz4_gendata fname =
           (fun () -> [(1968 + i,mu,stdev)]) cause) causelist) yearlist)
   |> jsonify_cod_age_list
   |> json_to_string
-  |> fun json -> fname <|~~ json;;
+  |~~> fname;;
 
+
+(* generate age of death by education level json for 2014 *)
+let viz5_gendata fname =
+  lines "raw/MORT14"
+  |> maptr (fun l -> (String.sub l start_edu len_edu, String.sub l start_age len_age |> icd10_age))
+  |> List.fold_left (fun acc (e,age) -> if age<0 then acc else (e,age)::acc) [] (* remove negative ages *)
+  |> List.fold_left (fun acc (e,age) -> if e=" " then acc else (e |> ios |> edu_decode, age)::acc) [] (* remove blanks *)
+  |> edu_age_to_json
+  |> json_to_string
+  |~~> fname;;
 
 

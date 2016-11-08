@@ -49,7 +49,7 @@ let render_edu_ages = (edu_age_data) => {
 };
 
 $(() => {
-  let edu_age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/education_ages_2014.json?token=AJM69p7CkAvfjn_wL67GbYkt68TVaMpYks5YKsqRwA%3D%3D";
+  let edu_age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/education_ages_2014.json?token=AJM69tc0Tv4QbacELnmqPBhFwU-9A3qrks5YKtD_wA%3D%3D";
   $.get(edu_age_json, (eadata) => {
     render_edu_ages(JSON.parse(eadata));
   });

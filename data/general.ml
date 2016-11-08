@@ -22,17 +22,6 @@ let list_from_hash size populatefun =
   |> fun tbl -> populatefun tbl; tbl
   |> loh;;
 
-(* helper funcction to chop off last char in string (for jsonification) *)
-let chop_last s =
-  let len = String.length s in
-  if len > 0 then String.sub s 0 (len - 1) else s;;
-
-(* final steps to prepare json *)
-let json_cleanup d = d
-  |> chop_last
-  |> sprintf "{%s}"
-  |> Str.global_replace (Str.regexp "'") "\"";;
-
 
 
 

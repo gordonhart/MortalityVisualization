@@ -53,7 +53,7 @@ let yearly_age_stats indexer raw_lines =
       let male_mu,female_mu = mean males, mean females in
       ((Male,male_mu,stdev male_mu males),(Female,female_mu,stdev female_mu females));;
 
-
+(*
 let agedata_to_json ad =
   List.fold_left (fun acc (yr,(m,mmu,ms),(f,fmu,fs)) ->
     acc ^ (sprintf "{'year':%d,'male':{'mu':%0.7f,'stdev':%0.7f},'female':{'mu':%0.7f,'stdev':%0.7f}}," yr mmu ms fmu fs)
@@ -61,6 +61,22 @@ let agedata_to_json ad =
   |> chop_last
   |> fun json -> json ^ "],"
   |> json_cleanup;;
+*)
+
+let jsonify_agedata ad =
+  `Dict [
+  ("data",
+    `List (List.map (fun (yr,(m,mu,ms),(f,fmu,fs)) ->
+      `Dict [
+      ("year",`Int yr);
+      ("male",
+        `Dict [
+        ("mu",`Float mmu);
+        ("stdev",`Float ms)]);
+      ("female",
+        `Dict [
+        ("mu",`Float fmu);
+        ("stdev",`Float fs)])]) ad))];;
 
 
 (* return (yr,((male,mean,stdev),(female,mean,stdev))) *)

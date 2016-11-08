@@ -163,6 +163,19 @@ let graph_to_json graph_data =
   ) "" graph_data
   |> json_cleanup;;
 
+
+let jsonify_graph gd =
+  `Dict (List.map (fun ((name,short),ct,edges) -> (name,
+    `Dict [
+    ("short",`String short);
+    ("count",`Int ct);
+    ("edges",`List (List.map (fun ((ename,eshort),ect) ->
+      `Dict [
+      ("name",`String ename);
+      ("short",`String eshort);
+      ("count",`Int ect)]) edges))])) gd);;
+
+
 (* save to file with:
  * fname <|~~ data
  *
@@ -171,6 +184,7 @@ let graph_to_json graph_data =
 
 (* function to create the json from start to finish for the viz1
  * multiple cause graph *)
+(*
 let viz1_gendata fname =
   lines "raw/MORT14" (* read raw text lines from file MORT14 *)
   |> lines_to_mulcause (* map lines to cause, [preexisting] pairs *)
@@ -178,4 +192,5 @@ let viz1_gendata fname =
   |> humanized_to_graph (* transform to graph structure by summing occurrences *)
   |> graph_to_json (* transform graph structure to json string *)
   |> fun json -> fname <|~~ json;; (* write json string to file *)
+*)
 

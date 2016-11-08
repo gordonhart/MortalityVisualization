@@ -1,4 +1,16 @@
 
+(* helper funcction to chop off last char in string (for jsonification) *)
+let chop_last s =
+  let len = String.length s in
+  if len > 0 then String.sub s 0 (len - 1) else s;;
+
+(* final steps to prepare json, only used in pre-datatype transformations *)
+let json_cleanup d = d
+  |> chop_last
+  |> sprintf "{%s}"
+  |> Str.global_replace (Str.regexp "'") "\"";;
+
+
 type json =
   [ `List of json list
   | `Dict of (string * json) list
@@ -6,23 +18,20 @@ type json =
   | `Int of int
   | `String of string
   | `Bool of bool
-  | `Null
-];;
+  | `Null ];;
 
 
 let json_to_string j =
   let fold_chop f start_token l end_token =
     List.fold_left f start_token l
     |> chop_last
-    |> fun jl -> jl ^ end_token in
+    |> fun s -> s ^ end_token in
   let rec jsonify = function
-    | `List l -> fold_chop (fun acc j -> acc ^ (jsonify j)) "[" l "]"
-    | `Dict d -> fold_chop (fun acc (k,v) -> acc ^ (sprintf "\"%s\": %s," k (jsonify v))) "{" d "},"
-    | `Float f -> sprintf "%0.7f" f
-    | `Int i -> sprintf "%d" i
-    | `String s -> sprintf "\"%s\"" s
-    | `Bool b -> sprintf "%b" b in
-  jsonify j
-  |> chop_last;;
-  (* |> Str.global_replace (Str.regexp "'") "\"";; *)
+    | `List   l -> fold_chop (fun acc j -> acc ^ (jsonify j)) "[" l "],"
+    | `Dict   d -> fold_chop (fun acc (k,v) -> acc ^ (sprintf "\"%s\": %s" k (jsonify v))) "{" d "},"
+    | `Float  f -> sprintf "%0.7f," f
+    | `Int    i -> sprintf "%d," i
+    | `String s -> sprintf "\"%s\"," s
+    | `Bool   b -> sprintf "%b," b in
+  j |> jsonify |> chop_last;;
 
