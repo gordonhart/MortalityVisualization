@@ -69,6 +69,11 @@ button {
   display: flex;
   align-items: center; }
 
+.viz {
+  width: 80%;
+  height: 100vh;
+  margin: auto; }
+
 .info {
   margin: auto; }
 
@@ -94,9 +99,12 @@ button {
   display: none;
   z-index: 1001; }
 
-#cod, #ages, #cod-ages {
+/*
+#cod, #ages, #cod-ages, #edu-ages {
   width: 80%;
   height: 100vh;
-  margin: auto; }
+  margin: auto;
+}
+*/
 
 /*# sourceMappingURL=viz.css.map */

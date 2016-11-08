@@ -59,7 +59,7 @@ let filter_chart = (chart_div,names) => {
       if($.inArray(thisset.name,names) >= 0) {
         thisset.visible = true;
       } else {
-        console.log(thisset.name);
+        // console.log(thisset.name);
         thisset.visible = "legendonly";
       }
     }

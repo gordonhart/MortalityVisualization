@@ -98,6 +98,12 @@ button {
   align-items: center;
 }
 
+.viz {
+  width: 80%;
+  height: 100vh;
+  margin: auto;
+}
+
 .info { // vertically align info in slides
   margin: auto;
 }
@@ -126,11 +132,13 @@ button {
   z-index: 1001;
 }
 
-#cod, #ages, #cod-ages {
+/*
+#cod, #ages, #cod-ages, #edu-ages {
   width: 80%;
   height: 100vh;
   margin: auto;
 }
+*/
 
 
 

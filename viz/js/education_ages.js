@@ -1,43 +1,42 @@
 
 let render_edu_ages = (edu_age_data) => {
+  let mean_data = edu_age_data.means.sort((a,b) => a["edu-code"] > b["edu-code"]);
   let means = {
     type: "scatter",
     mode: "lines",
     line: {
       width: 1
     },
-    x: edu_age_data.means.map((el) => el["edu-code"]),
-    y: edu_age_data.means.map((el) => el["mean-age"]),
-    name: "Mean Age by Education Level
+    x: mean_data.map((el) => el["edu-level"]),
+    y: mean_data.map((el) => el["mean-age"]),
+    name: "Mean Age by Education Level"
   };
 
-  let points = [];
+  let points = [means];
   for(let i in edu_age_data.data) {
-    let thispoint = edu_age_data[i];
+    let thispoint = edu_age_data.data[i];
     points.push({
       type: "scatter",
       mode: "markers",
-      /*
-      line: {
-        width: 1,
-      },
-      */
       marker: {
         size: thispoint.count / 1000,
         color: "rgba(255,0,0,1)"
       },
-      x: [thispoint["edu-code"]],
+      x: [thispoint["edu-level"]],
       y: [thispoint["age"]],
-      name: thispoint["edu-code"] + "-" + thispoint.age
+      showlegend: false
+      // name: thispoint["edu-code"] + "-" + thispoint.age
     });
   }
 
-  let layout = {
+  Plotly.newPlot(document.getElementById("edu-ages"), points, {
     title: "Age at Death versus Education Level",
     yaxis: {
-      title: "Age at Death"
+      title: "Age at Death",
+      range: [0,100]
     },
     xaxis: {
+      title: "Education Level",
       showgrid: false,
       fixedaxis: true
     },
@@ -46,14 +45,11 @@ let render_edu_ages = (edu_age_data) => {
     font: {
       family: "Playfair Display SC"
     }
-  };
-
-  let chart = document.getElementById("edu-ages");
-  Plotly.newPlot(chart, traces, layout, {showLink: false});
+  }, {showLink: false});
 };
 
 $(() => {
-  let edu_age_json = "";
+  let edu_age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/education_ages_2014.json?token=AJM69p7CkAvfjn_wL67GbYkt68TVaMpYks5YKsqRwA%3D%3D";
   $.get(edu_age_json, (eadata) => {
     render_edu_ages(JSON.parse(eadata));
   });

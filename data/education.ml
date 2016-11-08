@@ -18,8 +18,9 @@ let edu_decode ecode =
     "Bachelor's degree";
     "Master's degree";
     "Doctorate or professional degree";
-    "Unknown"
-  ] in (ecode, List.nth edu_levels (ecode-1));;
+  ] in
+  try (ecode, List.nth edu_levels (ecode-1))
+  with _ -> (0,"Unknown");;
 
 
 (* map ((education code,education words), death age) triplets to json *)

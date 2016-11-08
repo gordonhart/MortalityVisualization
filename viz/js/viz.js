@@ -30,20 +30,9 @@ $(() => {
     },{
       forward: () => scroll_to("cod"),
       backward: () => scroll_to("viz2")
-    }, /*{
-      forward: () => {
-        $("#timeseries").hide();
-        $("#timeseries-normalized").show();
-        render_timeseries(true);
-      },
-      backward: () => {
-        $("#timeseries").show();
-        $("#timeseries-normalized").hide();
-        render_timeseries(false);
-      },
-    }, */ {
+    },{
       forward: () => filter_chart("cod",["Diabetes","Vehicular Accidents"]),
-      backward: () => filter_chart("cod",[]) // render_timeseries(false)
+      backward: () => filter_chart("cod",[])
     },{
       forward: () => scroll_to("viz3"),
       backward: () => scroll_to("cod")
@@ -68,18 +57,11 @@ $(() => {
     }
   ];
 
-
-  // scroll_listener("to-cyto","cyto");
-  // scroll_listener("after-cyto","viz2");
-  // scroll_listener("to-timeseries","timeseries");
-
-  // scroll through j/k keypress
-  // let locs = ["header-block","cyto","viz2","timeseries"];
   let curloc = -1;
   let bounds_check = () => {
     curloc = (curloc < 0) ? 0 : curloc;
     curloc = (curloc >= actions.length) ? actions.length-1 : curloc;
-    console.log(curloc);
+    // console.log(curloc);
   }
   $("html").on("keypress", (e) => {
     try {

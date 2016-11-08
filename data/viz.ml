@@ -27,7 +27,8 @@ let viz2_gendata (* timeseries_1968_1998 *) fname =
   |> fun y68_02 -> y68_02 @ (read_yearly_causes get_icd10b_causes (2003|..|2014))
   |> normalize_yearly_causes
   |> yearly_causes_to_timeseries (* map to timeseries data *)
-  |> timeseries_to_json (* transform to json string *)
+  |> timeseries_to_json (* transform to internal json format *)
+  |> json_to_string
   |> fun json -> fname <|~~ json;; (* write json string out *)
 
 

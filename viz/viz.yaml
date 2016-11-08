@@ -7,6 +7,7 @@ jsfiles:
   - "js/cod.js"
   - "js/age.js"
   - "js/cod_ages.js"
+  - "js/education_ages.js"
 
 cssfiles:
   - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"

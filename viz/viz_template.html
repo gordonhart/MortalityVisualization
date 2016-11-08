@@ -33,7 +33,7 @@
       {% elif slide.type == "viz" %}
       {% for element in slide.contents %}
       {% for eltype,elid in element.items() %}
-      <{{ eltype }} id="{{ elid }}"></{{ eltype }}>
+      <{{ eltype }} id="{{ elid }}" class="viz"></{{ eltype }}>
       {% endfor %}
       {% endfor %}
       {% endif %}
