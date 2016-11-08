@@ -50,6 +50,18 @@ $(() => {
     },{
       forward: () => scroll_to("ages"),
       backward: () => scroll_to("viz3")
+    },{
+      forward: () => scroll_to("viz4"),
+      backward: () => scroll_to("ages")
+    },{
+      forward: () => scroll_to("cod-ages"),
+      backward: () => scroll_to("viz4")
+    },{
+      forward: () => scroll_to("viz5"),
+      backward: () => scroll_to("cod-ages")
+    },{
+      forward: () => scroll_to("edu-ages"),
+      backward: () => scroll_to("viz5")
     },{ // terminator
       forward: () => {},
       backward: () => {}

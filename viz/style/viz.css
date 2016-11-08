@@ -94,12 +94,7 @@ button {
   display: none;
   z-index: 1001; }
 
-#cod {
-  width: 80%;
-  height: 100vh;
-  margin: auto; }
-
-#ages {
+#cod, #ages, #cod-ages {
   width: 80%;
   height: 100vh;
   margin: auto; }

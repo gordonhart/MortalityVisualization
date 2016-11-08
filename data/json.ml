@@ -17,12 +17,12 @@ let json_to_string j =
     |> fun jl -> jl ^ end_token in
   let rec jsonify = function
     | `List l -> fold_chop (fun acc j -> acc ^ (jsonify j)) "[" l "]"
-    | `Dict d -> fold_chop (fun acc (k,v) -> acc ^ (sprintf "'%s': %s," k (jsonify v))) "{" d "},"
+    | `Dict d -> fold_chop (fun acc (k,v) -> acc ^ (sprintf "\"%s\": %s," k (jsonify v))) "{" d "},"
     | `Float f -> sprintf "%0.7f" f
     | `Int i -> sprintf "%d" i
-    | `String s -> sprintf "'%s'" s
+    | `String s -> sprintf "\"%s\"" s
     | `Bool b -> sprintf "%b" b in
   jsonify j
-  |> chop_last
-  |> Str.global_replace (Str.regexp "'") "\"";;
+  |> chop_last;;
+  (* |> Str.global_replace (Str.regexp "'") "\"";; *)
 

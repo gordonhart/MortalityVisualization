@@ -6,6 +6,7 @@ jsfiles:
   - "js/mulcause.js"
   - "js/cod.js"
   - "js/age.js"
+  - "js/cod_ages.js"
 
 cssfiles:
   - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"
@@ -48,5 +49,23 @@ slides:
     type: "viz"
     contents:
       - div: "ages"
+  - id: "viz4"
+    type: "slide"
+    contents:
+      - h3: "Fourth viz"
+      - p: "yada yada"
+  - id: "cod-by-age"
+    type: "viz"
+    contents:
+      - div: "cod-ages"
+  - id: "viz5"
+    type: "slide"
+    contents:
+      - h3: "Fifth viz"
+      - p: "gotta get to this content sooner or later"
+  - id: "edu-by-age"
+    type: "viz"
+    contents:
+      - div: "edu-ages"
 
 

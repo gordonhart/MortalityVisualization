@@ -40,7 +40,7 @@ let icd10_nchs_categories = [
   ([002;003],"Venereal Diseases");
   ([004;005;006;007;008;009;010;011;012;013;014;015],"Cancer");
   ([016],"Diabetes");
-  ([017],"Alzheimers");
+  ([017],"Alzheimer's");
   ([018;019;021;022],"Heart Disease");
   ([020;023],"Hypertension");
   ([024],"Cerebrovascular Disease");
@@ -127,6 +127,7 @@ let yearly_causes_to_timeseries yearly_cause_data =
     ) yearly_cause_data);;
 
 (* finally, transform the yearly cause of death timeseries to json *)
+(*
 let timeseries_to_json ts_data =
   List.fold_left (fun acc (cause,years) ->
     let yearlist = List.fold_left (fun yacc (yr,ct) ->
@@ -134,6 +135,11 @@ let timeseries_to_json ts_data =
     acc ^ (sprintf "'%s': %s]," cause (chop_last yearlist))
   ) "" ts_data
   |> json_cleanup;;
+*)
+
+let timeseries_to_json ts =
+  `Dict (List.map (fun (cause,years) ->
+    (cause, `List (List.map (fun (yr,pct) -> `List [`Int yr; `Float pct]) years))) ts);;
 
 (* and the full pipeline:
  *   "yearly_causes_68-78.json" <|~~ (read_yearly_causes get_icd8_causes (68|..|78) |> yearly_causes_to_timeseries |> timeseries_to_json)
@@ -154,5 +160,6 @@ let viz2_gendata (* timeseries_1968_1998 *) fname =
   |> normalize_yearly_causes
   |> yearly_causes_to_timeseries (* map to timeseries data *)
   |> timeseries_to_json (* transform to json string *)
+  |> json_to_string
   |> fun json -> fname <|~~ json;; (* write json string out *)
 

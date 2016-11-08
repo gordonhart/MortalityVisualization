@@ -1,6 +1,6 @@
 
 
-let render_age = (age_data) => {
+let render_age = (age_data,lifeexp_data) => {
   let males = {
     type: "scatter",
     mode: "lines",
@@ -15,10 +15,14 @@ let render_age = (age_data) => {
       thickness: 0.25,
       width: 0.25
     },
-    name: "Male"
+    name: "Male Mean Age at Death"
   };
   let females = $.extend(true,{},males);
-  females.name = "Female";
+  females.name = "Female Mean Age at Death";
+  let m_lifeexp = $.extend(true,{},males);
+  m_lifeexp.name = "Male Life Expectancy";
+  let f_lifeexp = $.extend(true,{},females);
+  f_lifeexp.name = "Female Life Expectancy";
 
   for(let i in age_data.data) {
     let thisyear = age_data.data[i];
@@ -30,11 +34,19 @@ let render_age = (age_data) => {
     females.error_y.array.push(thisyear.female.stdev);
   }
 
+  for(let i in lifeexp_data.data) {
+    let thisyear = lifeexp_data.data[i];
+    m_lifeexp.x.push(thisyear.year);
+    m_lifeexp.y.push(thisyear.male);
+    f_lifeexp.x.push(thisyear.year);
+    f_lifeexp.y.push(thisyear.female);
+  }
+
   let layout = {
     title: "Mean Age at Death by Gender over Time",
     yaxis: {
       title: "Age at Death",
-      range: [0,100]
+      range: [20,100]
     },
     xaxis: {
       showgrid: false,
@@ -48,13 +60,16 @@ let render_age = (age_data) => {
   };
 
   let chart = document.getElementById("ages");
-  Plotly.newPlot(chart, [males,females], layout, {showLink: false});
+  Plotly.newPlot(chart, [males,females,m_lifeexp,f_lifeexp], layout, {showLink: false});
 };
 
 $(() => {
   let age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/ages_68-14.json?token=AJM69voVzzY2uioWADBk0m0F1YwMK3QIks5YKVB6wA%3D%3D";
-  $.get(age_json, (strdata) => {
-    render_age(JSON.parse(strdata))
+  let lifeexp_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/lifeexp_1965-2014?token=AJM69vd7Bs1bPF33CM_C1vPopHr-YFZFks5YKaRxwA%3D%3D";
+  $.get(age_json, (adata) => {
+    $.get(lifeexp_json, (ledata) => {
+      render_age(JSON.parse(adata),JSON.parse(ledata));
+    });
   });
 });
 
