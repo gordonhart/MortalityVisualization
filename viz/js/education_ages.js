@@ -13,15 +13,14 @@ let render_edu_ages = (edu_age_data) => {
     showlegend: false
   };
 
-  console.log(edu_age_data.data.map((el) => el.age));
   let points = {
     type: "scatter",
     mode: "markers",
     hoverinfo: "skip",
     marker: {
-      size: edu_age_data.data.map((el) => el.count/100),
+      size: edu_age_data.data.map((el) => el.count/25),
       sizemode: "area",
-      opacity: 0.25,
+      opacity: 0.1,
       // autocolorscale: true,
       color: edu_age_data.data.map((el) => el.age),
       colorscale: "Viridis",
@@ -37,24 +36,35 @@ let render_edu_ages = (edu_age_data) => {
   Plotly.newPlot(document.getElementById("edu-ages"), [means, points], {
     title: "Age at Death versus Education Level",
     yaxis: {
-      title: "Age at Death"// ,
-      // range: [0,100]
+      title: "Age at Death",
+      range: [0,120]
     },
     xaxis: {
       title: "Education Level",
       showgrid: false,
-      fixedaxis: true
+      fixedaxis: true,
+      tickangle: 15,
+      tickfont: {
+        size: 12
+      }
+    },
+    margin: {
+      t: 150,
+      b: 150
     },
     paper_bgcolor: "rgba(0,0,0,0)",
     plot_bgcolor: "rgba(0,0,0,0)",
     font: {
       family: "Playfair Display SC"
     }
-  }, {showLink: false});
+  },{
+    showLink: false
+  });
+
 };
 
 $(() => {
-  let edu_age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/education_ages_2014.json?token=AJM69tc0Tv4QbacELnmqPBhFwU-9A3qrks5YKtD_wA%3D%3D";
+  let edu_age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/education_ages_2014.json?token=AJM69okwf6ZjFJ7c0CU9PTSdfN-q8q-iks5YKxP4wA%3D%3D";
   $.get(edu_age_json, (eadata) => {
     render_edu_ages(JSON.parse(eadata));
   });

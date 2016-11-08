@@ -13,6 +13,7 @@
     <script type="text/javascript" src="js/age.js"></script>
     <script type="text/javascript" src="js/cod_ages.js"></script>
     <script type="text/javascript" src="js/education_ages.js"></script>
+    <script type="text/javascript" src="js/danger_ages.js"></script>
   </head>
 
   <body>
@@ -25,53 +26,67 @@
       </div>
     </div>
 
-    <div id="viz1" class="slide">
-      <div class="info">
-        <h3>Cause of Death with Pre-Existing Conditions</h3>
-        <p>In the given dataset, more than 30,000 deaths in 2014 in the United States are recorded. The deaths are given with their primary cause of death and up to 20 pre-existing conditions that the patient is recorded as suffering from.</p>
-        <p>The graph below...</p>
+      <div id="viz1" class="slide">
+          <div class="info">
+                <h3>Cause of Death with Pre-Existing Conditions</h3>
+                <p>In the given dataset, more than 30,000 deaths in 2014 in the United States are recorded. The deaths are given with their primary cause of death and up to 20 pre-existing conditions that the patient is recorded as suffering from.</p>
+                <p>The graph below...</p>
+          </div>
       </div>
-    </div>
-    <div id="cod-graph" class="slide">
-      <div id="cyto" class="viz"></div>
-      <div id="cyto-info" class="viz"></div>
-    </div>
-    <div id="viz2" class="slide">
-      <div class="info">
-        <h3>Evolution of Cause of Death over Time</h3>
-        <p>something something</p>
+      <div id="cod-graph" class="slide">
+                <div id="cyto" class="viz"></div>
+                <div id="cyto-info" class="viz"></div>
       </div>
-    </div>
-    <div id="cod-timeseries" class="slide">
-      <div id="cod" class="viz"></div>
-    </div>
-    <div id="viz3" class="slide">
-      <div class="info">
-        <h3>Third viz</h3>
-        <p>something else</p>
+      <div id="viz2" class="slide">
+          <div class="info">
+                <h3>Evolution of Cause of Death over Time</h3>
+                <p>something something</p>
+          </div>
       </div>
-    </div>
-    <div id="age-timeseries" class="slide">
-      <div id="ages" class="viz"></div>
-    </div>
-    <div id="viz4" class="slide">
-      <div class="info">
-        <h3>Fourth viz</h3>
-        <p>yada yada</p>
+      <div id="cod-timeseries" class="slide">
+                <div id="cod" class="viz"></div>
       </div>
-    </div>
-    <div id="cod-by-age" class="slide">
-      <div id="cod-ages" class="viz"></div>
-    </div>
-    <div id="viz5" class="slide">
-      <div class="info">
-        <h3>Fifth viz</h3>
-        <p>gotta get to this content sooner or later</p>
+      <div id="viz3" class="slide">
+          <div class="info">
+                <h3>Third viz</h3>
+                <p>something else</p>
+          </div>
       </div>
-    </div>
-    <div id="edu-by-age" class="slide">
-      <div id="edu-ages" class="viz"></div>
-    </div>
+      <div id="age-timeseries" class="slide">
+                <div id="ages" class="viz"></div>
+      </div>
+      <div id="viz4" class="slide">
+          <div class="info">
+                <h3>Fourth viz</h3>
+                <p>yada yada</p>
+          </div>
+      </div>
+      <div id="cod-by-age" class="slide">
+                <div id="cod-ages" class="viz"></div>
+      </div>
+      <div id="viz5" class="slide">
+          <div class="info">
+                <h3>Fifth viz</h3>
+                <p>gotta get to this content sooner or later</p>
+          </div>
+      </div>
+      <div id="edu-by-age" class="slide">
+                <div id="edu-ages" class="viz"></div>
+      </div>
+      <div id="viz6" class="slide">
+          <div class="info">
+                <h3>A good one</h3>
+                <p>sometimes</p>
+          </div>
+      </div>
+      <div id="dangers" class="slide">
+                <div id="danger-ages" class="viz"></div>
+            <button id="danger-prev">previous</button>
+            <input id="danger-slider" type="range" min="0" max="118" />
+            <button id="danger-next">next</button>
+                <span id="current-age" class="viz"></span>
+            <button id="danger-animate">animate</button>
+      </div>
   </body>
 
 </html>

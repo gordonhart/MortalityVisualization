@@ -13,8 +13,12 @@ env.autoescape = False # allows HTML tags to be read in from strings
 env.lstrip_blocks = True # strip the whitespace from jinja template lines
 env.trim_blocks = True
 
+'''
+def is_string(l): return isinstance(l,str)
+env.filters["is_string"] = is_string
+'''
+
 templatefile = "viz_template.html"
-# datafile = "viz.json"
 datafile = "viz.yaml"
 outfile = "viz.html"
 

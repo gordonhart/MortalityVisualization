@@ -21,23 +21,27 @@
     </div>
 
     {% for slide in data.slides %}
-    <div id="{{ slide.id }}" class="slide">
-      {% if slide.type == "slide" %}
-      <div class="info">
-        {% for element in slide.contents %}
-        {% for eltype,elcontents in element.items() %}
-        <{{ eltype }}>{{ elcontents }}</{{ eltype }}>
-        {% endfor %}
-        {% endfor %}
+      <div id="{{ slide.id }}" class="slide">
+        {% if slide.type == "slide" %}
+          <div class="info">
+            {% for element in slide.contents %}
+              {% for eltype,elcontents in element.items() %}
+                <{{ eltype }}>{{ elcontents }}</{{ eltype }}>
+              {% endfor %}
+            {% endfor %}
+          </div>
+        {% elif slide.type == "viz" %}
+          {% for element in slide.contents %}
+            {% if element is string %}
+            {{ element }}
+            {% else %}
+              {% for eltype,elid in element.items() %}
+                <{{ eltype }} id="{{ elid }}" class="viz"></{{ eltype }}>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
       </div>
-      {% elif slide.type == "viz" %}
-      {% for element in slide.contents %}
-      {% for eltype,elid in element.items() %}
-      <{{ eltype }} id="{{ elid }}" class="viz"></{{ eltype }}>
-      {% endfor %}
-      {% endfor %}
-      {% endif %}
-    </div>
     {% endfor %}
   </body>
 

@@ -8,6 +8,7 @@ jsfiles:
   - "js/age.js"
   - "js/cod_ages.js"
   - "js/education_ages.js"
+  - "js/danger_ages.js"
 
 cssfiles:
   - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"
@@ -68,5 +69,19 @@ slides:
     type: "viz"
     contents:
       - div: "edu-ages"
+  - id: "viz6"
+    type: "slide"
+    contents:
+      - h3: "A good one"
+      - p: "sometimes"
+  - id: "dangers"
+    type: "viz"
+    contents:
+      - div: "danger-ages"
+      - "<button id=\"danger-prev\">previous</button>"
+      - "<input id=\"danger-slider\" type=\"range\" min=\"0\" max=\"118\" />"
+      - "<button id=\"danger-next\">next</button>"
+      - span: "current-age"
+      - "<button id=\"danger-animate\">animate</button>"
 
 
