@@ -7,8 +7,7 @@ let loh h = Hashtbl.fold (fun key value acc -> (key,value) :: acc) h [];;
  * for how key,value are passed *)
 let hol keymap l =
   let tbl = Hashtbl.create (List.length l) in
-  List.iter (fun item -> keymap item
-    |> fun (k,v) -> Hashtbl.add tbl k v) l;
+  List.iter (fun item -> keymap item |> fun (k,v) -> Hashtbl.add tbl k v) l;
   tbl;;
 
 (* reusable increment function *)
@@ -19,11 +18,8 @@ let inc_table table incfun base key =
 (* reusable function to create temporary hashtable and return list *)
 let list_from_hash size populatefun =
   Hashtbl.create size
-  |> fun tbl -> populatefun tbl; tbl
+  |> pass populatefun
   |> loh;;
-
-
-
 
 (* read a file and split by linesep *)
 let lines fname =

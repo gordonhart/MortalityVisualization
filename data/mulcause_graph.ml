@@ -151,19 +151,8 @@ let humanized_to_graph humanized_data =
   Hashtbl.fold (fun cond (ct,preex_ht) acc -> (cond,ct,loh preex_ht) :: acc) nodes [];;
 
 
-
-
 (* finally, transform the directed graph structure to json:
  *   dict of "nodename" : {ct,[edges]} *)
-let graph_to_json graph_data =
-  List.fold_left (fun acc ((name,short),ct,edges) ->
-    let edgestr = List.fold_left (fun eacc ((ename,eshort),ect) ->
-      eacc ^ sprintf "{'name': '%s', 'short': '%s', 'count': %d}," ename eshort ect) "" edges in
-    acc ^ sprintf "'%s': {'short': '%s', 'count': %d, 'edges': [%s]}," name short ct (chop_last edgestr)
-  ) "" graph_data
-  |> json_cleanup;;
-
-
 let jsonify_graph gd =
   `Dict (List.map (fun ((name,short),ct,edges) -> (name,
     `Dict [
@@ -181,16 +170,4 @@ let jsonify_graph gd =
  *
  * full workflow from data read to json export:
  *   "fname" <|~~ (lines "infile" |> multiple_causes |> humanized |> humanized_graph |> graph_to_json);; *)
-
-(* function to create the json from start to finish for the viz1
- * multiple cause graph *)
-(*
-let viz1_gendata fname =
-  lines "raw/MORT14" (* read raw text lines from file MORT14 *)
-  |> lines_to_mulcause (* map lines to cause, [preexisting] pairs *)
-  |> mulcause_to_humanized (* map ICD codes to humanized names *)
-  |> humanized_to_graph (* transform to graph structure by summing occurrences *)
-  |> graph_to_json (* transform graph structure to json string *)
-  |> fun json -> fname <|~~ json;; (* write json string to file *)
-*)
 

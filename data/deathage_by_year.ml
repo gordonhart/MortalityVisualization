@@ -29,10 +29,12 @@ let icd8_9_age age =
 
 let icd10_age age =
   match ios (String.sub age 0 1) with
-  | 1 -> ios (String.sub age 1 3)
+  | 1 ->
+      let yrs = ios (String.sub age 1 3) in
+      if yrs = 999 then -1 else yrs
   | 2 ->
       let months = ios (String.sub age 1 3) in
-      if months >= 6 then 1 else 0
+      if months = 999 then -1 else begin if months >= 6 then 1 else 0 end
   | 9 -> -1
   | _ -> 0;;
 
@@ -53,20 +55,11 @@ let yearly_age_stats indexer raw_lines =
       let male_mu,female_mu = mean males, mean females in
       ((Male,male_mu,stdev male_mu males),(Female,female_mu,stdev female_mu females));;
 
-(*
-let agedata_to_json ad =
-  List.fold_left (fun acc (yr,(m,mmu,ms),(f,fmu,fs)) ->
-    acc ^ (sprintf "{'year':%d,'male':{'mu':%0.7f,'stdev':%0.7f},'female':{'mu':%0.7f,'stdev':%0.7f}}," yr mmu ms fmu fs)
-  ) "'data': [" ad
-  |> chop_last
-  |> fun json -> json ^ "],"
-  |> json_cleanup;;
-*)
 
 let jsonify_agedata ad =
   `Dict [
   ("data",
-    `List (List.map (fun (yr,(m,mu,ms),(f,fmu,fs)) ->
+    `List (List.map (fun (yr,(m,mmu,ms),(f,fmu,fs)) ->
       `Dict [
       ("year",`Int yr);
       ("male",
@@ -77,18 +70,4 @@ let jsonify_agedata ad =
         `Dict [
         ("mu",`Float fmu);
         ("stdev",`Float fs)])]) ad))];;
-
-
-(* return (yr,((male,mean,stdev),(female,mean,stdev))) *)
-(*
-let viz3_gendata fname =
-  let read_and_map decoder yr = lines (sprintf "raw/MORT%02d" yr) |> yearly_age_stats decoder in
-  List.map (read_and_map icd8) (68|..|78)
-  |> fun y68_78 -> y68_78 @ (List.map (read_and_map icd9) ((79|..|99) @ (0|..|2)))
-  |> fun y68_02 -> y68_02 @ (List.map (read_and_map icd10) (3|..|14))
-  |> List.mapi (fun i (m,f) -> (1968 + i,m,f))
-  |> agedata_to_json
-  |> fun json -> fname <|~~ json;;
-*)
-
 

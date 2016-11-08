@@ -126,16 +126,6 @@ let yearly_causes_to_timeseries yearly_cause_data =
       ) data
     ) yearly_cause_data);;
 
-(* finally, transform the yearly cause of death timeseries to json *)
-(*
-let timeseries_to_json ts_data =
-  List.fold_left (fun acc (cause,years) ->
-    let yearlist = List.fold_left (fun yacc (yr,ct) ->
-      yacc ^ (sprintf "[%d,%0.7f]," yr ct)) "[" years in
-    acc ^ (sprintf "'%s': %s]," cause (chop_last yearlist))
-  ) "" ts_data
-  |> json_cleanup;;
-*)
 
 let timeseries_to_json ts =
   `Dict (List.map (fun (cause,years) ->
@@ -150,16 +140,4 @@ let timeseries_to_json ts =
  * read_yearly_causes get_icd8_causes (68|..|78) @ read_yearly_causes get_icd9_causes
  * (79|..|88)
  *)
-
-(* generate and save the json file for timeseries cause of death data *)
-let viz2_gendata (* timeseries_1968_1998 *) fname =
-  read_yearly_causes get_icd8_causes (1968|..|1978) (* get first year set data (ICD8) *)
-  |> fun y68_78 -> y68_78 @ (read_yearly_causes get_icd9_causes (1979|..|1998)) (* ICD9 set data *)
-  |> fun y68_98 -> y68_98 @ (read_yearly_causes get_icd10a_causes (1999|..|2002)) (* yes, ICD10 is encoded two different ways *)
-  |> fun y68_02 -> y68_02 @ (read_yearly_causes get_icd10b_causes (2003|..|2014))
-  |> normalize_yearly_causes
-  |> yearly_causes_to_timeseries (* map to timeseries data *)
-  |> timeseries_to_json (* transform to internal json format *)
-  |> json_to_string
-  |> fun json -> fname <|~~ json;; (* write json string out *)
 

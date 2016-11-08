@@ -9,31 +9,36 @@ let render_edu_ages = (edu_age_data) => {
     },
     x: mean_data.map((el) => el["edu-level"]),
     y: mean_data.map((el) => el["mean-age"]),
-    name: "Mean Age by Education Level"
+    name: "Mean",
+    showlegend: false
   };
 
-  let points = [means];
-  for(let i in edu_age_data.data) {
-    let thispoint = edu_age_data.data[i];
-    points.push({
-      type: "scatter",
-      mode: "markers",
-      marker: {
-        size: thispoint.count / 1000,
-        color: "rgba(255,0,0,1)"
-      },
-      x: [thispoint["edu-level"]],
-      y: [thispoint["age"]],
-      showlegend: false
-      // name: thispoint["edu-code"] + "-" + thispoint.age
-    });
-  }
+  console.log(edu_age_data.data.map((el) => el.age));
+  let points = {
+    type: "scatter",
+    mode: "markers",
+    hoverinfo: "skip",
+    marker: {
+      size: edu_age_data.data.map((el) => el.count/100),
+      sizemode: "area",
+      opacity: 0.25,
+      // autocolorscale: true,
+      color: edu_age_data.data.map((el) => el.age),
+      colorscale: "Viridis",
+      line: {
+        width: 0
+      }
+    },
+    x: edu_age_data.data.map((el) => el["edu-level"]),
+    y: edu_age_data.data.map((el) => el.age),
+    showlegend: false
+  };
 
-  Plotly.newPlot(document.getElementById("edu-ages"), points, {
+  Plotly.newPlot(document.getElementById("edu-ages"), [means, points], {
     title: "Age at Death versus Education Level",
     yaxis: {
-      title: "Age at Death",
-      range: [0,100]
+      title: "Age at Death"// ,
+      // range: [0,100]
     },
     xaxis: {
       title: "Education Level",

@@ -50,14 +50,4 @@ let edu_age_to_json eal =
       ("edu-level",`String elevel);
       ("mean-age",`Float amean)]) (gen_means eal)))];;
 
-(*
-let viz5_gendata fname =
-  lines "raw/MORT14"
-  |> maptr (fun l -> (String.sub l start_edu len_edu, String.sub l start_age len_age |> icd10_age))
-  |> List.fold_left (fun acc (e,age) -> if age<0 then acc else (e,age)::acc) [] (* remove negative ages *)
-  |> List.fold_left (fun acc (e,age) -> if e=" " then acc else (e |> ios |> edu_decode, age)::acc) [] (* remove blanks *)
-  |> edu_age_to_json
-  |> json_to_string
-  |> fun json -> fname <|~~ json;;
-*)
 

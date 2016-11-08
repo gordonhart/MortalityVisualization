@@ -58,10 +58,9 @@ let viz3_gendata fname =
 let viz3_lifeexp fname =
   lines "raw/LifeExpectancy1950-2050.csv"
   |> List.map (Str.split (Str.regexp ","))
-  |> List.tl
-  |> List.map (fun l -> (List.nth l 0, List.nth l 1, List.nth l 2))
-  |> List.map (fun (yr,f,m) -> (String.sub yr (String.length yr - 4) 4,f,m))
-  |> List.map (fun (yr,f,m) -> (ios yr, fos f, fos m))
+  |> List.tl (* remove header at top *)
+  |> List.map (fun l -> (List.nth l 0, List.nth l 1, List.nth l 2)) (* grab first three cols *)
+  |> List.map (fun (yr,f,m) -> (String.sub yr (String.length yr - 4) 4 |> ios, fos f, fos m))
   |> List.fold_left (fun acc (yr,f,m) -> if yr < 1965 || yr > 2014 then acc else (yr,f,m)::acc) []
   |> fun l -> `Dict [("data", `List (List.map (fun (yr,f,m) ->
        `Dict [("year",`Int yr);("female",`Float f);("male",`Float m)]) l))]
@@ -88,8 +87,8 @@ let viz4_gendata fname =
 let viz5_gendata fname =
   lines "raw/MORT14"
   |> maptr (fun l -> (String.sub l start_edu len_edu, String.sub l start_age len_age |> icd10_age))
-  |> List.fold_left (fun acc (e,age) -> if age<0 then acc else (e,age)::acc) [] (* remove negative ages *)
-  |> List.fold_left (fun acc (e,age) -> if e=" " then acc else (e |> ios |> edu_decode, age)::acc) [] (* remove blanks *)
+  |> List.fold_left (fun acc (e,age) -> if age<0 || e=" " then acc
+      else (e |> ios |> edu_decode, age)::acc) [] (* remove negative ages, blank edu sections *)
   |> edu_age_to_json
   |> json_to_string
   |~~> fname;;

@@ -5,10 +5,12 @@ let chop_last s =
   if len > 0 then String.sub s 0 (len - 1) else s;;
 
 (* final steps to prepare json, only used in pre-datatype transformations *)
+(*
 let json_cleanup d = d
   |> chop_last
   |> sprintf "{%s}"
   |> Str.global_replace (Str.regexp "'") "\"";;
+*)
 
 
 type json =
