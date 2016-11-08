@@ -40,7 +40,10 @@ let jsonify_dangers dl =
     `List (List.map (fun (age,causelist) ->
       `Dict [
       ("age",`Int age);
-      ("causes",`Dict (List.map (fun (c,pct) -> (c,`Float pct)) causelist))]) dl))];;
+      ("causes",`List (List.map (fun (c,pct) ->
+        `Dict [
+        ("cause",`String c);
+        ("percent",`Float pct)]) causelist))]) dl))];;
 
 
 let viz6_gendata fname =
@@ -50,6 +53,7 @@ let viz6_gendata fname =
   |> List.map sort_by_cod
   |> List.map normalize_counts
   |> List.sort (fun (a1,_) (a2,_) -> a1-a2)
+  |> List.map (fun (a,cods) -> (a,List.sort (fun (c1,_) (c2,_) -> String.compare c1 c2) cods))
   |> List.filter (fun (a,_) -> a>=0)
   |> jsonify_dangers
   |> json_to_string
