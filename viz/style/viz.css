@@ -86,7 +86,7 @@ button {
   z-index: 999;
   text-align: left; }
 
-#cyto-info {
+#cyto-info, #danger-overlay {
   position: fixed;
   font-family: "Raleway", Arial, sans;
   color: #FAFAFA;

@@ -78,10 +78,11 @@ slides:
     type: "viz"
     contents:
       - div: "danger-ages"
-      - "<button id=\"danger-prev\">previous</button>"
-      - "<input id=\"danger-slider\" type=\"range\" min=\"0\" max=\"118\" />"
-      - "<button id=\"danger-next\">next</button>"
-      - span: "current-age"
-      - "<button id=\"danger-animate\">animate</button>"
+      - div: "danger-overlay"
+      # - "<button id=\"danger-prev\">previous</button>"
+      # - "<input id=\"danger-slider\" type=\"range\" min=\"0\" max=\"118\" />"
+      # - "<button id=\"danger-next\">next</button>"
+      # - span: "current-age"
+      # - "<button id=\"danger-animate\">animate</button>"
 
 

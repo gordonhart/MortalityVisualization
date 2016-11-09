@@ -94,3 +94,20 @@ let viz5_gendata fname =
   |~~> fname;;
 
 
+(* generate death causes by age data for 2014 *)
+let viz6_gendata fname =
+  lines "raw/MORT14" (* read 2014 mortality data *)
+  |> get_age_and_cod (* map to (age, cause of death) pairs *)
+  |> group_by_ages (* group data into (age, [causes]) list *)
+  |> group_causes (* group data in each year to (age,[(cause,count)]) pairs *)
+  |> normalize_counts (* change counts to percentages of total deaths for that age *)
+  |> add_missing_causes (* add any fields that did not result in any deaths for a certain age *)
+  |> sort_by_age (* sort by age, ascending *)
+  |> sort_causes (* sort causes by cause name, alphabetical *)
+  |> remove_invalid_ages (* get rid of negative ages (undefined in dataset) *)
+  |> jsonify_dangers (* turn into internal json *)
+  |> json_to_string (* stringify the json *)
+  |~~> fname;; (* write out *)
+
+
+
