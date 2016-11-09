@@ -9,53 +9,43 @@
  *)
 
 
-let get_age_and_cod lines =
-  maptr (fun l -> (String.sub l 159 2 |> ios |> nchs_code_to_name icd10_nchs_categories,
-    String.sub l 69 4 |> icd10_age)) lines;;
-
-
-let group_by_ages cods =
-  list_from_hash 150
-    (fun tbl -> List.iter (fun (cod,age) ->
-      inc_table tbl (fun acods -> cod::acods) (fun () -> [cod]) age) cods);;
-
-
-let group_causes age_codlist =
-  List.map (fun (age,codlist) -> (age,list_from_hash 25
-    (fun tbl -> List.iter (inc_table tbl (fun codct -> codct+1) (fun () -> 1)) codlist))) age_codlist;;
-
-
-let normalize_counts age_codlist =
-  List.map (fun (age,codcts) -> (age, List.fold_left (fun acc (cod,ct) -> acc+ct) 0 codcts
-    |> foi |> fun total -> maptr (fun (cod,ct) -> (cod,(foi ct) /. total)) codcts)) age_codlist;;
-
-
-let add_missing_causes age_codlist =
-  let full_fields = List.fold_left (fun acc (a,cl) ->
-    if (List.length cl) > (List.length acc) then (List.map fst cl) else acc) [] age_codlist in
-  List.map (fun (a,cl) ->
-    (a, cl @ (List.fold_left (fun acc f ->
-      if List.exists (fun (c,pct) -> c=f) cl then acc else (f,0.0)::acc) [] full_fields))) age_codlist;;
-
-
-let sort_by_age = List.sort (fun (a1,_) (a2,_) -> a1-a2);;
-let sort_causes = List.map (fun (a,cods) -> (a,List.sort (fun (c1,_) (c2,_) -> String.compare c1 c2) cods));;
-let remove_invalid_ages = List.filter (fun (a,_) -> a>=0);;
-
-(* transform list of (age,[(cause,pct)]) pairs to json *)
-let jsonify_dangers dl =
-  `Dict [
-    ("data",
-    `List (List.map (fun (age,causelist) ->
-      `Dict [
-      ("age",`Int age);
-      ("causes",`List (List.map (fun (c,pct) ->
-        `Dict [
-        ("cause",`String c);
-        ("percent",`Float pct)]) causelist))]) dl))];;
-
-
 let viz6_gendata fname =
+
+  let get_age_and_cod lines =
+    maptr (fun l -> (String.sub l 69 4 |> icd10_age,
+      String.sub l 159 2 |> ios |> nchs_code_to_name nchs.recode39)) lines in
+
+  let group_by_ages cods =
+    list_from_hash 150
+      (fun tbl -> List.iter (fun (age,cod) ->
+        inc_table tbl (fun acods -> cod::acods) (fun () -> [cod]) age) cods) in
+
+  let group_causes age_codlist =
+    List.map (fun (age,codlist) -> (age,list_from_hash 25
+      (fun tbl -> List.iter (inc_table tbl (fun codct -> codct+1) (fun () -> 1)) codlist))) age_codlist in
+
+  let normalize_counts age_codlist =
+    List.map (fun (age,codcts) -> (age, List.fold_left (fun acc (cod,ct) -> acc+ct) 0 codcts
+      |> foi |> fun total -> maptr (fun (cod,ct) -> (cod,(foi ct) /. total)) codcts)) age_codlist in
+
+  let add_missing_causes age_codlist =
+    let full_fields = List.fold_left (fun acc (a,cl) ->
+      if (List.length cl) > (List.length acc) then (List.map fst cl) else acc) [] age_codlist in
+    List.map (fun (a,cl) ->
+      (a, cl @ (List.fold_left (fun acc f ->
+        if List.exists (fun (c,pct) -> c=f) cl then acc else (f,0.0)::acc) [] full_fields))) age_codlist in
+
+  let sort_by_age = List.sort (fun (a1,_) (a2,_) -> a1-a2) in
+  let sort_causes = List.map (fun (a,cods) -> (a,List.sort (fun (c1,_) (c2,_) -> String.compare c1 c2) cods)) in
+  let remove_invalid_ages = List.filter (fun (a,_) -> a>=0) in
+
+  let jsonify_dangers dl = `Dict [
+    ("data",`List (List.map (fun (age,causelist) -> `Dict [
+      ("age",`Int age);
+      ("causes",`List (List.map (fun (c,pct) -> `Dict [
+        ("cause",`String c);
+        ("percent",`Float pct)]) causelist))]) dl))] in
+
   lines "raw/MORT14" (* read 2014 mortality data *)
   |> get_age_and_cod (* map to (age, cause of death) pairs *)
   |> group_by_ages (* group data into (age, [causes]) list *)
@@ -65,7 +55,7 @@ let viz6_gendata fname =
   |> sort_by_age (* sort by age, ascending *)
   |> sort_causes (* sort causes by cause name, alphabetical *)
   |> remove_invalid_ages (* get rid of negative ages (undefined in dataset) *)
-  |> jsonify_dangers (* turn into internal json *)
+  |> jsonify_dangers (* turn (age,[(cause,pct)]) pairs into internal json *)
   |> json_to_string (* stringify the json *)
   |~~> fname;; (* write out *)
 

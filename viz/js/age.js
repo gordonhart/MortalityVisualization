@@ -28,10 +28,10 @@ let render_age = (age_data,lifeexp_data) => {
     let thisyear = age_data.data[i];
     males.x.push(thisyear.year);
     males.y.push(thisyear.male.mu);
-    males.error_y.array.push(thisyear.male.stdev);
+    // males.error_y.array.push(thisyear.male.stdev);
     females.x.push(thisyear.year);
     females.y.push(thisyear.female.mu);
-    females.error_y.array.push(thisyear.female.stdev);
+    // females.error_y.array.push(thisyear.female.stdev);
   }
 
   for(let i in lifeexp_data.data) {
@@ -46,7 +46,7 @@ let render_age = (age_data,lifeexp_data) => {
     title: "Mean Age at Death by Gender over Time",
     yaxis: {
       title: "Age at Death",
-      range: [20,100]
+      range: [50,90] // [20,100]
     },
     xaxis: {
       showgrid: false,
@@ -60,7 +60,7 @@ let render_age = (age_data,lifeexp_data) => {
   };
 
   let chart = document.getElementById("ages");
-  Plotly.newPlot(chart, [males,females,m_lifeexp,f_lifeexp], layout, {showLink: false});
+  Plotly.newPlot(chart, [males,females,m_lifeexp,f_lifeexp], layout, {showLink:false, displayModeBar:false});
 };
 
 $(() => {

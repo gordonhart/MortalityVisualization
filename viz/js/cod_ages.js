@@ -34,7 +34,7 @@ let render_cod_ages = (cod_age_data) => {
   };
 
   let chart = document.getElementById("cod-ages");
-  Plotly.newPlot(chart, traces, layout, {showLink: false});
+  Plotly.newPlot(chart, traces, layout, {showLink:false, displayModeBar:false});
 };
 
 $(() => {

@@ -81,14 +81,19 @@ slides:
       - >
         <div id="danger-overlay">
           <div class="danger-navs">
-            <button>previous</button>
-            <button>pause animation</button>
-            <button>next</button>
+            <button id="danger-prev">previous</button>
+            <button id="danger-pause">start</button>
+            <button id="danger-next">next</button>
           </div>
           <div class="danger-controls">
-            <input id="curage" type="number" />
-            <button>set</button>
+            <span>age:</span>
+            <input id="curage" type="number" value="0" />
+            <button id="danger-set">set</button>
           </div>
         </div>
+  - id: "viz7"
+    type: "slide"
+    contents:
+      - h3: "Final Viz"
 
 

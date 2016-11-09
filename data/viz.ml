@@ -7,6 +7,8 @@
 #use "deathage_by_year.ml";;
 #use "cod_by_age.ml";;
 #use "education.ml";;
+#use "danger_age.ml";;
+#use "cod_pmf.ml";;
 
 
 (*
@@ -16,7 +18,7 @@
  * filesystem and end with a write out of constructed json
  *)
 
-
+(*
 (* function to create the json from start to finish for the viz1
  * multiple cause graph *)
 let viz1_gendata fname =
@@ -27,8 +29,9 @@ let viz1_gendata fname =
   |> jsonify_graph (* transform graph structure to internal json format *)
   |> json_to_string
   |~~> fname;; (* write json string to file *)
+*)
 
-
+(*
 (* generate and save the json file for timeseries cause of death data *)
 let viz2_gendata (* timeseries_1968_1998 *) fname =
   read_yearly_causes get_icd8_causes (1968|..|1978) (* get first year set data (ICD8) *)
@@ -40,8 +43,9 @@ let viz2_gendata (* timeseries_1968_1998 *) fname =
   |> timeseries_to_json (* transform to internal json format *)
   |> json_to_string
   |~~> fname;;
+*)
 
-
+(*
 (* find mean age at death for each year *)
 let viz3_gendata fname =
   let read_and_map decoder yr = lines (sprintf "raw/MORT%02d" yr) |> yearly_age_stats decoder in
@@ -52,8 +56,9 @@ let viz3_gendata fname =
   |> jsonify_agedata
   |> json_to_string
   |~~> fname;;
+*)
 
-
+(*
 (* read, format, and write out life expectancy data (completely different source) *)
 let viz3_lifeexp fname =
   lines "raw/LifeExpectancy1950-2050.csv"
@@ -66,8 +71,9 @@ let viz3_lifeexp fname =
        `Dict [("year",`Int yr);("female",`Float f);("male",`Float m)]) l))]
   |> json_to_string
   |~~> fname;;
+*)
 
-
+(*
 (* generate mean,stdev age at death for each death cause over years 1968-2014 *)
 let viz4_gendata fname =
   List.map (read_yearly_cod_ages viz4_icd8_9_causes viz4_icd8) (1968|..|1978)
@@ -81,8 +87,9 @@ let viz4_gendata fname =
   |> jsonify_cod_age_list
   |> json_to_string
   |~~> fname;;
+*)
 
-
+(*
 (* generate age of death by education level json for 2014 *)
 let viz5_gendata fname =
   lines "raw/MORT14"
@@ -92,8 +99,9 @@ let viz5_gendata fname =
   |> edu_age_to_json
   |> json_to_string
   |~~> fname;;
+*)
 
-
+(*
 (* generate death causes by age data for 2014 *)
 let viz6_gendata fname =
   lines "raw/MORT14" (* read 2014 mortality data *)
@@ -108,6 +116,6 @@ let viz6_gendata fname =
   |> jsonify_dangers (* turn into internal json *)
   |> json_to_string (* stringify the json *)
   |~~> fname;; (* write out *)
-
+*)
 
 

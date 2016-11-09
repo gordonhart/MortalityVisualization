@@ -36,6 +36,16 @@ let rainbow_color = (index) => {
   return rainbow[index];
 };
 
+// hide or show cyto info box
+let cyto_info = (msg) => {
+  if(msg===undefined) {
+    $("#cyto-info").hide();
+  } else {
+    $("#cyto-info").html(msg);
+    $("#cyto-info").show();
+  }
+};
+
 let render_graph = (data) => {
 
   let nodes = [];
@@ -105,8 +115,11 @@ let render_graph = (data) => {
       selector: 'edge[source = "' + thisnode.short + '"]',
       style: {
         "width": "data(weight)",
-        "curve-style": "bezier",
-        "control-point-step-size": "100",
+        "curve-style": "unbundled-bezier",
+        // "control-point-step-size": "100",
+        "control-point-distances": 120,
+        "control-point-weights": 0.1,
+        // "visibility": "hidden",
         "line-color": thiscolor,
         "target-arrow-shape": "triangle-backcurve",
         "target-arrow-color": thiscolor
@@ -114,9 +127,7 @@ let render_graph = (data) => {
     })
     color++;
   }
-  // console.log(nodes);
 
-  let cyto_info = $("#cyto-info");
   // for full sample code see http://jsbin.com/gist/7b511e1f48ffd044ad66?html,output
   var cyto = window.cyto = cytoscape({
     container: document.getElementById("cyto"),
@@ -133,13 +144,20 @@ let render_graph = (data) => {
   cyto.on('click', (event) => {
     try {
       let target = event.cyTarget._private.data;
-      cyto_info.html(target.name + ": " + target.count);
-      cyto_info.show();
+      cyto_info(target.name + ": " + target.count);
     } catch(e) {
-      cyto_info.hide();
+      cyto_info();
     }
   });
 };
+
+// hide edges that don't hit a certain threshold
+let hide_weak_edges = (threshold) => {
+  cyto.edges("edge[count<" + threshold + "]").hide(); };
+let show_all_edges = () => { cyto.edges().show() };
+let hide_weak_nodes = (threshold) => {
+  cyto.elements("node[count<" + threshold + "]").hide(); };
+let show_all_nodes = () => { cyto.nodes().show() };
 
 $(() => {
   let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/multiple_causes_2014_full.json?token=AJM69iht9Od6s_YsvDjCevX7do92wpg4ks5YKVDpwA%3D%3D";

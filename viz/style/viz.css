@@ -100,7 +100,6 @@ button {
   z-index: 1001; }
 
 #danger-overlay {
-  display: block;
   bottom: 0;
   top: auto; }
   #danger-overlay button {
@@ -116,6 +115,10 @@ button {
     display: inline-block;
     outline: none;
     cursor: pointer; }
+    #danger-overlay .danger-controls span {
+      font-size: 100%;
+      font-weight: 600;
+      color: #FAFAFA; }
     #danger-overlay .danger-controls input {
       font-size: 100%;
       font-weight: 600;

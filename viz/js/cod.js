@@ -44,7 +44,7 @@ let render_timeseries = (/* normalized */) => {
   };
 
   let chart = document.getElementById("cod");
-  Plotly.newPlot(chart, traces, layout, {showLink: false});
+  Plotly.newPlot(chart, traces, layout, {showLink:false, displayModeBar:false});
 };
 
 // hide all elements in the chart unless included in "names"

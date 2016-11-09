@@ -58,7 +58,8 @@ let render_edu_ages = (edu_age_data) => {
       family: "Playfair Display SC"
     }
   },{
-    showLink: false
+    showLink: false,
+    displayModeBar: false
   });
 
 };

@@ -25,7 +25,37 @@ $(() => {
       forward: () => scroll_to("cyto"),
       backward: () => scroll_to("viz1")
     },{
-      forward: () => scroll_to("viz2"),
+      forward: () => {
+        cyto_info("hiding all edges with fewer than 10,000 occurrences");
+        hide_weak_edges(1e4);
+      },
+      backward: () => {
+        cyto_info();
+        show_all_edges();
+      }
+    },{
+      forward: () => {
+        cyto_info("hiding all nodes with fewer than 10,000 occurrences");
+        hide_weak_nodes(1e4);
+      },
+      backward: () => {
+        cyto_info();
+        show_all_nodes();
+      }
+    },{
+      forward: () => {
+        cyto_info("hiding all edges with fewer than 100,000 occurrences");
+        hide_weak_edges(1e5);
+      },
+      backward: () => {
+        cyto_info();
+        show_all_edges();
+      }
+    },{
+      forward: () => {
+        cyto_info();
+        scroll_to("viz2")
+      },
       backward: () => scroll_to("cyto")
     },{
       forward: () => scroll_to("cod"),
@@ -33,6 +63,9 @@ $(() => {
     },{
       forward: () => filter_chart("cod",["Diabetes","Vehicular Accidents"]),
       backward: () => filter_chart("cod",[])
+    },{
+      forward: () => filter_chart("cod",["Suicide","Homicide"]),
+      backward: () => filter_chart("cod",["Diabetes","Vehicular Accidents"])
     },{
       forward: () => scroll_to("viz3"),
       backward: () => scroll_to("cod")
@@ -46,11 +79,35 @@ $(() => {
       forward: () => scroll_to("cod-ages"),
       backward: () => scroll_to("viz4")
     },{
+      forward: () => filter_chart("cod-ages",["Diabetes"]),
+      backward: () => filter_chart("cod-ages",[])
+    },{
       forward: () => scroll_to("viz5"),
       backward: () => scroll_to("cod-ages")
     },{
       forward: () => scroll_to("edu-ages"),
       backward: () => scroll_to("viz5")
+    },{
+      forward: () => scroll_to("viz6"),
+      backward: () => scroll_to("edu-ages")
+    },{
+      forward: () => {
+        $("#danger-overlay").show();
+        scroll_to("danger-ages");
+      },
+      backward: () => {
+        $("#danger-overlay").hide();
+        scroll_to("viz6");
+      }
+    },{
+      forward: () => {
+        $("#danger-overlay").hide();
+        scroll_to("viz7")
+      },
+      backward: () => {
+        $("#danger-overlay").show();
+        scroll_to("danger-ages");
+      }
     },{ // terminator
       forward: () => {},
       backward: () => {}
