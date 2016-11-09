@@ -118,7 +118,7 @@ button {
   text-align: left;
 }
 
-#cyto-info, #danger-overlay {
+#cyto-info {
   position: fixed;
   font-family: $regular;
   color: $white;
@@ -131,6 +131,49 @@ button {
   display: none;
   z-index: 1001;
 }
+
+#danger-overlay {
+  @extend #cyto-info;
+  display: block;
+  bottom: 0;
+  top: auto;
+
+  button {
+    margin: auto;
+  }
+
+  .danger-navs {
+    display: inline-block;
+    height: $info-height;
+    margin-right: 100px;
+    button {
+      background: $white;
+      color: $black;
+    }
+  }
+  .danger-controls {
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    input {
+      font-size: 100%;
+      font-weight: 600;
+      width: 100px;
+      margin: 0;
+      text-align:center;
+      background: $accent;
+      outline: none;
+      color: $white;
+      border: 0px;
+    }
+    button {
+      background: $black;
+      color: $white;
+    }
+  }
+}
+
+
 
 /*
 #cod, #ages, #cod-ages, #edu-ages {
