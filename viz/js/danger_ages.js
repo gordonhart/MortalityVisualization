@@ -62,7 +62,7 @@ let render_danger_ages_update = () => {
 let curage;
 let danger_data;
 let danger_interval;
-let danger_speed = 250;
+let danger_speed = 400;
 
 let start_animation = () => {
   danger_interval = setInterval(() => {

@@ -24,6 +24,7 @@
 module Viz7 : sig
   val viz7_pmf : string -> unit
   val viz7_cdf : string -> unit
+  val viz7_dangerfun : string -> unit
 end = struct
 
   (* defer responsibility of knowing file types to the reading function *)
@@ -69,6 +70,14 @@ end = struct
       let total = List.fold_left (fun acc (age,ct) -> acc+ct) 0 agects |> foi in
       (cod, List.map (fun (age,ct) -> (age, (foi ct)/.total)) agects))
 
+  let normalize_by_age cod_ages =
+    let cts = list_from_hash 121 (fun tbl -> List.iter (fun (cod,ages) ->
+        List.iter (fun (age,ct) -> inc_table tbl (fun c -> c+ct) (fun () -> ct) age) ages) cod_ages)
+      |> Array.of_list in
+    let agects a = foi @@ snd @@ cts.(a) in
+    List.map (fun (cod,ages) -> (cod,
+      List.map (fun (age,ct) -> (age, (foi ct)/.(agects age))) ages)) cod_ages
+
   let sort_counts =
     List.map (fun (cause,ages) -> (cause, List.sort (fun (a1,_) (a2,_) -> a1-a2) ages))
 
@@ -81,13 +90,15 @@ end = struct
       List.fold_left (fun (accages,accpct) (age,pct) ->
         ((age,accpct+.pct)::accages,accpct+.pct)) ([],0.) ages |> fst |> List.rev))
 
+  let sort_causes = List.sort (fun (c1,_) (c2,_) -> String.compare c1 c2)
+
   let pmfs_to_json pmfs = (* pmf representation list of form [(name,[(age,prob)])] to json *)
     `Dict (List.map (fun (pmf_name,pts) -> (pmf_name,
       `List (List.map (fun (age,prob) ->
         `Dict [("age",`Int age);("percentage",`Float prob)]) pts))) pmfs)
 
-  let viz7_pmf fname =
-    1968|..|2014
+  let read_data () =
+    1968|..|1968
     |> List.map (fun y -> y
       |> read_age_and_cod_from_file
       |> group_by_cod
@@ -96,34 +107,43 @@ end = struct
       |> pass (fun _ ->
           printf "finished preprocessing year %d\n" y;
           flush Pervasives.stdout))
+
+  let out fname = fun l -> l
+    |> sort_causes
+    |> pmfs_to_json
+    |> json_to_string
+    |~~> fname
+
+  let viz7_pmf fname = ()
+    |> read_data
     |> group_by_cause
     |> sum_years
     |> normalize_counts
     |> fill_missing_years
     |> sort_counts
-    |> pmfs_to_json
-    |> json_to_string
-    |~~> fname
+    |> out fname
 
-  let viz7_cdf fname =
-    1968|..|2014
-    |> List.map (fun y -> y
-      |> read_age_and_cod_from_file
-      |> group_by_cod
-      |> generate_age_counts
-      |> remove_invalid_ages
-      |> pass (fun _ ->
-          printf "finished preprocessing year %d\n" y;
-          flush Pervasives.stdout))
+  let viz7_cdf fname = ()
+    |> read_data
     |> group_by_cause
     |> sum_years
     |> normalize_counts
     |> fill_missing_years
     |> sort_counts
     |> cdfify
-    |> pmfs_to_json
-    |> json_to_string
-    |~~> fname
+    |> out fname
+
+  (* generate a "danger function" which is a pmf that normalizes the
+   * percentages based on all deaths for that age group (so not actually
+   * a pmf, integral is not actually a cdf) *)
+  let viz7_dangerfun fname = ()
+    |> read_data
+    |> group_by_cause
+    |> sum_years
+    |> normalize_by_age
+    |> fill_missing_years
+    |> sort_counts
+    |> out fname
 
 end;;
 

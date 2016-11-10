@@ -59,7 +59,7 @@ let nchs = {
     ([120],"Diabetes");
     ([160;190],"Hypertension");
     ([150;170;180],"Heart Diseases");
-    ([200],"Cerebrovascular Diseases");
+    ([200],"Stroke");
     ([210;220],"Circulatory Diseases");
     ([230],"Influenza and Pneumonia");
     ([240],"Bronchitis / COPD");
@@ -83,7 +83,7 @@ let nchs = {
     ([017],"Alzheimer's");
     ([018;019;021;022],"Heart Diseases");
     ([020;023],"Hypertension");
-    ([024],"Cerebrovascular Diseases");
+    ([024],"Stroke");
     ([025;026],"Circulatory Diseases");
     ([027],"Influenza and Pneumonias");
     ([028],"Bronchitis / COPD");
@@ -123,8 +123,7 @@ let nchs = {
     ([('Z',0,999)], "Factors influencing health status and contact with health services", "Inability to Access Care");
     ([('U',0,859)], "Codes for special purposes", "Special Reasons")];
   decode = fun code_map code ->
-    List.fold_left (fun acc (cl,name) ->
-      if List.exists (fun c -> c=code) cl then name else acc)
-    (sprintf "Unable to Find code %d" code) code_map
+    List.fold_left (fun acc (cl,name) -> if List.exists (fun c -> c=code) cl then name else acc)
+      (sprintf "Unable to Find code %d" code) code_map
 };;
 

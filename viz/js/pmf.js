@@ -17,7 +17,9 @@ let render_pmfs = (div_id,data) => {
   }
 
   let layout = {
-    title: "Probability Mass Functions of Various Disease Types",
+    title: (div_id==="pmf")
+      ? "Probability Mass Functions of Various Causes of Death"
+      : "Cumulative Distribution Functions of Various Causes of Death",
     yaxis: {
       title: "Percentage of Deaths"// ,
       // range: [0,1]
@@ -43,7 +45,7 @@ $(() => {
     let pmf_data = JSON.parse(strdata);
     render_pmfs("pmf",pmf_data);
   });
-  let cdf = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cdf_1968-2014?token=AJM69tkrycIvR8ve1rRebgRAwaa577NLks5YLWKYwA%3D%3D";
+  let cdf = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cdf_1968-2014.json?token=AJM69p0uQsI30ZXGsWSCSXOqJPDG9G72ks5YLWuJwA%3D%3D";
   $.get(cdf, (strdata) => {
     let cdf_data = JSON.parse(strdata);
     render_pmfs("cdf",cdf_data);

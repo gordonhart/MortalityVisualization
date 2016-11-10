@@ -133,6 +133,26 @@ $(() => {
           ["Homicide","Suicide","Vehicular Accidents","All Other External Causes"]);
       },
       backward: () => filter_chart("cdf",[])
+    },{
+      forward: () => {
+        filter_chart("cdf",
+          ["Cancer","Hypertension","All Other Diseases","Alzheimer's",
+            "Influenza and Pneumonia","Heart Diseases","Circulatory Diseases",
+            "Diabetes","Digestive Tract Diseases","Bronchitis / COPD",
+            "Stroke","Influenza and Pneumonia","Kidney Diseases"]);
+        filter_chart("pmf",
+          ["Cancer","Hypertension","All Other Diseases","Alzheimer's",
+            "Influenza and Pneumonia","Heart Diseases","Circulatory Diseases",
+            "Diabetes","Digestive Tract Diseases","Bronchitis / COPD",
+            "Stroke","Influenza and Pneumonia","Kidney Diseases"]);
+      },
+      backward: () => {
+        filter_chart("cdf",[]);
+        filter_chart("pmf",[]);
+      }
+    },{
+      forward: () => scroll_to("pmf"),
+      backward: () => scroll_to("cdf")
     },{ // terminator
       forward: () => {},
       backward: () => {}
