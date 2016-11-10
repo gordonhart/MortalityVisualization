@@ -46,7 +46,7 @@ $(() => {
     render_pmfs("pmf",pmf_data);
   });
   // let cdf = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cdf_1968-2014.json?token=AJM69p0uQsI30ZXGsWSCSXOqJPDG9G72ks5YLWuJwA%3D%3D";
-  let cdf = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/dangerfun_1968.json?token=AJM69gDhqoj-ffuKmrPNY78dqeHJ6P0tks5YLXeVwA%3D%3D";
+  let cdf = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/dangerfun_1968.json?token=AJM69jI4Qq74hcyJjJOLFGDtOzJDBy5uks5YLXn3wA%3D%3D";
   $.get(cdf, (strdata) => {
     let cdf_data = JSON.parse(strdata);
     render_pmfs("cdf",cdf_data);

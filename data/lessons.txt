@@ -1,4 +1,7 @@
 
+as of 5pm Nov 10, this project is 11 .ml files comprised of
+roughly 500 real (dense as hell) lines of code
+
 lessons learned about (somewhat) large ocaml projects:
   - break everything into modules
     - easier to control exports/sharing without having to reorganize all

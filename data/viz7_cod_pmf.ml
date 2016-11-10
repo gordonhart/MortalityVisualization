@@ -1,7 +1,12 @@
 (*
  * Gather the ages for all deaths of each disease type from
  * all years (1968-2014) in order to compute the probability
- * mass function for each cause of death
+ * mass function for each cause of death, along with cumulative
+ * distribution function.
+ *
+ * Also generate a "danger function" which is a pmf that normalizes the
+ * percentages based on all deaths for that age group (so not actually
+ * a pmf, integral is not actually a cdf).
  *)
 
 
@@ -27,7 +32,7 @@ module Viz7 : sig
   val viz7_dangerfun : string -> unit
 end = struct
 
-  (* defer responsibility of knowing file types to the reading function *)
+  (* delegate responsibility of knowing file types to the reading function *)
   let read_age_and_cod_from_file year =
     let range (lo,hi) n = n>=lo && n <= hi in
     let get (ages,agel,agef) (cods,codl,codf) =
@@ -98,8 +103,9 @@ end = struct
       `List (List.map (fun (age,prob) ->
         `Dict [("age",`Int age);("percentage",`Float prob)]) pts))) pmfs)
 
-  let read_data () =
-    1968|..|1968
+  type fundesc = Pmf | Cdf | Danger
+  let viz7 ftype fname =
+    1968|..|2014
     |> List.map (fun y -> y
       |> read_age_and_cod_from_file
       |> group_by_cod
@@ -108,43 +114,20 @@ end = struct
       |> pass (fun _ ->
           printf "finished preprocessing year %d\n" y;
           flush Pervasives.stdout))
-
-  let out fname = fun l -> l
+    |> group_by_cause
+    |> sum_years
+    |> (if ftype=Danger then normalize_by_age else normalize_counts)
+    |> fill_missing_years
+    |> sort_counts
+    |> (if ftype=Cdf then cdfify else skip)
     |> sort_causes
     |> pmfs_to_json
     |> json_to_string
     |~~> fname
 
-  let viz7_pmf fname = ()
-    |> read_data
-    |> group_by_cause
-    |> sum_years
-    |> normalize_counts
-    |> fill_missing_years
-    |> sort_counts
-    |> out fname
-
-  let viz7_cdf fname = ()
-    |> read_data
-    |> group_by_cause
-    |> sum_years
-    |> normalize_counts
-    |> fill_missing_years
-    |> sort_counts
-    |> cdfify
-    |> out fname
-
-  (* generate a "danger function" which is a pmf that normalizes the
-   * percentages based on all deaths for that age group (so not actually
-   * a pmf, integral is not actually a cdf) *)
-  let viz7_dangerfun fname = ()
-    |> read_data
-    |> group_by_cause
-    |> sum_years
-    |> normalize_by_age
-    |> fill_missing_years
-    |> sort_counts
-    |> out fname
+  let viz7_pmf = viz7 Pmf
+  let viz7_cdf = viz7 Cdf
+  let viz7_dangerfun = viz7 Danger
 
 end;;
 
