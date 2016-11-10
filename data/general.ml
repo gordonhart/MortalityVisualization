@@ -36,18 +36,18 @@ let maptr f l =
 
 (*
  * important mapping data
+ *
+ * store as one big, ugly, clean and contained monster
  *)
-
 
 
 type nchs_code = {
   recode34: (int list * string) list;
   recode39: (int list * string) list;
   recode113: ((char*int*int) list * string * string) list;
+  decode: (int list * string) list -> int -> string;
   length: int;
-  icd_length: int
-};;
-
+  icd_length: int };;
 let nchs = {
   length = 37;
   icd_length = 22;
@@ -71,11 +71,11 @@ let nchs = {
     ([300],"Perinatal Complications");
     ([310],"Undetermined Diseases");
     ([320],"All Other Diseases");
-    ([330],"Vehicular Accidents");
-    ([340],"Other Accidental Causes");
+    ([330],"Motor Vehicle Accidents");
+    (* ([340],"Other Accidental Causes"); *)
     ([350],"Suicide");
     ([360],"Homicide");
-    ([370],"All Other External Causes")];
+    ([340;370],"All Other External Causes")];
   recode39 = [
     ([001],"Tuberculosis");
     ([002;003],"Venereal Diseases");
@@ -96,11 +96,11 @@ let nchs = {
     ([034],"Congenital Anomalies");
     ([035;036],"Undetermined Diseases");
     ([037],"All Other Diseases");
-    ([038],"Vehicular Accidents");
-    ([039],"Other Accidental Causes");
+    ([038],"Motor Vehicle Accidents");
+    (* ([039],"Other Accidental Causes"); *)
     ([040],"Suicide");
     ([041],"Homicide");
-    ([042],"All Other External Causes")];
+    ([039;042],"All Other External Causes")];
   recode113 = [
     ([('A',0,999); ('B',0,999)], "Certain infectious and parasitic diseases", "Infection or Parasite");
     ([('C',0,999); ('D',0,489)], "Neoplasms", "Cancer");
@@ -123,69 +123,10 @@ let nchs = {
     ([('S',0,999); ('T',0,989)], "Injury, poisoning and certain other consequences of external causes", "Consequences of External Causes");
     ([('V',10,999); ('W',0,999); ('X',0,999); ('Y',0,989)], "External causes of morbidity and mortality", "Direct External Causes");
     ([('Z',0,999)], "Factors influencing health status and contact with health services", "Inability to Access Care");
-    ([('U',0,859)], "Codes for special purposes", "Special Reasons")]
+    ([('U',0,859)], "Codes for special purposes", "Special Reasons")];
+  decode = fun code_map code ->
+    List.fold_left (fun acc (cl,name) ->
+      if List.exists (fun c -> c=code) cl then name else acc)
+    (sprintf "Unable to Find code %d" code) code_map
 };;
-
-
-(*
-let num_nchs_categories = 37;;
-(* 34 cause recode *)
-let nchs_categories = [
-  ([010],"Tuberculosis");
-  ([020],"Venereal Diseases");
-  ([030],"Other Infectious Diseases");
-  ([050;060;070;080;090;100;110],"Cancer");
-  ([120],"Diabetes");
-  ([160;190],"Hypertension");
-  ([150;170;180],"Heart Diseases");
-  ([200],"Cerebrovascular Diseases");
-  ([210;220],"Circulatory Diseases");
-  ([230],"Influenza and Pneumonia");
-  ([240],"Bronchitis / COPD");
-  ([250],"Digestive Tract Diseases");
-  ([260],"Liver Diseases");
-  ([270],"Kidney Diseases");
-  ([280],"Pregnancy Complications");
-  ([290],"Congenital Anomalies");
-  ([300],"Perinatal Complications");
-  ([310],"Undetermined Diseases");
-  ([320],"All Other Diseases");
-  ([330],"Vehicular Accidents");
-  ([340],"Other Accidental Causes");
-  ([350],"Suicide");
-  ([360],"Homicide");
-  ([370],"All Other External Causes")];;
-
-(* 39 cause recode : not exactly the same but close enough *)
-let icd10_nchs_categories = [
-  ([001],"Tuberculosis");
-  ([002;003],"Venereal Diseases");
-  ([004;005;006;007;008;009;010;011;012;013;014;015],"Cancer");
-  ([016],"Diabetes");
-  ([017],"Alzheimer's");
-  ([018;019;021;022],"Heart Diseases");
-  ([020;023],"Hypertension");
-  ([024],"Cerebrovascular Diseases");
-  ([025;026],"Circulatory Diseases");
-  ([027],"Influenza and Pneumonias");
-  ([028],"Bronchitis / COPD");
-  ([029],"Digestive Tract Diseases");
-  ([030],"Liver Diseases");
-  ([031],"Kidney Diseases");
-  ([032],"Pregnancy Complications");
-  ([033],"Perinatal Complications");
-  ([034],"Congenital Anomalies");
-  ([035;036],"Undetermined Diseases");
-  ([037],"All Other Diseases");
-  ([038],"Vehicular Accidents");
-  ([039],"Other Accidental Causes");
-  ([040],"Suicide");
-  ([041],"Homicide");
-  ([042],"All Other External Causes")];;
-*)
-(* transform a code to a name *)
-let nchs_code_to_name code_map code =
-  List.fold_left (fun acc (cl,name) ->
-    if List.exists (fun c -> c=code) cl then name else acc)
-  (sprintf "Unable to Find code %d" code) code_map;;
 

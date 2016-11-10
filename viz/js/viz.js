@@ -108,6 +108,31 @@ $(() => {
         $("#danger-overlay").show();
         scroll_to("danger-ages");
       }
+    },{
+      forward: () => scroll_to("pmf"),
+      backward: () => scroll_to("viz7")
+    },{
+      forward: () => {
+        filter_chart("pmf",
+          ["Perinatal Complications","Congenital Anomalies","Undetermined Diseases"],
+          true); // SIDS is undetermined
+      },
+      backward: () => filter_chart("pmf",[])
+    },{
+      forward: () => {
+        filter_chart("pmf",
+          ["Homicide","Suicide","Vehicular Accidents","All Other External Causes"]);
+      },
+      backward: () => filter_chart("pmf",[])
+    },{
+      forward: () => scroll_to("cdf"),
+      backward: () => scroll_to("pmf")
+    },{
+      forward: () => {
+        filter_chart("cdf",
+          ["Homicide","Suicide","Vehicular Accidents","All Other External Causes"]);
+      },
+      backward: () => filter_chart("cdf",[])
     },{ // terminator
       forward: () => {},
       backward: () => {}

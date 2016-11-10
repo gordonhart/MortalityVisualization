@@ -48,19 +48,22 @@ let render_timeseries = (/* normalized */) => {
 };
 
 // hide all elements in the chart unless included in "names"
-let filter_chart = (chart_div,names) => {
+let filter_chart = (chart_div,names,inverse) => {
   let chart = document.getElementById(chart_div);
   // loop through data, hide all but the shown
   for(let i in chart.data) {
     let thisset = chart.data[i];
-    if(names.length == 0) { // show all with no names in list
-      thisset.visible = true;
+    if(inverse!=undefined && inverse) {
+      if(names.length == 0) { thisset.visible = false; } // hide all if inverse
+      else {
+        if($.inArray(thisset.name,names) >= 0) { thisset.visible = "legendonly"; }
+        else { thisset.visible = true; }
+      }
     } else {
-      if($.inArray(thisset.name,names) >= 0) {
-        thisset.visible = true;
-      } else {
-        // console.log(thisset.name);
-        thisset.visible = "legendonly";
+      if(names.length == 0) { thisset.visible = true; } // show all names not in list
+      else {
+        if($.inArray(thisset.name,names) >= 0) { thisset.visible = true; }
+        else { thisset.visible = "legendonly"; }
       }
     }
   }

@@ -2,13 +2,27 @@
 #use "general.ml";;
 #use "json.ml";;
 #use "stats.ml";;
-#use "mulcause_graph.ml";;
-#use "cod_by_year.ml";;
-#use "deathage_by_year.ml";;
-#use "cod_by_age.ml";;
-#use "education.ml";;
-#use "danger_age.ml";;
-#use "cod_pmf.ml";;
+
+#use "viz1_mulcause.ml";;
+open Viz1;;
+
+#use "viz2_cod_by_year.ml";;
+open Viz2;;
+
+#use "viz3_lifeexp.ml";;
+open Viz3;;
+
+#use "viz4_cod_by_age.ml";;
+open Viz4;;
+
+#use "viz5_education.ml";;
+open Viz5;;
+
+#use "viz6_danger.ml";;
+open Viz6;;
+
+#use "viz7_cod_pmf.ml";;
+open Viz7;;
 
 
 (*

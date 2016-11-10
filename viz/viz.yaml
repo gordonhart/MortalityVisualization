@@ -9,6 +9,7 @@ jsfiles:
   - "js/cod_ages.js"
   - "js/education_ages.js"
   - "js/danger_ages.js"
+  - "js/pmf.js"
 
 cssfiles:
   - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"
@@ -95,5 +96,14 @@ slides:
     type: "slide"
     contents:
       - h3: "Final Viz"
+  - id: "pmf-viz"
+    type: "viz"
+    contents:
+      - div: "pmf"
+  - id: "cdf-viz"
+    type: "viz"
+    contents:
+      - div: "cdf"
+
 
 

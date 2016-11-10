@@ -3,11 +3,12 @@
  * Age of Death by Education Level 2014
  *)
 
+module Viz5 : sig
+  val viz5_education : string -> unit
+end = struct
 
-let viz5_gendata fname =
-
-  let start_edu,len_edu = 62,1 in
-  let start_age,len_age = 69,4 in
+  let start_edu,len_edu = 62,1
+  let start_age,len_age = 69,4
 
   (* map education code to (code,level in words) pairs *)
   let edu_decode ecode =
@@ -22,7 +23,7 @@ let viz5_gendata fname =
       "Doctorate or professional degree";
     ] in
     try (ecode, List.nth edu_levels (ecode-1))
-    with _ -> (0,"Unknown") in
+    with _ -> (0,"Unknown")
 
   (* map ((education code,education words), death age) triplets to json *)
   let edu_age_to_json eal =
@@ -49,13 +50,15 @@ let viz5_gendata fname =
       `Dict [
         ("edu-code",`Int ecode);
         ("edu-level",`String elevel);
-        ("mean-age",`Float amean)]) (gen_means eal)))] in
+        ("mean-age",`Float amean)]) (gen_means eal)))]
 
-  lines "raw/MORT14"
-  |> maptr (fun l -> (String.sub l start_edu len_edu, String.sub l start_age len_age |> icd10_age))
-  |> List.fold_left (fun acc (e,age) -> if age<0 || e=" " then acc
-      else (e |> ios |> edu_decode, age)::acc) [] (* remove negative ages, blank edu sections *)
-  |> edu_age_to_json
-  |> json_to_string
-  |~~> fname;;
+  let viz5_education fname =
+    lines "raw/MORT14"
+    |> maptr (fun l -> (String.sub l start_edu len_edu, String.sub l start_age len_age |> icd10_age))
+    |> List.fold_left (fun acc (e,age) -> if age<0 || e=" " then acc
+        else (e |> ios |> edu_decode, age)::acc) [] (* remove negative ages, blank edu sections *)
+    |> edu_age_to_json
+    |> json_to_string
+    |~~> fname
 
+end;;
