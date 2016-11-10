@@ -65,7 +65,7 @@ let render_age = (age_data,lifeexp_data) => {
 
 $(() => {
   let age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/ages_68-14.json?token=AJM69voVzzY2uioWADBk0m0F1YwMK3QIks5YKVB6wA%3D%3D";
-  let lifeexp_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/lifeexp_1965-2014?token=AJM69vd7Bs1bPF33CM_C1vPopHr-YFZFks5YKaRxwA%3D%3D";
+  let lifeexp_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/lifeexp_1965-2014.json?token=AJM69rA7UsgANr53UyQFDf1xZKghA2YRks5YLYGQwA%3D%3D";
   $.get(age_json, (adata) => {
     $.get(lifeexp_json, (ledata) => {
       render_age(JSON.parse(adata),JSON.parse(ledata));

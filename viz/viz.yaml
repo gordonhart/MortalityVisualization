@@ -104,6 +104,10 @@ slides:
     type: "viz"
     contents:
       - div: "cdf"
+  - id: "dangerfun-viz"
+    type: "viz"
+    contents:
+      - div: "dangerfun"
 
 
 

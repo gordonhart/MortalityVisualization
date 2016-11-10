@@ -96,6 +96,9 @@ end = struct
       List.fold_left (fun (accages,accpct) (age,pct) ->
         ((age,accpct+.pct)::accages,accpct+.pct)) ([],0.) ages |> fst |> List.rev))
 
+  let chop_centenarians =
+    List.map (fun (cause,ages) -> (cause, List.filter (fun (age,_) -> age<=100) ages))
+
   let sort_causes = List.sort (fun (c1,_) (c2,_) -> String.compare c1 c2)
 
   let pmfs_to_json pmfs = (* pmf representation list of form [(name,[(age,prob)])] to json *)
@@ -119,7 +122,7 @@ end = struct
     |> (if ftype=Danger then normalize_by_age else normalize_counts)
     |> fill_missing_years
     |> sort_counts
-    |> (if ftype=Cdf then cdfify else skip)
+    |> (match ftype with Cdf -> cdfify | Danger -> chop_centenarians | _ -> skip)
     |> sort_causes
     |> pmfs_to_json
     |> json_to_string
