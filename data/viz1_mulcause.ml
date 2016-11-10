@@ -85,12 +85,10 @@ end = struct
   (* finally, transform the directed graph structure to json:
    *   dict of "nodename" : {ct,[edges]} *)
   let jsonify_graph gd =
-    `Dict (List.map (fun ((name,short),ct,edges) -> (name,
-      `Dict [
+    `Dict (List.map (fun ((name,short),ct,edges) -> (name, `Dict [
       ("short",`String short);
       ("count",`Int ct);
-      ("edges",`List (List.map (fun ((ename,eshort),ect) ->
-        `Dict [
+      ("edges",`List (List.map (fun ((ename,eshort),ect) -> `Dict [
         ("name",`String ename);
         ("short",`String eshort);
         ("count",`Int ect)]) edges))])) gd)

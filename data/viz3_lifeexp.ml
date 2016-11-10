@@ -61,18 +61,13 @@ end = struct
         let male_mu,female_mu = mean males, mean females in
         ((Male,male_mu,stdev male_mu males),(Female,female_mu,stdev female_mu females))
 
-  let jsonify_agedata ad =
-    `Dict [
-    ("data",
-      `List (List.map (fun (yr,(m,mmu,ms),(f,fmu,fs)) ->
-        `Dict [
+  let jsonify_agedata ad = `Dict [
+    ("data", `List (List.map (fun (yr,(m,mmu,ms),(f,fmu,fs)) -> `Dict [
         ("year",`Int yr);
-        ("male",
-          `Dict [
+        ("male", `Dict [
           ("mu",`Float mmu);
           ("stdev",`Float ms)]);
-        ("female",
-          `Dict [
+        ("female", `Dict [
           ("mu",`Float fmu);
           ("stdev",`Float fs)])]) ad))]
 
@@ -87,7 +82,7 @@ end = struct
     |~~> fname
 
   let viz3_lifeexp fname =
-    lines "raw/LifeExpectancy1950-2050.csv"
+    lines "raw/other/LifeExpectancy1950-2050.csv"
     |> List.map (Str.split (Str.regexp ","))
     |> List.tl (* remove header at top *)
     |> List.map (fun l -> (List.nth l 0, List.nth l 1, List.nth l 2)) (* grab first three cols *)

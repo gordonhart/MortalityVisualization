@@ -72,7 +72,6 @@ let nchs = {
     ([310],"Undetermined Diseases");
     ([320],"All Other Diseases");
     ([330],"Motor Vehicle Accidents");
-    (* ([340],"Other Accidental Causes"); *)
     ([350],"Suicide");
     ([360],"Homicide");
     ([340;370],"All Other External Causes")];
@@ -97,7 +96,6 @@ let nchs = {
     ([035;036],"Undetermined Diseases");
     ([037],"All Other Diseases");
     ([038],"Motor Vehicle Accidents");
-    (* ([039],"Other Accidental Causes"); *)
     ([040],"Suicide");
     ([041],"Homicide");
     ([039;042],"All Other External Causes")];

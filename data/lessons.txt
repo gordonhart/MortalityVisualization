@@ -1,0 +1,37 @@
+
+lessons learned about (somewhat) large ocaml projects:
+  - break everything into modules
+    - easier to control exports/sharing without having to reorganize all
+      of the time
+    - keeps the global namespace relatively clutter-free
+  - delegate responsibility for knowledge of input file format to the
+    function reading the data
+    - subsequent functions should not require knowledge of the outside
+      domain
+    - clean way to keep from getting confused, and keep from spreading
+      information about the data's encoding across multiple places in
+      multiple files
+  - organize the large blocks of decoder information into a single
+    record
+    - similar to an "object" (well, it is an object) that contains the
+      deconding information
+    - always know where to find the domain-specific decoding info
+  - at least for data chomping, helpers & pipes are the way to go
+  - use the internal JSON format for outputting, it will not fail in
+    stringification if it's passed a real JSON object
+    - must define the jsonification of each different data type, but
+      this is not particularly difficult and should take few lines
+      - the definition should be one of the first things done;
+        understanding the mapping from ocaml-structure to json-structure
+        will greatly help understand the desired output format from the
+        pipeline
+  - for a data manipulation project such as this, regularizing the
+    function style has helped tremendously:
+      fun : string -> unit
+      read data
+      |> ...
+      |> jsonify
+      |> json_to_string
+      |~~> fname (* write out *)
+
+
