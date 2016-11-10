@@ -73,8 +73,9 @@ end = struct
   let normalize_by_age cod_ages =
     let cts = list_from_hash 121 (fun tbl -> List.iter (fun (cod,ages) ->
         List.iter (fun (age,ct) -> inc_table tbl (fun c -> c+ct) (fun () -> ct) age) ages) cod_ages)
+      |> List.sort (fun (a1,_) (a2,_) -> a1-a2)
       |> Array.of_list in
-    let agects a = foi @@ snd @@ cts.(a) in
+    let agects a = cts.(a) |> snd |> foi in
     List.map (fun (cod,ages) -> (cod,
       List.map (fun (age,ct) -> (age, (foi ct)/.(agects age))) ages)) cod_ages
 
