@@ -75,40 +75,48 @@ end = struct
   let sort_states =
     List.map (fun (y,sl) -> y, List.sort (fun ((_,s1),_,_,_) ((_,s2),_,_,_) -> String.compare s1 s2) sl)
 
-  let jsonify_state_ages sages_list =
-      `Dict (List.map (fun (yr,sages) ->
-      (soi yr, `Dict (List.map (fun ((long,short),(mu,sigma),(leading_cod,pct),cods) ->
+  let jsonify_state_ages sages_list = `Dict [
+    ("years",`List (List.map (fun (yr,sages) -> `Dict [
+      ("year",`Int yr);
+      ("data",`Dict (List.map (fun ((long,short),(mu,sigma),(leading_cod,pct),cods) ->
         (short, `Dict [
           ("name",`String long);
-          ("state_mu",`Float mu);
-          ("state_stdev",`Float sigma);
-          ("leading_cause",`String leading_cod);
-          ("leading_cause_percent",`Float pct);
+          ("age_mu",`Float mu);
+          ("age_stdev",`Float sigma);
+          ("leading_killer",`String leading_cod);
+          ("lk_percent",`Float pct);
           ("causes", `Dict (List.map (fun (cause,cmu,csigma) ->
             (cause, `Dict [
-              ("cause_mu",`Float cmu);
-              ("cause_stdev",`Float csigma)])) cods) )])) sages))) sages_list)
+              ("mu",`Float cmu);
+              ("stdev",`Float csigma)])) cods) )])) sages)) ]) sages_list))]
 
   (* get average age, cod weights for each state for a range of years (timeseries) *)
   (* this is a beast: for a range of years, return a timeseries of the form:
-   * year: { (string-encoded 4-digit year)
-   *   state: { (keyed on state's shortform abbreviation)
-   *     name: "", (full name of state)
-   *     state_mu: 0.0, (average age of death for state in given year)
-   *     state_stdev: 0.0, (stdev on age of death)
-   *     leading_cause: "" (leading cause of death in state)
-   *     leading_cause_percent: 0.0 (percent of total deaths leading_cause is responsible for)
-   *     causes: {
-   *       cause_name: { (full name of the cause of death in the 34/9 recode)
-   *         cause_mu: 0.0 (average age at death for this cause in this year)
-   *         cause_stdev: 0.0 (stdev on that value)
+   * {
+   * years: [
+   *   {
+   *   "year": year (4-digit year)
+   *   "data": {
+   *     state: { (keyed on state's shortform abbreviation)
+   *       name: "", (full name of state)
+   *       state_mu: 0.0, (average age of death for state in given year)
+   *       state_stdev: 0.0, (stdev on age of death)
+   *       leading_cause: "" (leading cause of death in state)
+   *       leading_cause_percent: 0.0 (percent of total deaths leading_cause is responsible for)
+   *       causes: {
+   *         cause_name: { (full name of the cause of death in the 34/9 recode)
+   *           cause_mu: 0.0 (average age at death for this cause in this year)
+   *           cause_stdev: 0.0 (stdev on that value)
+   *         }
+   *         ...
    *       }
-   *       ...
-   *     }
+   *     },
+   *     ...
    *   }
+   *   },
    *   ...
+   *   ]
    * }
-   * ...
    *)
   let viz8_states fname =
     1968|..|2002

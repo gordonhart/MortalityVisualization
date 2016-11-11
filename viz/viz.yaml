@@ -20,6 +20,8 @@ cssfiles:
   - "fonts.css"
   - "viz.css"
 
+jsons:
+
 header:
   title: "STAT 3622 Visualization"
   subtitles:
