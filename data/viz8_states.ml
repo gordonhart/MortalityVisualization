@@ -29,7 +29,7 @@ end = struct
       ("South Dakota", "SD"); ("Tennessee", "TN"); ("Texas", "TX"); ("Utah", "UT"); ("Vermont", "VT");
       ("Virginia", "VA"); ("Washington", "WA"); ("West Virginia", "WV");
       ("Wisconsin", "WI"); ("Wyoming", "WY")] in
-    try codestr |> ios |> List.nth states
+    try codestr |> ios |> fun i -> List.nth states (i-1) (* data isn't zero-indexed *)
     with _ -> ("Outside of the USA or unknown", "!!")
 
   let read_age_cod_state year =
