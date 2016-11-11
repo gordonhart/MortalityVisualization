@@ -2,11 +2,11 @@
 
   <head>
     <title>STAT 3622, Gordon Hart</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway">
+    <link rel="stylesheet" href="style/fonts.css">
     <link rel="stylesheet" href="style/viz.css">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script type="text/javascript" src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
-    <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery.js"></script>
+    <script type="text/javascript" src="js/lib/cytoscape.js"></script>
+    <script type="text/javascript" src="js/lib/plotly.js"></script>
     <script type="text/javascript" src="js/viz.js"></script>
     <script type="text/javascript" src="js/mulcause.js"></script>
     <script type="text/javascript" src="js/cod.js"></script>
@@ -15,6 +15,7 @@
     <script type="text/javascript" src="js/education_ages.js"></script>
     <script type="text/javascript" src="js/danger_ages.js"></script>
     <script type="text/javascript" src="js/pmf.js"></script>
+    <script type="text/javascript" src="js/states.js"></script>
   </head>
 
   <body>
@@ -80,6 +81,9 @@
                 <p>sometimes</p>
           </div>
       </div>
+      <div id="dangerfun-viz" class="slide">
+                <div id="dangerfun" class="viz"></div>
+      </div>
       <div id="dangers" class="slide">
                 <div id="danger-ages" class="viz"></div>
             <div id="danger-overlay">
@@ -107,8 +111,17 @@
       <div id="cdf-viz" class="slide">
                 <div id="cdf" class="viz"></div>
       </div>
-      <div id="dangerfun-viz" class="slide">
-                <div id="dangerfun" class="viz"></div>
+      <div id="viz8" class="slide">
+          <div class="info">
+                <h3>Map Visualization</h3>
+                <p>something</p>
+          </div>
+      </div>
+      <div id="states-viz1" class="slide">
+                <div id="states-overall" class="viz"></div>
+      </div>
+      <div id="states-viz2" class="slide">
+                <div id="states-by-cod" class="viz"></div>
       </div>
   </body>
 

@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Playfair Display SC';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Playfair Display SC Bold'), local('PlayfairDisplaySC-Bold'), url(https://fonts.gstatic.com/s/playfairdisplaysc/v5/5ggqGkvWJU_TtW2W8cEubJ5MIzPNHtabfW1fmwMw36M.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), local('Raleway-Regular'), url(https://fonts.gstatic.com/s/raleway/v11/bIcY3_3JNqUVRAQQRNVteQ.ttf) format('truetype');
+}

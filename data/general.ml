@@ -85,7 +85,7 @@ let nchs = {
     ([020;023],"Hypertension");
     ([024],"Stroke");
     ([025;026],"Circulatory Diseases");
-    ([027],"Influenza and Pneumonias");
+    ([027],"Influenza and Pneumonia");
     ([028],"Bronchitis / COPD");
     ([029],"Digestive Tract Diseases");
     ([030],"Liver Diseases");

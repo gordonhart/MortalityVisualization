@@ -1,19 +1,24 @@
 jsfiles:
-  - "http://code.jquery.com/jquery-2.0.3.min.js"
-  - "http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"
-  - "https://cdn.plot.ly/plotly-latest.min.js"
-  - "js/viz.js"
-  - "js/mulcause.js"
-  - "js/cod.js"
-  - "js/age.js"
-  - "js/cod_ages.js"
-  - "js/education_ages.js"
-  - "js/danger_ages.js"
-  - "js/pmf.js"
+  # - "http://code.jquery.com/jquery-2.0.3.min.js"
+  # - "http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"
+  # - "https://cdn.plot.ly/plotly-latest.min.js"
+  - "lib/jquery.js"
+  - "lib/cytoscape.js"
+  - "lib/plotly.js"
+  - "viz.js"
+  - "mulcause.js"
+  - "cod.js"
+  - "age.js"
+  - "cod_ages.js"
+  - "education_ages.js"
+  - "danger_ages.js"
+  - "pmf.js"
+  - "states.js"
 
 cssfiles:
-  - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"
-  - "style/viz.css"
+  # - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"
+  - "fonts.css"
+  - "viz.css"
 
 header:
   title: "STAT 3622 Visualization"
@@ -75,6 +80,10 @@ slides:
     contents:
       - h3: "A good one"
       - p: "sometimes"
+  - id: "dangerfun-viz"
+    type: "viz"
+    contents:
+      - div: "dangerfun"
   - id: "dangers"
     type: "viz"
     contents:
@@ -104,10 +113,21 @@ slides:
     type: "viz"
     contents:
       - div: "cdf"
-  - id: "dangerfun-viz"
+  - id: "viz8"
+    type: "slide"
+    contents:
+      - h3: "Map Visualization"
+      - p: "something"
+  - id: "states-viz1"
     type: "viz"
     contents:
-      - div: "dangerfun"
+      - div: "states-overall"
+  - id: "states-viz2"
+    type: "viz"
+    contents:
+      - div: "states-by-cod"
+
+
 
 
 

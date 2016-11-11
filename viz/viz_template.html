@@ -3,10 +3,10 @@
   <head>
     <title>STAT 3622, Gordon Hart</title>
     {% for filename in data.cssfiles %}
-    <link rel="stylesheet" href="{{ filename }}">
+    <link rel="stylesheet" href="style/{{ filename }}">
     {% endfor %}
     {% for filename in data.jsfiles %}
-    <script type="text/javascript" src="{{ filename }}"></script>
+    <script type="text/javascript" src="js/{{ filename }}"></script>
     {% endfor %}
   </head>
 

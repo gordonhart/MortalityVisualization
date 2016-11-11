@@ -28,3 +28,6 @@ open Viz6;;
 #use "viz7_cod_pmf.ml";;
 open Viz7;;
 
+#use "viz8_states.ml";;
+open Viz8;;
+
