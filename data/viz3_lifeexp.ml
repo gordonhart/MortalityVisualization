@@ -28,9 +28,9 @@ end = struct
     match ios (String.sub age 0 1) with
     | 0 -> ios (String.sub age 1 2)
     | 1 -> 100 + (ios (String.sub age 1 2))
-    | 2 ->
+    (* | 2 ->
         let months = ios (String.sub age 1 2) in
-        if months = 99 then -1 else begin if months >= 6 then 1 else 0 end
+        if months = 99 then -1 else begin if months >= 6 then 1 else 0 end *)
     | 9 -> -1
     | _ -> 0
 

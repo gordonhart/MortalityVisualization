@@ -114,15 +114,13 @@ end = struct
       |> group_by_cod
       |> generate_age_counts
       |> remove_invalid_ages
-      |> pass (fun _ ->
-          printf "finished preprocessing year %d\n" y;
-          flush Pervasives.stdout))
+      |> pass (fun _ -> print_endline (sprintf "finished preprocessing year %d" y)))
     |> group_by_cause
     |> sum_years
-    |> (if ftype=Danger then normalize_by_age else normalize_counts)
+    |> (match ftype with Danger -> normalize_by_age | _ -> normalize_counts)
     |> fill_missing_years
     |> sort_counts
-    |> (match ftype with Cdf -> cdfify | Danger -> chop_centenarians | _ -> skip)
+    |> (match ftype with Cdf -> cdfify (* | Danger -> chop_centenarians *) | _ -> skip)
     |> sort_causes
     |> pmfs_to_json
     |> json_to_string

@@ -132,7 +132,7 @@ button {
   z-index: 1001;
 }
 
-#danger-overlay {
+.info-overlay {
   @extend #cyto-info;
   // display: block;
   bottom: 0;
@@ -142,7 +142,7 @@ button {
     margin: auto;
   }
 
-  .danger-navs {
+  .navs {
     display: inline-block;
     height: $info-height;
     margin-right: 100px;
@@ -151,7 +151,7 @@ button {
       color: $black;
     }
   }
-  .danger-controls {
+  .controls {
     display: inline-block;
     outline: none;
     cursor: pointer;

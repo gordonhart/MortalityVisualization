@@ -51,7 +51,7 @@ let render_danger_ages_update = () => {
   let danger_div = document.getElementById("danger-ages");
   danger_div.data = get_danger_data();
 
-  let scale_quantum = 20;
+  let scale_quantum = 10;
   let maxy = Math.ceil(data[0].y.reduce((acc,el) => (el>acc) ? el : acc) / scale_quantum) * scale_quantum;
   danger_div.layout.yaxis.range = [0,Math.max(maxy,2*scale_quantum)];
 
@@ -62,7 +62,7 @@ let render_danger_ages_update = () => {
 let curage;
 let danger_data;
 let danger_interval;
-let danger_speed = 400;
+let danger_speed = 250;
 
 let start_animation = () => {
   danger_interval = setInterval(() => {

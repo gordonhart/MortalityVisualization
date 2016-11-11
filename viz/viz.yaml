@@ -82,27 +82,27 @@ slides:
     contents:
       - h3: "A good one"
       - p: "sometimes"
-  - id: "dangerfun-viz"
-    type: "viz"
-    contents:
-      - div: "dangerfun"
   - id: "dangers"
     type: "viz"
     contents:
       - div: "danger-ages"
       - >
-        <div id="danger-overlay">
-          <div class="danger-navs">
+        <div id="danger-overlay" class="info-overlay">
+          <div class="navs">
             <button id="danger-prev">previous</button>
             <button id="danger-pause">start</button>
             <button id="danger-next">next</button>
           </div>
-          <div class="danger-controls">
+          <div class="controls">
             <span>age:</span>
             <input id="curage" type="number" value="0" />
             <button id="danger-set">set</button>
           </div>
         </div>
+  - id: "dangerfun-viz"
+    type: "viz"
+    contents:
+      - div: "dangerfun"
   - id: "viz7"
     type: "slide"
     contents:
@@ -124,6 +124,19 @@ slides:
     type: "viz"
     contents:
       - div: "states-overall"
+      - >
+        <div id="states-overlay" class="info-overlay">
+          <div class="navs">
+            <button id="states-prev">previous</button>
+            <button id="states-pause">start</button>
+            <button id="states-next">next</button>
+          </div>
+          <div class="controls">
+            <span>year:</span>
+            <input id="curyear" type="number" value="1968" />
+            <button id="states-set">set</button>
+          </div>
+        </div>
   - id: "states-viz2"
     type: "viz"
     contents:

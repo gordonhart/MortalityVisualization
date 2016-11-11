@@ -102,12 +102,15 @@ $(() => {
     },{
       forward: () => {
         $("#danger-overlay").hide();
-        scroll_to("viz7")
+        scroll_to("dangerfun")
       },
       backward: () => {
         $("#danger-overlay").show();
         scroll_to("danger-ages");
       }
+    },{
+      forward: () => scroll_to("viz7"),
+      backward: () => scroll_to("danger-ages")
     },{
       forward: () => scroll_to("pmf"),
       backward: () => scroll_to("viz7")
@@ -153,6 +156,27 @@ $(() => {
     },{
       forward: () => scroll_to("pmf"),
       backward: () => scroll_to("cdf")
+    },{
+      forward: () => scroll_to("viz8"),
+      backward: () => scroll_to("pmf")
+    },{
+      forward: () => {
+        $("#states-overlay").show();
+        scroll_to("states-overall");
+      },
+      backward: () => {
+        $("#states-overlay").hide();
+        scroll_to("viz8");
+      }
+    },{
+      forward: () => {
+        $("#states-overlay").hide();
+        scroll_to("states-by-cod")
+      },
+      backward: () => {
+        $("#states-overlay").show();
+        scroll_to("states-overall");
+      }
     },{ // terminator
       forward: () => {},
       backward: () => {}

@@ -86,7 +86,7 @@ button {
   z-index: 999;
   text-align: left; }
 
-#cyto-info, #danger-overlay {
+#cyto-info, .info-overlay {
   position: fixed;
   font-family: "Raleway", Arial, sans;
   color: #FAFAFA;
@@ -99,27 +99,27 @@ button {
   display: none;
   z-index: 1001; }
 
-#danger-overlay {
+.info-overlay {
   bottom: 0;
   top: auto; }
-  #danger-overlay button {
+  .info-overlay button {
     margin: auto; }
-  #danger-overlay .danger-navs {
+  .info-overlay .navs {
     display: inline-block;
     height: 60px;
     margin-right: 100px; }
-    #danger-overlay .danger-navs button {
+    .info-overlay .navs button {
       background: #FAFAFA;
       color: #222222; }
-  #danger-overlay .danger-controls {
+  .info-overlay .controls {
     display: inline-block;
     outline: none;
     cursor: pointer; }
-    #danger-overlay .danger-controls span {
+    .info-overlay .controls span {
       font-size: 100%;
       font-weight: 600;
       color: #FAFAFA; }
-    #danger-overlay .danger-controls input {
+    .info-overlay .controls input {
       font-size: 100%;
       font-weight: 600;
       width: 100px;
@@ -129,7 +129,7 @@ button {
       outline: none;
       color: #FAFAFA;
       border: 0px; }
-    #danger-overlay .danger-controls button {
+    .info-overlay .controls button {
       background: #222222;
       color: #FAFAFA; }
 
