@@ -51,7 +51,7 @@ end = struct
         ("mean-age",`Float amean)]) (gen_means eal)))]
 
   let viz5_education fname =
-    lines "raw/MORT14"
+    ~~||> "raw/MORT14"
     |> maptr (fun l -> (String.sub l start_edu len_edu, String.sub l start_age len_age |> icd10_age))
     |> List.fold_left (fun acc (e,age) -> if age<0 || e=" " then acc
         else (e |> ios |> edu_decode, age)::acc) [] (* remove negative ages, blank edu sections *)

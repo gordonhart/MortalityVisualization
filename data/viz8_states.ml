@@ -35,7 +35,7 @@ end = struct
   let read_age_cod_state year =
     String.sub (soi year) 2 2
     |> sprintf "raw/MORT%s"
-    |> lines
+    |> (~~||>)
     |> fun ls -> (match year with
         | y when y >= 1968 && y <= 1978 ->
             (ls,icd8_state_start,icd8_age_start,icd8_cod_start,icd8_cod_len,nchs.decode nchs.recode34)

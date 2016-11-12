@@ -1,0 +1,233 @@
+commit 3aa85934472332fa62fe42652df7bc02e8292ac8
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Sat Nov 12 03:52:08 2016 +0800
+
+    More map updates
+
+commit 727683742b4e52566e41e7e0848086da768ba067
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Sat Nov 12 00:00:57 2016 +0800
+
+    Map tweaking
+
+commit 56cffac03aef9fb2af37a146e70aa12d9eabebf8
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Fri Nov 11 23:29:46 2016 +0800
+
+    File in wrong place
+
+commit 4f6b83d356ded05e2488f5a0fd7eaa24bd6e3be1
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Fri Nov 11 23:28:37 2016 +0800
+
+    Clean map data
+
+commit 49c30c45421e2dd7c935c99e763ca20b25402baf
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Fri Nov 11 22:50:55 2016 +0800
+
+    State visualization
+
+commit 48565aca8388f99b369771af7c6e2e1b9903023a
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Thu Nov 10 20:29:47 2016 +0800
+
+    Death function tweaks
+
+commit ff87a2dfea5e848d19a1a8e3f59b5f4ce2d30182
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Thu Nov 10 18:02:16 2016 +0800
+
+    Full dangerfun data
+
+commit a4479157e3eeb876c173efd77ada6a4ce33d2b1e
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Thu Nov 10 17:35:29 2016 +0800
+
+    Danger functions update
+
+commit 9dddb1ba99211d5586fe7366057da051f8e768b4
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Thu Nov 10 17:25:13 2016 +0800
+
+    Danger functions
+
+commit c8f80528a1cf74b18fdc2b2ab7696ef76ebc27f8
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Thu Nov 10 16:33:48 2016 +0800
+
+    Better CDF data, more cleanup
+
+commit 44a1c0459e2250d8270ee0709e390ec0599aa840
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Thu Nov 10 15:52:18 2016 +0800
+
+    Modularize, add CDF viz
+
+commit 7aa9ff52c281404edb21c9b9065a77a1b74e4350
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Thu Nov 10 04:27:20 2016 +0800
+
+    PMF viz, codebase is starting to look quite nice
+
+commit d9f15ee48ced4a00449a1f6374afbd77cc43240d
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Wed Nov 9 20:33:00 2016 +0800
+
+    Danger interactivity
+
+commit 848c2b698f88bea364c90df4ec8a9714f80fb277
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Wed Nov 9 18:46:08 2016 +0800
+
+    Continue danger animation
+
+commit 29f0bb82e876fc0344f3e8837b04e4bd6249b434
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Tue Nov 8 23:51:11 2016 +0800
+
+    Tweak danger by age format
+
+commit f26d4c587bfa4da6a6587d81618f982f6f726b59
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Tue Nov 8 23:33:52 2016 +0800
+
+    Danger by ages
+
+commit 73d044b4d5bed8d01451fff0ecfcd142041a10c4
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Tue Nov 8 21:53:48 2016 +0800
+
+    Fix education data
+
+commit e650591ae4e0d1ccd76899f24d8d29cb963d3048
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Tue Nov 8 18:24:59 2016 +0800
+
+    Lots of cleanup
+
+commit 6067c41388024d59a7a8b7e14e7373577659a962
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Tue Nov 8 17:09:14 2016 +0800
+
+    Education level viz
+
+commit 901af3895e7549a6fb60d884ba7ff0071b69cd59
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Tue Nov 8 16:41:18 2016 +0800
+
+    Age of death by education level
+
+commit 026463b50298f5d345605fe4edd6a30d86c6d92a
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Nov 7 19:47:34 2016 +0800
+
+    Age of death vs cause, life expectancy, json printer
+
+commit 11c038d70fcd63e2160d70ba2513a521363973f2
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Nov 7 14:54:41 2016 +0800
+
+    Start cod by year code, fix year indexing for cod
+
+commit 5fd7f9649f69f93562c287bf95688a740e426afe
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Nov 7 14:35:19 2016 +0800
+
+    Fix normalized data (Alzheimer's apostrophe was messing it up
+
+commit 5f2348b04a66ca19a3f359563250f0471d103ee4
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Nov 7 14:30:48 2016 +0800
+
+    No more denormalized cod, new cod data
+
+commit 69bb1d9e538524cbb823821714d50f5dbb685fa5
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Nov 7 13:49:20 2016 +0800
+
+    Age at death timeseries
+
+commit 9e9344558c7ce69656f1f846bdad282993e77ce8
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Thu Nov 3 17:43:45 2016 +0800
+
+    Fix normalized data
+
+commit a666086d9d41094c858e6e09d2960e6a88535f38
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Thu Nov 3 17:27:33 2016 +0800
+
+    Reorganize, normalize timeseries
+
+commit 068633204f551833da61d153e7598a11dad7ed30
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Thu Nov 3 12:54:33 2016 +0800
+
+    Slideshow system
+
+commit 1b2babd3fef59ccf287f5e2192661a93368b33a9
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Oct 31 20:24:24 2016 +0800
+
+    Timeseries up to '98
+
+commit 9d98c15fcee4993f0bde3887eccdd2f6cc77b4bc
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Oct 31 19:49:54 2016 +0800
+
+    Data up to 1991, updated timeseries
+
+commit 422e3ecdca97bd0aa00786eb077366e0c6ebda94
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Oct 31 18:44:52 2016 +0800
+
+    Tons more data, found full 2014 set
+
+commit 2efb49e93f7f8dc61e881b92083951236248b04c
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Oct 31 17:02:51 2016 +0800
+
+    1968-1978 cause of death timeseries
+
+commit 6a903816aa4cb6f047b48eeab6aa8a555df36140
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Oct 31 13:55:06 2016 +0800
+
+    Clean up 2014 multiple_causes
+
+commit fa4ffd8d56d768e8d228a1fd81c8b082d05ba16b
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Oct 31 13:42:08 2016 +0800
+
+    Remove large 1968 dataset
+    
+    
+    Former-commit-id: 515d847a1f77cd040f13824ba812923e21f78632
+
+commit c3be9e70d4f6685b3f850b2174bbf954e56c31cc
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Oct 31 13:39:32 2016 +0800
+
+    Tweak data, graph viz
+    
+    
+    Former-commit-id: a267d584dbd9bca2e1ebba67931bb7dc341c8021
+
+commit 45245d0f68b75f33bfd93fac493c637b70487adb
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Mon Oct 31 01:34:34 2016 +0800
+
+    Update data to include missing values, build frontend
+
+commit 42a7468106796b7da170748dc62cac25580964cd
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Sun Oct 30 20:45:33 2016 +0800
+
+    Update dataset
+
+commit 1436fc9f08dca4a3fd775de80e9e94abaf3759eb
+Author: gordonhart <gordon.hart2@gmail.com>
+Date:   Sun Oct 30 18:59:14 2016 +0800
+
+    initialize

@@ -1,4 +1,5 @@
 
+#require "yojson";;
 
 (* helper to fold a hashtable into a (key,value) pair list *)
 let loh h = Hashtbl.fold (fun key value acc -> (key,value) :: acc) h [];;
@@ -11,28 +12,34 @@ let hol keymap l =
   tbl;;
 
 (* reusable increment function *)
-let inc_table table incfun base key =
-  if Hashtbl.mem table key then Hashtbl.replace table key (incfun (Hashtbl.find table key))
-  else Hashtbl.add table key (base ());;
+let inc_table table hitfun missfun key =
+  if Hashtbl.mem table key then Hashtbl.replace table key (hitfun (Hashtbl.find table key))
+  else Hashtbl.add table key (missfun ());;
 
 (* reusable function to create temporary hashtable and return list *)
 let list_from_hash size populatefun =
-  Hashtbl.create size
-  |> pass populatefun
-  |> loh;;
+  Hashtbl.create size |> pass populatefun |> loh;;
 
 (* read a file and split by linesep *)
-let lines fname =
+(* let lines fname = replaced by global ~~||> (in io.ml)
   ~~|> fname
-  |> Str.split (Str.regexp "\n");;
+  |> Str.split (Str.regexp "\n");; *)
 
 (* tail recursive map to prevent overflow *)
-let maptr f l =
+let maptr f l = (* note that this reverses the list *)
   let rec m acc = function
     | [] -> acc
     | h::t -> m ((f h) :: acc) t in
   m [] l;;
 
+(* curryable substring *)
+let sub_string (start,len) str =
+  String.sub str start len;;
+
+let read_year year = soi year
+  |> sub_string (2,2)
+  |> sprintf "raw/MORT%s"
+  |> (~~||>);;
 
 (*
  * important mapping data
@@ -126,4 +133,13 @@ let nchs = {
     List.fold_left (fun acc (cl,name) -> if List.exists (fun c -> c=code) cl then name else acc)
       (sprintf "Unable to Find code %d" code) code_map
 };;
+
+
+let commit_dates fname =
+  List.fold_left (fun acc l ->
+    try if (String.sub l 0 4) = "Date" then (String.sub l 8 (String.length l - 8)) :: acc else acc
+    with _ -> acc) [] (~~||> fname);;
+
+
+
 

@@ -30,10 +30,7 @@ end = struct
   let viz4_icd10b = make_indexer (69,4) (159,2) icd10_age
 
   (* read and map a year's data to (cause,[ages]) list *)
-  let read_yearly_cod_ages causefun indexer year =
-    String.sub (soi year) 2 2
-    |> sprintf "raw/MORT%s"
-    |> lines
+  let read_yearly_cod_ages causefun indexer year = read_year year
     |> maptr (fun l -> (
         Decode (String.sub l (indexer Age Start) (indexer Age Len))
           |> indexer Decoder,
@@ -52,9 +49,9 @@ end = struct
 
   let viz4_cod_by_age fname =
     List.map (read_yearly_cod_ages viz4_icd8_9_causes viz4_icd8) (1968|..|1978)
-    |> fun y68_78 -> y68_78 @ (List.map (read_yearly_cod_ages viz4_icd8_9_causes viz4_icd9) (1979|..|1998))
-    |> fun y68_98 -> y68_98 @ (List.map (read_yearly_cod_ages viz4_icd10_causes viz4_icd10a) (1999|..|2002))
-    |> fun y68_02 -> y68_02 @ (List.map (read_yearly_cod_ages viz4_icd10_causes viz4_icd10b) (2003|..|2014))
+    |> grow_list (List.map (read_yearly_cod_ages viz4_icd8_9_causes viz4_icd9) (1979|..|1998))
+    |> grow_list (List.map (read_yearly_cod_ages viz4_icd10_causes viz4_icd10a) (1999|..|2002))
+    |> grow_list (List.map (read_yearly_cod_ages viz4_icd10_causes viz4_icd10b) (2003|..|2014))
     |> fun yearlist -> list_from_hash nchs.length
         (fun tbl -> List.iteri (fun i causelist ->
           List.iter (fun (cause,mu,stdev) -> inc_table tbl (fun mus -> (1968 + i,mu,stdev) :: mus)

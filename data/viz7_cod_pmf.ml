@@ -37,7 +37,7 @@ end = struct
     let range (lo,hi) n = n>=lo && n <= hi in
     let get (ages,agel,agef) (cods,codl,codf) =
       maptr (fun l -> (String.sub l ages agel |> agef, String.sub l cods codl |> ios |> codf)) in
-    let yr = String.sub (soi year) 2 2 |> sprintf "raw/MORT%s" |> lines in
+    let yr = String.sub (soi year) 2 2 |> sprintf "raw/MORT%s" |> (~~||>) in
     yr |> match year with
     | y when range (1968,1978) y -> get (38,3,icd8_9_age) (74,3,nchs.decode nchs.recode34)
     | y when range (1979,1998) y -> get (63,3,icd8_9_age) (156,3,nchs.decode nchs.recode34)

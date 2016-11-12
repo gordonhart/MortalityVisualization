@@ -1,6 +1,6 @@
 
 
-let render_age = (age_data,lifeexp_data) => {
+let render_age = (age_data,lifeexp_data,marriage_data) => {
   let males = {
     type: "scatter",
     mode: "lines",
@@ -42,6 +42,38 @@ let render_age = (age_data,lifeexp_data) => {
     f_lifeexp.y.push(thisyear.female);
   }
 
+  let marriages = {
+    male: {
+      Single: $.extend(true,{},males),
+      Divorced: $.extend(true,{},males),
+      Widowed: $.extend(true,{},males),
+      Married: $.extend(true,{},males)
+    },
+    female: {
+      Single: $.extend(true,{},males),
+      Divorced: $.extend(true,{},males),
+      Widowed: $.extend(true,{},males),
+      Married: $.extend(true,{},males)
+    }
+  };
+  for(let key in marriages.male) {
+    marriages.male[key].name = key + " Male Mean Age at Death";
+    marriages.female[key].name = key + " Female Mean Age at Death";
+  }
+  for(let year in marriage_data) {
+    for(let gender in marriage_data[year]) {
+      for(let key in marriage_data[year][gender]) {
+        marriages[gender][key].x.push(marriage_data[year][gender][key]);
+      }
+    }
+  }
+
+  let traces = [males,females,m_lifeexp,f_lifeexp];
+  for(let key in marriages.male) {
+    traces.push(marriages.male[key]);
+    traces.push(marriages.female[key]);
+  }
+
   let layout = {
     title: "Mean Age at Death by Gender over Time",
     yaxis: {
@@ -60,15 +92,21 @@ let render_age = (age_data,lifeexp_data) => {
   };
 
   let chart = document.getElementById("ages");
-  Plotly.newPlot(chart, [males,females,m_lifeexp,f_lifeexp], layout, {showLink:false, displayModeBar:false});
+  Plotly.newPlot(chart, traces, layout, {showLink:false, displayModeBar:false});
 };
 
 $(() => {
   let age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/ages_68-14.json?token=AJM69voVzzY2uioWADBk0m0F1YwMK3QIks5YKVB6wA%3D%3D";
   let lifeexp_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/lifeexp_1965-2014.json?token=AJM69rA7UsgANr53UyQFDf1xZKghA2YRks5YLYGQwA%3D%3D";
+  let marriage_json = "";
   $.get(age_json, (adata) => {
     $.get(lifeexp_json, (ledata) => {
-      render_age(JSON.parse(adata),JSON.parse(ledata));
+      $.get(marriage_json, (mdata) => {
+        render_age(
+          JSON.parse(adata),
+          JSON.parse(ledata),
+          JSON.parse(mdata));
+      });
     });
   });
 });

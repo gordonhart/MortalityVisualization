@@ -39,13 +39,7 @@ end = struct
   (* read the linedata for years in the range, data in file "MORT__"
    * map to a list of year, [causes with counts] pairs*)
   let read_yearly_causes causefun range =
-    List.map (fun year ->
-      String.sub (soi year) 2 2
-      |> sprintf "raw/MORT%s"
-      |> lines
-      |> causefun
-      |> fun causes -> (year,causes)
-    ) range
+    List.map (fun year -> read_year year |> causefun |> pair year) range
 
   (* normalize raw numbers to percentage of total deaths in a given year *)
   let normalize_yearly_causes yearly_causes =
@@ -74,9 +68,9 @@ end = struct
   (* generate and save the json file for timeseries cause of death data *)
   let viz2_cod_by_year (* timeseries_1968_1998 *) fname =
     read_yearly_causes get_icd8_causes (1968|..|1978) (* get first year set data (ICD8) *)
-    |> fun y68_78 -> y68_78 @ (read_yearly_causes get_icd9_causes (1979|..|1998)) (* ICD9 set data *)
-    |> fun y68_98 -> y68_98 @ (read_yearly_causes get_icd10a_causes (1999|..|2002)) (* yes, ICD10 is encoded two different ways *)
-    |> fun y68_02 -> y68_02 @ (read_yearly_causes get_icd10b_causes (2003|..|2014))
+    |> grow_list (read_yearly_causes get_icd9_causes (1979|..|1998)) (* ICD9 set data *)
+    |> grow_list (read_yearly_causes get_icd10a_causes (1999|..|2002)) (* yes, ICD10 is encoded two different ways *)
+    |> grow_list (read_yearly_causes get_icd10b_causes (2003|..|2014))
     |> normalize_yearly_causes
     |> yearly_causes_to_timeseries (* map to timeseries data *)
     |> timeseries_to_json (* transform to internal json format *)

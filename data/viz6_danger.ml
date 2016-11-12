@@ -48,7 +48,7 @@ end = struct
         ("percent",`Float pct)]) causelist))]) dl))]
 
   let viz6_dangers fname =
-    lines "raw/MORT14" (* read 2014 mortality data *)
+    ~~||> "raw/MORT14" (* read 2014 mortality data *)
     |> get_age_and_cod (* map to (age, cause of death) pairs *)
     |> group_by_ages (* group data into (age, [causes]) list *)
     |> group_causes (* group data in each year to (age,[(cause,count)]) pairs *)

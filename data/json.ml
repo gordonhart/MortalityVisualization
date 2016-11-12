@@ -40,4 +40,13 @@ let json_to_string j =
   j |> jsonify |> chop_last;;
 
 
+(* example for reading alzheimer's data back from file *)
+let alz () =
+  Yojson.Basic.from_file "json/pmf_1968-2014.json"
+  |> fun j -> (match j with `Assoc l -> List.filter (fun (f,_) -> f="Alzheimer's") l | _ -> failwith "?")
+  |> fun a -> List.nth a 0
+  |> snd
+  |> fun a -> (match a with `List l -> l | _ -> failwith "?")
+  |> List.map (function `Assoc a -> List.nth a 0, List.nth a 1 | _ -> failwith "?")
+  |> List.map (function ((_,`Int x),(_,`Float y)) -> x,y | _ -> failwith "?");;
 

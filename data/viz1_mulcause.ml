@@ -94,7 +94,7 @@ end = struct
         ("count",`Int ect)]) edges))])) gd)
 
   let viz1_mulcause fname =
-    lines "raw/MORT14" (* read raw text lines from file MORT14 *)
+    ~~||> "raw/MORT14" (* read raw text lines from file MORT14 *)
     |> lines_to_mulcause (* map lines to cause, [preexisting] pairs *)
     |> mulcause_to_humanized (* map ICD codes to humanized names *)
     |> humanized_to_graph (* transform to graph structure by summing occurrences *)
