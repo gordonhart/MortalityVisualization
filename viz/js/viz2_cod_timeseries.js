@@ -2,10 +2,9 @@
 // 1968-78 Cause of Death Timeseries
 
 // var data;
-var data_normalized;
 let render_timeseries = (/* normalized */) => {
   let traces = [];
-  let thedata = data_normalized; // normalized ? data_normalized : data;
+  let thedata = viz2_timeseries; // normalized ? viz2_timeseries : data;
 
   for(let key in thedata) {
     let thiscause = thedata[key];
@@ -34,7 +33,8 @@ let render_timeseries = (/* normalized */) => {
     },
     xaxis: {
       showgrid: false,
-      fixedaxis: true
+      fixedaxis: true,
+      rangeslider: {}
     },
     paper_bgcolor: "rgba(0,0,0,0)",
     plot_bgcolor: "rgba(0,0,0,0)",
@@ -71,10 +71,13 @@ let filter_chart = (chart_div,names,inverse) => {
 };
 
 $(() => {
+  /*
   let ts_normalized = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cod_normalized_68-14.json?token=AJM69tZWqqbOUc062kkor3Bb8GiH25fjks5YKV_AwA%3D%3D";
   $.get(ts_normalized, (strdata) => {
-    data_normalized = JSON.parse(strdata);
+    viz2_timeseries = JSON.parse(strdata);
     render_timeseries();
-  });
+    });
+    */
+  render_timeseries();
 });
 

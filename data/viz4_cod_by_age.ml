@@ -41,6 +41,15 @@ end = struct
         (fun tbl -> List.iter (fun (a,cod) -> inc_table tbl (fun ages -> a::ages) (fun () -> [a]) cod) items)
     |> List.map (fun (cod,ages) -> mean ages |> fun mu -> (cod,mu,stdev mu ages))
 
+  let group_by_cause yearlist =
+    list_from_hash nchs.length (fun tbl ->
+      List.iteri (fun i causelist ->
+        List.iter (fun (cause,mu,stdev) -> inc_table tbl
+          (fun mus -> (1968 + i,mu,stdev) :: mus)
+          (fun () -> [(1968 + i,mu,stdev)]) cause) causelist) yearlist)
+
+  let sort_by_cause = List.sort (fun (c1,_) (c2,_) -> String.compare c1 c2)
+
   (* transform list of (cause,[(year,mu,sigma)]) pairs to internal json format *)
   let jsonify_cod_age_list cal =
     `Dict (List.map (fun (cause,yearlist) -> (cause,
@@ -52,10 +61,8 @@ end = struct
     |> grow_list (List.map (read_yearly_cod_ages viz4_icd8_9_causes viz4_icd9) (1979|..|1998))
     |> grow_list (List.map (read_yearly_cod_ages viz4_icd10_causes viz4_icd10a) (1999|..|2002))
     |> grow_list (List.map (read_yearly_cod_ages viz4_icd10_causes viz4_icd10b) (2003|..|2014))
-    |> fun yearlist -> list_from_hash nchs.length
-        (fun tbl -> List.iteri (fun i causelist ->
-          List.iter (fun (cause,mu,stdev) -> inc_table tbl (fun mus -> (1968 + i,mu,stdev) :: mus)
-            (fun () -> [(1968 + i,mu,stdev)]) cause) causelist) yearlist)
+    |> group_by_cause
+    |> sort_by_cause
     |> jsonify_cod_age_list
     |> json_to_string
     |~~> fname

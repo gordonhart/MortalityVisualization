@@ -160,8 +160,9 @@ let hide_weak_nodes = (threshold) => {
 let show_all_nodes = () => { cyto.nodes().show() };
 
 $(() => {
-  let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/multiple_causes_2014_full.json?token=AJM69iht9Od6s_YsvDjCevX7do92wpg4ks5YKVDpwA%3D%3D";
+  /* let graph_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/multiple_causes_2014_full.json?token=AJM69iht9Od6s_YsvDjCevX7do92wpg4ks5YKVDpwA%3D%3D";
   $.get(graph_json, (data) => {
     render_graph(JSON.parse(data));
-  });
+    }); */
+ render_graph(viz1_mulcause);
 });

@@ -65,10 +65,13 @@ let render_edu_ages = (edu_age_data) => {
 };
 
 $(() => {
+  /*
   let edu_age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/education_ages_2014.json?token=AJM69okwf6ZjFJ7c0CU9PTSdfN-q8q-iks5YKxP4wA%3D%3D";
   $.get(edu_age_json, (eadata) => {
     render_edu_ages(JSON.parse(eadata));
   });
+  */
+  render_edu_ages(viz5_education_ages);
 });
 
 

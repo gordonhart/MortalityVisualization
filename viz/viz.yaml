@@ -6,14 +6,17 @@ jsfiles:
   - "lib/cytoscape.js"
   - "lib/plotly.js"
   - "viz.js"
-  - "mulcause.js"
-  - "cod.js"
-  - "age.js"
-  - "cod_ages.js"
-  - "education_ages.js"
-  - "danger_ages.js"
-  - "pmf.js"
-  - "states.js"
+  - "viz1_mulcause.js"
+  - "viz2_cod_timeseries.js"
+  - "viz3_age.js"
+  - "viz4_cod_ages.js"
+  - "viz5_education.js"
+  - "viz6_danger_ages.js"
+  - "viz7_pdf.js"
+  - "viz8_states.js"
+
+jsonfiles:
+  - "viz.js" # all json in one file
 
 cssfiles:
   # - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"
@@ -23,19 +26,45 @@ cssfiles:
 jsons:
 
 header:
-  title: "STAT 3622 Visualization"
+  title: "Mortality in the United States: Past and Present"
   subtitles:
     - "Gordon Hart"
     - 3035338963
     - "Fall 2016"
+  images:
+    - "images/intro.png"
 
 slides:
+  - id: "data-processing"
+    type: "slide"
+    contents:
+      - h3: "Data Processing Pipeline"
+      - p: "Over <code>41 gigabytes</code> of raw text data were analyzed for the purposes of this project. The functional programming language OCaml was used due to its highly expressive syntax and incredible speed and power."
+      - >
+        <img src="images/pipeline.png" />
+      - p: "That's over <b>100 million</b> (102,696,714 to be exact) deaths analyzed&mdash;records exist for every person who officially died in the United States from 1968 up to 2014."
+      - p: "Many thanks to the US Center of Disease Control and Prevention (CDC) for this fantastic dataset."
+  - id: "data-processing-2"
+    type: "slide"
+    contents:
+      - p: "For each visualization, the data was sytematically read, crunched, reshaped, and saved to the disk as JSON files which directly translate to the data plotted using the javascript libraries <code>Cytoscape.js</code> and <code>Plotly.js</code>."
+      - p: "An example pipeline is as follows:"
+      - >
+        <img src="images/example_pipeline.png" />
+      - p: "The data is first read into a list. This list is then passed through transformation functions that sequentially condense and extract the desired data for plotting."
+      - p: "After the transformations are complete, the list is rendered as JSON and saved out, where it is retrieved at a later time by the frontend scripts that render the visualizations."
+      - p: "Depending on how much data was used for any given visualization, processing took anywhere from 30 seconds to roughly 15 minutes."
+  - id: "data-processing-3"
+    type: "slide"
+    contents:
+      - h3: "without further ado..."
   - id: "viz1"
     type: "slide"
     contents:
       - h3: "Cause of Death with Pre-Existing Conditions"
-      - p: "In the given dataset, more than 30,000 deaths in 2014 in the United States are recorded. The deaths are given with their primary cause of death and up to 20 pre-existing conditions that the patient is recorded as suffering from."
-      - p: "The graph below..."
+      - p: "The data provided by the CDC contains <i>multiple cause of death</i> records. Each death is recorded with up to 20 pre-existing conditions that may have led to the subject's ultimate demise."
+      - p: "In the visualization below, these connections are visualized in a graph. Here <b>nodes</b> represent primary causes of death, and <b>edges</b> represent any pre-existing conditions listed for each subject."
+      - p: "The weight of nodes and edges corresponds to their frequency of occurrence in the 2014 dataset."
   - id: "cod-graph"
     type: "viz"
     contents:
@@ -45,7 +74,8 @@ slides:
     type: "slide"
     contents:
       - h3: "Evolution of Cause of Death over Time"
-      - p: "something something"
+      - p: "As medical technology advances and our understanding of biology increases, the effective danger of different maladies waxes and wanes."
+      - p: "The following visualization demonstrates this effect. From 1968 to 2014, each of the ~20 causes of death (as defined by the CDC) is shown with the total percentage of deaths that it is responsible for in each year."
   - id: "cod-timeseries"
     type: "viz"
     contents:
@@ -53,8 +83,10 @@ slides:
   - id: "viz3"
     type: "slide"
     contents:
-      - h3: "Third viz"
-      - p: "something else"
+      - h3: "Age at Death"
+      - p: "We all know that life expectancy has increased more-or-less constantly over the past century, but how exactly has it progressed?"
+      - p: "<i>Mean age at death</i> and <i>life expectancy at birth</i> are not the same statistic. How do they differ?"
+      - p: "Moreso, what effects do relationship statuses have on age at death?"
   - id: "age-timeseries"
     type: "viz"
     contents:
@@ -62,8 +94,9 @@ slides:
   - id: "viz4"
     type: "slide"
     contents:
-      - h3: "Fourth viz"
-      - p: "yada yada"
+      - h3: "Mean Age at Death, by Disease Type, by Year"
+      - p: "What is the mean age of those killed by a certain ailment?"
+      - p: "How has medical technology influenced this characteristic since 1968?"
   - id: "cod-by-age"
     type: "viz"
     contents:
@@ -71,8 +104,10 @@ slides:
   - id: "viz5"
     type: "slide"
     contents:
-      - h3: "Fifth viz"
-      - p: "gotta get to this content sooner or later"
+      - h3: "Education and Age at Death"
+      - p: "There's a general consensus that the more educated one is, the longer they are likely to live."
+      - p: "This is influenced by a number of factors&mdash;for example, a highly educated individual is less likely to smoke than a high-school dropout."
+      - p: "Is this a misconception?"
   - id: "edu-by-age"
     type: "viz"
     contents:
@@ -80,8 +115,9 @@ slides:
   - id: "viz6"
     type: "slide"
     contents:
-      - h3: "A good one"
-      - p: "sometimes"
+      - h3: "Danger of Diseases by Age"
+      - p: "When is one likely to be killed by a given cause?"
+      - p: "Are different age groups in danger from different reasons? i.e. What kills teenagers? How about the elderly?"
   - id: "dangers"
     type: "viz"
     contents:
@@ -106,11 +142,15 @@ slides:
   - id: "viz7"
     type: "slide"
     contents:
-      - h3: "Final Viz"
-  - id: "pmf-viz"
+      - h3: "Modeling Causes of Death as Continuous Random Variables"
+      - p: "Time for a little statistical fun."
+      - p: "The following visualizations compiled all 100+ million death records into <i>Probability Density Functions</i> and their corresponding <i>Cumulative Distribution Functions</i>."
+      - p: "An example query that could be andwered by these models is: <i>If I died from cancer, how probable is it that I was between 20 and 30 years old?</i>"
+      - note: "Though the data is given in discrete intervals (by intergral age), the PDF and CDF are modeled as continuous random variables."
+  - id: "pdf-viz"
     type: "viz"
     contents:
-      - div: "pmf"
+      - div: "pdf"
   - id: "cdf-viz"
     type: "viz"
     contents:
@@ -118,8 +158,11 @@ slides:
   - id: "viz8"
     type: "slide"
     contents:
-      - h3: "Map Visualization"
-      - p: "something"
+      - h3: "Age at Death by Geospatial Location"
+      - p: "The US is comprised of a collection of 50 states, each of which has a unique culture and history."
+      - p: "As such, people die at different ages from different diseases in different places."
+      - p: "For example, Alaska is the 'final frontier', the last salvation for those longing for the wild west. They die young, usually."
+      - note: "Unfortunately the CDC stopped encoding location data for deaths in 2002."
   - id: "states-viz1"
     type: "viz"
     contents:
@@ -135,12 +178,19 @@ slides:
             <span>year:</span>
             <input id="curyear" type="number" value="1968" />
             <button id="states-set">set</button>
+            <select id="curcause">
+              <option value=""></option>
+            </select>
           </div>
         </div>
   - id: "states-viz2"
     type: "viz"
     contents:
       - div: "states-by-cod"
+  - id: "end"
+    type: "slide"
+    contents:
+      - h3: "thanks for watching"
 
 
 

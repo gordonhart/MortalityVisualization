@@ -39,7 +39,10 @@ end = struct
   (* read the linedata for years in the range, data in file "MORT__"
    * map to a list of year, [causes with counts] pairs*)
   let read_yearly_causes causefun range =
-    List.map (fun year -> read_year year |> causefun |> pair year) range
+    List.map (fun year -> read_year year
+      |> causefun
+      |> pair year
+      |> pass (fun _ -> print_endline (sprintf "finished processing %d" year))) range
 
   (* normalize raw numbers to percentage of total deaths in a given year *)
   let normalize_yearly_causes yearly_causes =
@@ -51,28 +54,27 @@ end = struct
    * 1968-1978 format. return a list of causes with yearly pairs:
    *   (cause, [(19__,count);...]);... *)
   let yearly_causes_to_timeseries yearly_cause_data =
-    list_from_hash nchs.length
-      (fun tbl -> List.iter (fun (year,data) ->
-        List.iter (fun (cause,count) ->
-          inc_table tbl
-            (fun yearct -> yearct @ [(year,count)])
-            (fun () -> [(year,count)]) cause
-        ) data
-      ) yearly_cause_data)
+    list_from_hash nchs.length (fun tbl ->
+      List.iter (fun (year,data) ->
+        List.iter (fun (cause,count) -> inc_table tbl
+          (fun yearct -> yearct @ [(year,count)])
+          (fun () -> [(year,count)]) cause) data) yearly_cause_data)
 
+  let sort_by_cause = List.sort (fun (c1,_) (c2,_) -> String.compare c1 c2)
 
   let timeseries_to_json ts =
     `Dict (List.map (fun (cause,years) ->
       (cause, `List (List.map (fun (yr,pct) -> `List [`Int yr; `Float pct]) years))) ts)
 
   (* generate and save the json file for timeseries cause of death data *)
-  let viz2_cod_by_year (* timeseries_1968_1998 *) fname =
+  let viz2_cod_by_year fname =
     read_yearly_causes get_icd8_causes (1968|..|1978) (* get first year set data (ICD8) *)
     |> grow_list (read_yearly_causes get_icd9_causes (1979|..|1998)) (* ICD9 set data *)
     |> grow_list (read_yearly_causes get_icd10a_causes (1999|..|2002)) (* yes, ICD10 is encoded two different ways *)
     |> grow_list (read_yearly_causes get_icd10b_causes (2003|..|2014))
     |> normalize_yearly_causes
     |> yearly_causes_to_timeseries (* map to timeseries data *)
+    |> sort_by_cause
     |> timeseries_to_json (* transform to internal json format *)
     |> json_to_string
     |~~> fname

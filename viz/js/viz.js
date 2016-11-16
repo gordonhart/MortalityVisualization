@@ -19,8 +19,17 @@ $(() => {
       forward: () => scroll_to("header-block"),
       backward: () => scroll_to("header-block")
     },{
-      forward: () => scroll_to("viz1"),
+      forward: () => scroll_to("data-processing"),
       backward: () => scroll_to("header-block")
+    },{
+      forward: () => scroll_to("data-processing-2"),
+      backward: () => scroll_to("data-processing")
+    },{
+      forward: () => scroll_to("data-processing-3"),
+      backward: () => scroll_to("data-processing-2")
+    },{
+      forward: () => scroll_to("viz1"),
+      backward: () => scroll_to("data-processing-3")
     },{
       forward: () => scroll_to("cyto"),
       backward: () => scroll_to("viz1")
@@ -112,24 +121,24 @@ $(() => {
       forward: () => scroll_to("viz7"),
       backward: () => scroll_to("danger-ages")
     },{
-      forward: () => scroll_to("pmf"),
+      forward: () => scroll_to("pdf"),
       backward: () => scroll_to("viz7")
     },{
       forward: () => {
-        filter_chart("pmf",
+        filter_chart("pdf",
           ["Perinatal Complications","Congenital Anomalies","Undetermined Diseases"],
           true); // SIDS is undetermined
       },
-      backward: () => filter_chart("pmf",[])
+      backward: () => filter_chart("pdf",[])
     },{
       forward: () => {
-        filter_chart("pmf",
+        filter_chart("pdf",
           ["Homicide","Suicide","Vehicular Accidents","All Other External Causes"]);
       },
-      backward: () => filter_chart("pmf",[])
+      backward: () => filter_chart("pdf",[])
     },{
       forward: () => scroll_to("cdf"),
-      backward: () => scroll_to("pmf")
+      backward: () => scroll_to("pdf")
     },{
       forward: () => {
         filter_chart("cdf",
@@ -139,26 +148,26 @@ $(() => {
     },{
       forward: () => {
         filter_chart("cdf",
-          ["Cancer","Hypertension","All Other Diseases","Alzheimer's",
+          ["Cancer","Hypertension","All Other Diseases",
             "Influenza and Pneumonia","Heart Diseases","Circulatory Diseases",
             "Diabetes","Digestive Tract Diseases","Bronchitis / COPD",
             "Stroke","Influenza and Pneumonia","Kidney Diseases"]);
-        filter_chart("pmf",
-          ["Cancer","Hypertension","All Other Diseases","Alzheimer's",
+        filter_chart("pdf",
+          ["Cancer","Hypertension","All Other Diseases",
             "Influenza and Pneumonia","Heart Diseases","Circulatory Diseases",
             "Diabetes","Digestive Tract Diseases","Bronchitis / COPD",
             "Stroke","Influenza and Pneumonia","Kidney Diseases"]);
       },
       backward: () => {
         filter_chart("cdf",[]);
-        filter_chart("pmf",[]);
+        filter_chart("pdf",[]);
       }
     },{
-      forward: () => scroll_to("pmf"),
+      forward: () => scroll_to("pdf"),
       backward: () => scroll_to("cdf")
     },{
       forward: () => scroll_to("viz8"),
-      backward: () => scroll_to("pmf")
+      backward: () => scroll_to("pdf")
     },{
       forward: () => {
         $("#states-overlay").show();
@@ -170,12 +179,21 @@ $(() => {
       }
     },{
       forward: () => {
-        $("#states-overlay").hide();
+        $("#curcause").show();
         scroll_to("states-by-cod")
       },
       backward: () => {
-        $("#states-overlay").show();
+        $("#curcause").show();
         scroll_to("states-overall");
+      }
+    },{
+      forward: () => {
+        $("#states-overlay").hide();
+        scroll_to("end")
+      },
+      backward: () => {
+        $("#states-overlay").show();
+        scroll_to("states-by-cod");
       }
     },{ // terminator
       forward: () => {},
@@ -188,20 +206,29 @@ $(() => {
     curloc = (curloc < 0) ? 0 : curloc;
     curloc = (curloc >= actions.length) ? actions.length-1 : curloc;
     // console.log(curloc);
+    $("#curloc").val(curloc+1);
   }
   $("html").on("keypress", (e) => {
     try {
       if(e.keyCode===110) { // n[ext], move down
-          curloc++;
-          bounds_check();
-          actions[curloc].forward();
+        curloc++;
+        bounds_check();
+        actions[curloc].forward();
       } else if(e.keyCode===112) { // p[rev], move up
-          actions[curloc].backward();
-          curloc--;
-          bounds_check();
+        actions[curloc].backward();
+        curloc--;
+        bounds_check();
+      } else if(e.keyCode===13 && $("#curloc").is(":focus")) {
+        curloc = parseInt($("#curloc").val());
+        bounds_check();
+        actions[curloc].forward();
       }
     } catch(exp) {
       console.log(exp);
     }
   });
+
+  $("#total-slides").html(actions.length);
 });
+
+

@@ -23,6 +23,24 @@ let render_age = (age_data,lifeexp_data,marriage_data) => {
   m_lifeexp.name = "Male Life Expectancy";
   let f_lifeexp = $.extend(true,{},females);
   f_lifeexp.name = "Female Life Expectancy";
+  let marriages = {
+    male: {
+      Single: $.extend(true,{},males),
+      Divorced: $.extend(true,{},males),
+      Widowed: $.extend(true,{},males),
+      Married: $.extend(true,{},males)
+    },
+    female: {
+      Single: $.extend(true,{},males),
+      Divorced: $.extend(true,{},males),
+      Widowed: $.extend(true,{},males),
+      Married: $.extend(true,{},males)
+    }
+  };
+  for(let key in marriages.male) {
+    marriages.male[key].name = key + " Male Mean Age at Death";
+    marriages.female[key].name = key + " Female Mean Age at Death";
+  }
 
   for(let i in age_data.data) {
     let thisyear = age_data.data[i];
@@ -42,28 +60,11 @@ let render_age = (age_data,lifeexp_data,marriage_data) => {
     f_lifeexp.y.push(thisyear.female);
   }
 
-  let marriages = {
-    male: {
-      Single: $.extend(true,{},males),
-      Divorced: $.extend(true,{},males),
-      Widowed: $.extend(true,{},males),
-      Married: $.extend(true,{},males)
-    },
-    female: {
-      Single: $.extend(true,{},males),
-      Divorced: $.extend(true,{},males),
-      Widowed: $.extend(true,{},males),
-      Married: $.extend(true,{},males)
-    }
-  };
-  for(let key in marriages.male) {
-    marriages.male[key].name = key + " Male Mean Age at Death";
-    marriages.female[key].name = key + " Female Mean Age at Death";
-  }
   for(let year in marriage_data) {
     for(let gender in marriage_data[year]) {
       for(let key in marriage_data[year][gender]) {
-        marriages[gender][key].x.push(marriage_data[year][gender][key]);
+        marriages[gender][key].y.push(marriage_data[year][gender][key]);
+        marriages[gender][key].x.push(parseInt(year));
       }
     }
   }
@@ -77,8 +78,8 @@ let render_age = (age_data,lifeexp_data,marriage_data) => {
   let layout = {
     title: "Mean Age at Death by Gender over Time",
     yaxis: {
-      title: "Age at Death",
-      range: [50,90] // [20,100]
+      title: "Age at Death"//,
+      //range: [50,90] // [20,100]
     },
     xaxis: {
       showgrid: false,
@@ -96,9 +97,10 @@ let render_age = (age_data,lifeexp_data,marriage_data) => {
 };
 
 $(() => {
+  /*
   let age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/ages_68-14.json?token=AJM69voVzzY2uioWADBk0m0F1YwMK3QIks5YKVB6wA%3D%3D";
   let lifeexp_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/lifeexp_1965-2014.json?token=AJM69rA7UsgANr53UyQFDf1xZKghA2YRks5YLYGQwA%3D%3D";
-  let marriage_json = "";
+  let marriage_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/marriages_1979-2014.json?token=AJM69knjYpg-gTguN2PeU7KeGF60ulWlks5YMDCUwA%3D%3D";
   $.get(age_json, (adata) => {
     $.get(lifeexp_json, (ledata) => {
       $.get(marriage_json, (mdata) => {
@@ -108,7 +110,9 @@ $(() => {
           JSON.parse(mdata));
       });
     });
-  });
+    });
+    */
+  render_age(viz3_ages,viz3_lifeexp,viz3_marriage);
 });
 
 

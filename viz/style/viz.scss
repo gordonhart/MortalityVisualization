@@ -4,10 +4,15 @@
 
 $black: #222222;
 $white: #FAFAFA;
+$gray: #6D6D6D;
 $accent: #662d91;
 $header: 'Playfair Display SC', Courier, serif;
 $regular: 'Raleway', Arial, sans;
+$bold: 'Raleway-bold', Arial, sans;
+$monospaced: 'Source Code Pro', Courier, serif;
+
 $info-height: 60px;
+$text-width: 500px;
 
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
@@ -31,6 +36,7 @@ html,body {
   padding: 0;
   font-size: 16px;
   text-align: center;
+  font-family: $regular;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -52,10 +58,24 @@ h3 {
 }
 
 p {
-  max-width: 500px;
+  max-width: $text-width;
   text-align: left;
   margin: 0 auto 1em auto;
-  font-family: $regular;
+}
+
+b {
+  font-family: $bold;
+}
+
+code {
+  font-family: $monospaced;
+  color: $gray;
+}
+
+img {
+  @include border-radius(25px);
+  width: 60%;
+  margin: 2em;
 }
 
 button {
@@ -84,6 +104,27 @@ button {
   }
 }
 
+#location-overlay {
+  @include border-radius(1em);
+  position: fixed;
+  top: 1em;
+  left: 1em;
+  color: $black;
+  background: rgba($white,0.1);
+  padding: 0.5em;
+  z-index: 10000000;
+  input {
+    outline: none;
+    border: 0px;
+    cursor: pointer;
+    background: rgba($white,0);
+    color: $black;
+    width: 1.5em;
+    font-size: 1em;
+    text-align: right;
+  }
+}
+
 #header-block {
   background: $black;
   color: $white;
@@ -96,6 +137,12 @@ button {
   position: relative;
   display: flex;
   align-items: center;
+  .note {
+    color: $gray;
+    margin-top: 32px;
+    font-size: 0.8em;
+    max-width: $text-width;
+  }
 }
 
 .viz {
@@ -174,6 +221,15 @@ button {
     button {
       background: $black;
       color: $white;
+    }
+    select {
+      background: $black;
+      outline: none;
+      border: 0;
+      color: $white;
+      font-family: $regular;
+      margin-left: 1em;
+      height: 2em;
     }
   }
 }

@@ -27,8 +27,8 @@ let plot_style = {
   }
 };
 
-let get_danger_data = () => {
-  let ddata = danger_data.data[curage].causes;
+let get_viz6_danger_ages = () => {
+  let ddata = viz6_danger_ages.data[curage].causes;
   return [{
     type: "bar",
     mode: "markers",
@@ -41,15 +41,15 @@ let get_danger_data = () => {
 };
 
 let render_danger_ages_initial = () => {
-  Plotly.plot("danger-ages", get_danger_data(), plot_style, {showLink:false, displayModeBar:false});
+  Plotly.plot("danger-ages", get_viz6_danger_ages(), plot_style, {showLink:false, displayModeBar:false});
 };
 
 let render_danger_ages_update = () => {
   $("#curage").val(curage);
 
-  let data = get_danger_data();
+  let data = get_viz6_danger_ages();
   let danger_div = document.getElementById("danger-ages");
-  danger_div.data = get_danger_data();
+  danger_div.data = get_viz6_danger_ages();
 
   let scale_quantum = 10;
   let maxy = Math.ceil(data[0].y.reduce((acc,el) => (el>acc) ? el : acc) / scale_quantum) * scale_quantum;
@@ -60,7 +60,6 @@ let render_danger_ages_update = () => {
 
 
 let curage;
-let danger_data;
 let danger_interval;
 let danger_speed = 250;
 
@@ -72,12 +71,16 @@ let start_animation = () => {
 };
 
 $(() => {
+  /*
   let danger_age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/dangers_by_age_2014.json?token=AJM69meZC87OtbePBMIAhiYgK3-_Jf3Zks5YLDkAwA%3D%3D";
   $.get(danger_age_json, (dadata) => {
-    danger_data = JSON.parse(dadata);
+    viz6_danger_ages = JSON.parse(dadata);
     curage = 0;
     render_danger_ages_initial();
   });
+  */
+  curage = 0;
+  render_danger_ages_initial();
 
   // menu bar button behavior
   $("#danger-set").on("click", () => {

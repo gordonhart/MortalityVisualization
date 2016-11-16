@@ -1,9 +1,9 @@
 
-let render_pmfs = (div_id,data) => {
-  let pmfs = [];
+let render_pdfs = (div_id,data) => {
+  let pdfs = [];
 
   for(let cause in data) {
-    pmfs.push({
+    pdfs.push({
       type: "scatter",
       mode: "lines",
       x: data[cause].map((el) => el.age),
@@ -17,11 +17,11 @@ let render_pmfs = (div_id,data) => {
   }
 
   let layout = {
-    title: (div_id==="pmf")
-      ? "Probability Mass Functions of Various Causes of Death"
+    title: (div_id==="pdf")
+      ? "Probability Density Functions of Various Causes of Death"
       : "Cumulative Distribution Functions of Various Causes of Death",
     yaxis: {
-      title: "Percentage of Deaths"// ,
+      title: "Proportion of Deaths"// ,
       // range: [0,1]
     },
     xaxis: {
@@ -36,14 +36,14 @@ let render_pmfs = (div_id,data) => {
   };
 
   let chart = document.getElementById(div_id);
-  Plotly.newPlot(chart, pmfs, layout, {showLink:false, displayModeBar:false});
+  Plotly.newPlot(chart, pdfs, layout, {showLink:false, displayModeBar:false});
 };
 
 let render_dangerfun = (data) => {
   let dangers = [];
   for(let cause in data) {
-    let ydata = data[cause].map((el) => el.percentage);
-    dangers.push({
+    let ydata = data[cause].map((el) => 100*el.percentage);
+    dangers = [{
       type: "scatter",
       mode: "lines",
       x: data[cause].map((el) => el.age),
@@ -55,7 +55,7 @@ let render_dangerfun = (data) => {
       fill: "tonexty",
       visible: true,
       name: cause
-    });
+    }].concat(dangers); // for some reason the results are reverse
   }
 
   Plotly.newPlot(
@@ -68,7 +68,8 @@ let render_dangerfun = (data) => {
       },
       xaxis: {
         showgrid: false,
-        fixedaxis: true
+        fixedaxis: true,
+        rangeslider: {}
       },
       paper_bgcolor: "rgba(0,0,0,0)",
       plot_bgcolor: "rgba(0,0,0,0)",
@@ -94,24 +95,33 @@ let update_dangerfun = () => {
 };
 
 $(() => {
-  let pmf = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/pmf_1968-2014.json?token=AJM69quyWGV6LYHS187-YtcTQdRvfmrGks5YLMOTwA%3D%3D";
-  $.get(pmf, (strdata) => {
-    let pmf_data = JSON.parse(strdata);
-    render_pmfs("pmf",pmf_data);
+  /*
+  let pdf = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/pdf_1968-2014.json?token=AJM69quyWGV6LYHS187-YtcTQdRvfmrGks5YLMOTwA%3D%3D";
+  $.get(pdf, (strdata) => {
+    let viz7_pdf = JSON.parse(strdata);
+    render_pdfs("pdf",viz7_pdf);
   });
   let cdf = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cdf_1968-2014.json?token=AJM69p0uQsI30ZXGsWSCSXOqJPDG9G72ks5YLWuJwA%3D%3D";
   $.get(cdf, (strdata) => {
-    let cdf_data = JSON.parse(strdata);
-    render_pmfs("cdf",cdf_data);
+    let viz7_cdf = JSON.parse(strdata);
+    render_pdfs("cdf",viz7_cdf);
   });
+  */
+  render_pdfs("pdf",viz7_pdf);
+  render_pdfs("cdf",viz7_cdf);
+  /*
   let dangerfun = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/dangerfun_1968-2014.json?token=AJM69hjNcSM96flpcKbm_HiTu09MO3OTks5YLaLXwA%3D%3D";
   $.get(dangerfun, (strdata) => {
-    let dangerfun_data = JSON.parse(strdata);
-    render_dangerfun(dangerfun_data);
+    let viz6_dangerfun = JSON.parse(strdata);
+    render_dangerfun(viz6_dangerfun);
     // show_sumline("dangerfun");
     // $("#dangerfun").on("click", () => show_sumline("dangerfun"));
     update_dangerfun();
     $("#dangerfun").on("click", () => update_dangerfun());
   });
+  */
+  render_dangerfun(viz6_dangerfun);
+  update_dangerfun();
+  $("#dangerfun").on("click", () => update_dangerfun());
 });
 

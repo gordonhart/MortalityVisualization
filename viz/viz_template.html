@@ -5,6 +5,9 @@
     {% for filename in data.cssfiles %}
     <link rel="stylesheet" href="style/{{ filename }}">
     {% endfor %}
+    {% for filename in data.jsonfiles %}
+    <script type="text/javascript" src="json/{{ filename }}"></script>
+    {% endfor %}
     {% for filename in data.jsfiles %}
     <script type="text/javascript" src="js/{{ filename }}"></script>
     {% endfor %}
@@ -14,6 +17,9 @@
     <div id="header-block" class="slide">
       <div class="info">
         <h1>{{ data.header.title }}</h1>
+        {% for image in data.header.images %}
+        <img src="{{ image }}" />
+        {% endfor %}
         {% for subtitle in data.header.subtitles %}
         <h4>{{ subtitle }}</h4>
         {% endfor %}
@@ -25,9 +31,17 @@
         {% if slide.type == "slide" %}
           <div class="info">
             {% for element in slide.contents %}
-              {% for eltype,elcontents in element.items() %}
-                <{{ eltype }}>{{ elcontents }}</{{ eltype }}>
-              {% endfor %}
+              {% if element is string %}
+                {{ element }}
+              {% else %}
+                {% for eltype,elcontents in element.items() %}
+                  {% if eltype == "note" %}
+                    <div class="note"><b>Note: </b>{{ elcontents }}</div>
+                  {% else %}
+                    <{{ eltype }}>{{ elcontents }}</{{ eltype }}>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
             {% endfor %}
           </div>
         {% elif slide.type == "viz" %}
@@ -43,6 +57,10 @@
         {% endif %}
       </div>
     {% endfor %}
+
+    <div id="location-overlay">
+      <input id="curloc" type="text" value="1" width="2" /> of <span id="total-slides"></span>
+    </div>
   </body>
 
 </html>

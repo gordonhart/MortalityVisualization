@@ -24,7 +24,8 @@ let render_cod_ages = (cod_age_data) => {
     },
     xaxis: {
       showgrid: false,
-      fixedaxis: true
+      fixedaxis: true,
+      rangeslider: {}
     },
     paper_bgcolor: "rgba(0,0,0,0)",
     plot_bgcolor: "rgba(0,0,0,0)",
@@ -38,10 +39,13 @@ let render_cod_ages = (cod_age_data) => {
 };
 
 $(() => {
+  /*
   let cod_age_json = "https://raw.githubusercontent.com/gordonhart/STAT3622/master/data/json/cod_by_age_68-14.json?token=AJM69vDiLYw3z4rC-TlMqhm1N0jYq3aGks5YKaaqwA%3D%3D";
   $.get(cod_age_json, (cadata) => {
     render_cod_ages(JSON.parse(cadata));
-  });
+    });
+    */
+  render_cod_ages(viz4_cod_ages);
 });
 
 
