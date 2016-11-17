@@ -75,20 +75,20 @@ end = struct
   let sort_states =
     List.map (fun (y,sl) -> y, List.sort (fun ((_,s1),_,_,_) ((_,s2),_,_,_) -> String.compare s1 s2) sl)
 
-  let jsonify_state_ages sages_list = `Dict [
-    ("years",`List (List.map (fun (yr,sages) -> `Dict [
-      ("year",`Int yr);
-      ("data",`Dict (List.map (fun ((long,short),(mu,sigma),(leading_cod,pct),cods) ->
-        (short, `Dict [
-          ("name",`String long);
-          ("age_mu",`Float mu);
-          ("age_stdev",`Float sigma);
-          ("leading_killer",`String leading_cod);
-          ("lk_percent",`Float pct);
-          ("causes", `Dict (List.map (fun (cause,cmu,csigma) ->
-            (cause, `Dict [
-              ("mu",`Float cmu);
-              ("stdev",`Float csigma)])) cods) )])) sages)) ]) sages_list))]
+  let jsonify_state_ages sages_list = Dict [
+    ("years",List (List.map (fun (yr,sages) -> Dict [
+      ("year",Int yr);
+      ("data",Dict (List.map (fun ((long,short),(mu,sigma),(leading_cod,pct),cods) ->
+        (short, Dict [
+          ("name",String long);
+          ("age_mu",Float mu);
+          ("age_stdev",Float sigma);
+          ("leading_killer",String leading_cod);
+          ("lk_percent",Float pct);
+          ("causes", Dict (List.map (fun (cause,cmu,csigma) ->
+            (cause, Dict [
+              ("mu",Float cmu);
+              ("stdev",Float csigma)])) cods) )])) sages)) ]) sages_list))]
 
   (* get average age, cod weights for each state for a range of years (timeseries) *)
   (* this is a beast: for a range of years, return a timeseries of the form:
@@ -124,7 +124,7 @@ end = struct
         |> group_states
         |> process_states
         |> remove_dc_and_foreign
-        |> pass (fun d -> print_endline (sprintf "finished preprocessing %d" yr)))
+        |> alert_progress yr)
     |> sort_years
     |> sort_states
     |> jsonify_state_ages

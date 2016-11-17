@@ -31,3 +31,6 @@ open Viz7;;
 #use "viz8_states.ml";;
 open Viz8;;
 
+#use "viz9_3d.ml";;
+open Viz9;;
+

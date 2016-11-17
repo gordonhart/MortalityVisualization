@@ -92,27 +92,27 @@ end = struct
     |> List.filter (fun ((s,_),_) -> s <> "!!")
     |> List.map (fun ((s,g),ages) -> s,g,mean ages)
     |> pair yr
-    |> pass (fun d -> print_endline (sprintf "finished processing %d" yr))
+    |> alert_progress yr
 
   let group_by_gender data =
     list_from_hash 2 (fun tbl ->
       List.iter (fun (c,g,a) ->
         inc_table tbl (fun cs -> (c,a)::cs) (fun () -> [(c,a)]) g) data)
 
-  let jsonify_agedata ad = `Dict [
-    ("data", `List (List.map (fun (yr,(m,mmu,ms),(f,fmu,fs)) -> `Dict [
-        ("year",`Int yr);
-        ("male", `Dict [
-          ("mu",`Float mmu);
-          ("stdev",`Float ms)]);
-        ("female", `Dict [
-          ("mu",`Float fmu);
-          ("stdev",`Float fs)])]) ad))]
+  let jsonify_agedata ad = Dict [
+    ("data", List (List.map (fun (yr,(m,mmu,ms),(f,fmu,fs)) -> Dict [
+        ("year",Int yr);
+        ("male", Dict [
+          ("mu",Float mmu);
+          ("stdev",Float ms)]);
+        ("female", Dict [
+          ("mu",Float fmu);
+          ("stdev",Float fs)])]) ad))]
 
   let jsonify_marriages years =
-    `Dict (List.map (fun (y,data) -> soi y,
-      `Dict (List.map (fun (gender,ages) -> gender,
-        `Dict (List.map (fun (code,age) -> code,`Float age) ages)) data)) years)
+    Dict (List.map (fun (y,data) -> soi y,
+      Dict (List.map (fun (gender,ages) -> gender,
+        Dict (List.map (fun (code,age) -> code,Float age) ages)) data)) years)
 
   let viz3_deathage fname =
     let read_and_map decoder yr = ~~||> (sprintf "raw/MORT%02d" yr) |> yearly_age_stats decoder in
@@ -131,8 +131,8 @@ end = struct
     |> List.map (fun l -> (List.nth l 0, List.nth l 1, List.nth l 2)) (* grab first three cols *)
     |> List.map (fun (yr,f,m) -> (String.sub yr (String.length yr - 4) 4 |> ios, fos f, fos m))
     |> List.fold_left (fun acc (yr,f,m) -> if yr < 1965 || yr > 2014 then acc else (yr,f,m)::acc) []
-    |> fun l -> `Dict [("data", `List (List.map (fun (yr,f,m) ->
-         `Dict [("year",`Int yr);("female",`Float f);("male",`Float m)]) l))]
+    |> fun l -> Dict [("data", List (List.map (fun (yr,f,m) ->
+         Dict [("year",Int yr);("female",Float f);("male",Float m)]) l))]
     |> json_to_string
     |~~> fname
 

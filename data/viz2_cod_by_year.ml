@@ -42,7 +42,7 @@ end = struct
     List.map (fun year -> read_year year
       |> causefun
       |> pair year
-      |> pass (fun _ -> print_endline (sprintf "finished processing %d" year))) range
+      |> alert_progress year) range
 
   (* normalize raw numbers to percentage of total deaths in a given year *)
   let normalize_yearly_causes yearly_causes =
@@ -63,8 +63,8 @@ end = struct
   let sort_by_cause = List.sort (fun (c1,_) (c2,_) -> String.compare c1 c2)
 
   let timeseries_to_json ts =
-    `Dict (List.map (fun (cause,years) ->
-      (cause, `List (List.map (fun (yr,pct) -> `List [`Int yr; `Float pct]) years))) ts)
+    Dict (List.map (fun (cause,years) ->
+      (cause, List (List.map (fun (yr,pct) -> List [Int yr; Float pct]) years))) ts)
 
   (* generate and save the json file for timeseries cause of death data *)
   let viz2_cod_by_year fname =

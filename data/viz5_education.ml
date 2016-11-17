@@ -39,16 +39,16 @@ end = struct
         (fun tbl -> List.iter (fun (edu,age) ->
           inc_table tbl (fun agelist -> age :: agelist) (fun () -> [age]) edu) l)
       |> List.map (fun (edu,agelist) -> (edu,mean agelist)) in
-    `Dict [
-    ("data", `List (List.map (fun (ecode,elevel,age,ct) -> `Dict [
-        ("edu-code",`Int ecode);
-        ("edu-level",`String elevel);
-        ("age",`Int age);
-        ("count",`Int ct)]) (gen_counts eal)));
-    ("means", `List (List.map (fun ((ecode,elevel),amean) -> `Dict [
-        ("edu-code",`Int ecode);
-        ("edu-level",`String elevel);
-        ("mean-age",`Float amean)]) (gen_means eal)))]
+    Dict [
+    ("data", List (List.map (fun (ecode,elevel,age,ct) -> Dict [
+        ("edu-code",Int ecode);
+        ("edu-level",String elevel);
+        ("age",Int age);
+        ("count",Int ct)]) (gen_counts eal)));
+    ("means", List (List.map (fun ((ecode,elevel),amean) -> Dict [
+        ("edu-code",Int ecode);
+        ("edu-level",String elevel);
+        ("mean-age",Float amean)]) (gen_means eal)))]
 
   let viz5_education fname =
     ~~||> "raw/MORT14"

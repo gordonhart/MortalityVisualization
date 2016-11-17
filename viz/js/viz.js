@@ -180,7 +180,7 @@ $(() => {
     },{
       forward: () => {
         $("#curcause").show();
-        scroll_to("states-by-cod")
+        scroll_to("states-viz2")
       },
       backward: () => {
         $("#curcause").show();
@@ -189,11 +189,29 @@ $(() => {
     },{
       forward: () => {
         $("#states-overlay").hide();
-        scroll_to("end")
+        scroll_to("viz9")
       },
       backward: () => {
         $("#states-overlay").show();
-        scroll_to("states-by-cod");
+        scroll_to("states-viz2");
+      }
+    },{
+      forward: () => {
+        $("#3d-overlay").show();
+        scroll_to("cod-3d")
+      },
+      backward: () => {
+        $("#3d-overlay").hide();
+        scroll_to("viz9");
+      }
+    },{
+      forward: () => {
+        $("#3d-overlay").hide();
+        scroll_to("end")
+      },
+      backward: () => {
+        $("#3d-overlay").show();
+        scroll_to("cod-3d");
       }
     },{ // terminator
       forward: () => {},
@@ -229,6 +247,16 @@ $(() => {
   });
 
   $("#total-slides").html(actions.length);
+
+  // redraw all plotly charts to ensure legend fits content
+  setTimeout(() => {
+    plotly_divs = ["cod","ages","cod-ages","edu-ages","danger-ages",
+      "dangerfun","pdf","cdf","states-overall","states-by-cod","cod-3d"];
+    plotly_divs.map((el_id) => {
+      // console.log(el_id);
+      try { Plotly.redraw(el_id); } catch(e) {}
+    });
+  }, 500);
 });
 
 

@@ -33,7 +33,8 @@ let render_edu_ages = (edu_age_data) => {
     showlegend: false
   };
 
-  Plotly.newPlot(document.getElementById("edu-ages"), [means, points], {
+  let chart = document.getElementById("edu-ages");
+  Plotly.newPlot(chart, [means, points], {
     title: "Age at Death versus Education Level",
     yaxis: {
       title: "Age at Death",
@@ -61,7 +62,6 @@ let render_edu_ages = (edu_age_data) => {
     showLink: false,
     displayModeBar: false
   });
-
 };
 
 $(() => {

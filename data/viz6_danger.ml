@@ -40,12 +40,12 @@ end = struct
   let sort_causes = List.map (fun (a,cods) -> (a,List.sort (fun (c1,_) (c2,_) -> String.compare c1 c2) cods))
   let remove_invalid_ages = List.filter (fun (a,_) -> a>=0)
 
-  let jsonify_dangers dl = `Dict [
-    ("data",`List (List.map (fun (age,causelist) -> `Dict [
-      ("age",`Int age);
-      ("causes",`List (List.map (fun (c,pct) -> `Dict [
-        ("cause",`String c);
-        ("percent",`Float pct)]) causelist))]) dl))]
+  let jsonify_dangers dl = Dict [
+    ("data",List (List.map (fun (age,causelist) -> Dict [
+      ("age",Int age);
+      ("causes",List (List.map (fun (c,pct) -> Dict [
+        ("cause",String c);
+        ("percent",Float pct)]) causelist))]) dl))]
 
   let viz6_dangers fname =
     ~~||> "raw/MORT14" (* read 2014 mortality data *)

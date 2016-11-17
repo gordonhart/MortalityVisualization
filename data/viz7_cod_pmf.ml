@@ -102,9 +102,9 @@ end = struct
   let sort_causes = List.sort (fun (c1,_) (c2,_) -> String.compare c1 c2)
 
   let pmfs_to_json pmfs = (* pmf representation list of form [(name,[(age,prob)])] to json *)
-    `Dict (List.map (fun (pmf_name,pts) -> (pmf_name,
-      `List (List.map (fun (age,prob) ->
-        `Dict [("age",`Int age);("percentage",`Float prob)]) pts))) pmfs)
+    Dict (List.map (fun (pmf_name,pts) -> (pmf_name,
+      List (List.map (fun (age,prob) ->
+        Dict [("age",Int age);("percentage",Float prob)]) pts))) pmfs)
 
   type fundesc = Pmf | Cdf | Danger
   let viz7 ftype fname =
@@ -114,7 +114,7 @@ end = struct
       |> group_by_cod
       |> generate_age_counts
       |> remove_invalid_ages
-      |> pass (fun _ -> print_endline (sprintf "finished preprocessing year %d" y)))
+      |> alert_progress y)
     |> group_by_cause
     |> sum_years
     |> (match ftype with Danger -> normalize_by_age | _ -> normalize_counts)

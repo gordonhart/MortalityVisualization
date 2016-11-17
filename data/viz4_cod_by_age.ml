@@ -40,6 +40,7 @@ end = struct
     |> fun items -> list_from_hash nchs.length
         (fun tbl -> List.iter (fun (a,cod) -> inc_table tbl (fun ages -> a::ages) (fun () -> [a]) cod) items)
     |> List.map (fun (cod,ages) -> mean ages |> fun mu -> (cod,mu,stdev mu ages))
+    |> alert_progress year
 
   let group_by_cause yearlist =
     list_from_hash nchs.length (fun tbl ->
@@ -52,9 +53,9 @@ end = struct
 
   (* transform list of (cause,[(year,mu,sigma)]) pairs to internal json format *)
   let jsonify_cod_age_list cal =
-    `Dict (List.map (fun (cause,yearlist) -> (cause,
-      `List (List.map (fun (yr,mu,sigma) ->
-        `Dict [("year",`Int yr);("mu",`Float mu);("stdev",`Float sigma)]) yearlist))) cal)
+    Dict (List.map (fun (cause,yearlist) -> (cause,
+      List (List.map (fun (yr,mu,sigma) ->
+        Dict [("year",Int yr);("mu",Float mu);("stdev",Float sigma)]) yearlist))) cal)
 
   let viz4_cod_by_age fname =
     List.map (read_yearly_cod_ages viz4_icd8_9_causes viz4_icd8) (1968|..|1978)

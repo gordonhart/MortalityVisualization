@@ -14,9 +14,10 @@ jsfiles:
   - "viz6_danger_ages.js"
   - "viz7_pdf.js"
   - "viz8_states.js"
+  - "viz9_3d.js"
 
 jsonfiles:
-  - "viz.js" # all json in one file
+  - "data.js" # all json in one file
 
 cssfiles:
   # - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"
@@ -39,11 +40,12 @@ slides:
     type: "slide"
     contents:
       - h3: "Data Processing Pipeline"
-      - p: "Over <code>41 gigabytes</code> of raw text data were analyzed for the purposes of this project. The functional programming language OCaml was used due to its highly expressive syntax and incredible speed and power."
+      - p: "Over <b>41 gigabytes</b> of raw text data were analyzed for the purposes of this project. The functional programming language <code>OCaml</code> was used due to its highly expressive syntax, incredible speed, and top-notch power."
       - >
         <img src="images/pipeline.png" />
       - p: "That's over <b>100 million</b> (102,696,714 to be exact) deaths analyzed&mdash;records exist for every person who officially died in the United States from 1968 up to 2014."
       - p: "Many thanks to the US Center of Disease Control and Prevention (CDC) for this fantastic dataset."
+      - note: "The data comes in three different formats, corresponding to different revisions of the International Statistical Classification of Diseases and Related Health Problems (ICD) encoding scheme. This made crunching the data somewhat more difficult but did not prove to be an insurmountable roadblock."
   - id: "data-processing-2"
     type: "slide"
     contents:
@@ -58,6 +60,8 @@ slides:
     type: "slide"
     contents:
       - h3: "without further ado..."
+      - >
+        <img src="images/tape.png" class="short" />
   - id: "viz1"
     type: "slide"
     contents:
@@ -187,6 +191,23 @@ slides:
     type: "viz"
     contents:
       - div: "states-by-cod"
+  - id: "viz9"
+    type: "slide"
+    contents:
+      - h3: "3D Stuff wooo"
+  - id: "cod-3d-viz"
+    type: "viz"
+    contents:
+      - div: "cod-3d"
+      - >
+        <div id="3d-overlay" class="info-overlay">
+          <div class="controls">
+            <span>cause of death:</span>
+            <select id="curcause-3d">
+              <option value=""></option>
+            </select>
+          </div>
+        </div>
   - id: "end"
     type: "slide"
     contents:

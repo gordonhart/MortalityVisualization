@@ -85,13 +85,13 @@ end = struct
   (* finally, transform the directed graph structure to json:
    *   dict of "nodename" : {ct,[edges]} *)
   let jsonify_graph gd =
-    `Dict (List.map (fun ((name,short),ct,edges) -> (name, `Dict [
-      ("short",`String short);
-      ("count",`Int ct);
-      ("edges",`List (List.map (fun ((ename,eshort),ect) -> `Dict [
-        ("name",`String ename);
-        ("short",`String eshort);
-        ("count",`Int ect)]) edges))])) gd)
+    Dict (List.map (fun ((name,short),ct,edges) -> (name, Dict [
+      ("short",String short);
+      ("count",Int ct);
+      ("edges",List (List.map (fun ((ename,eshort),ect) -> Dict [
+        ("name",String ename);
+        ("short",String eshort);
+        ("count",Int ect)]) edges))])) gd)
 
   let viz1_mulcause fname =
     ~~||> "raw/MORT14" (* read raw text lines from file MORT14 *)

@@ -4,7 +4,7 @@
     <title>STAT 3622, Gordon Hart</title>
     <link rel="stylesheet" href="style/fonts.css">
     <link rel="stylesheet" href="style/viz.css">
-    <script type="text/javascript" src="json/viz.js"></script>
+    <script type="text/javascript" src="json/data.js"></script>
     <script type="text/javascript" src="js/lib/jquery.js"></script>
     <script type="text/javascript" src="js/lib/cytoscape.js"></script>
     <script type="text/javascript" src="js/lib/plotly.js"></script>
@@ -17,6 +17,7 @@
     <script type="text/javascript" src="js/viz6_danger_ages.js"></script>
     <script type="text/javascript" src="js/viz7_pdf.js"></script>
     <script type="text/javascript" src="js/viz8_states.js"></script>
+    <script type="text/javascript" src="js/viz9_3d.js"></script>
   </head>
 
   <body>
@@ -30,17 +31,18 @@
       </div>
     </div>
 
-      <div id="data-processing" class="slide">
+        <div id="data-processing" class="slide">
           <div class="info">
                     <h3>Data Processing Pipeline</h3>
-                    <p>Over <code>41 gigabytes</code> of raw text data were analyzed for the purposes of this project. The functional programming language OCaml was used due to its highly expressive syntax and incredible speed and power.</p>
+                    <p>Over <b>41 gigabytes</b> of raw text data were analyzed for the purposes of this project. The functional programming language <code>OCaml</code> was used due to its highly expressive syntax, incredible speed, and top-notch power.</p>
                 <img src="images/pipeline.png" />
 
                     <p>That's over <b>100 million</b> (102,696,714 to be exact) deaths analyzed&mdash;records exist for every person who officially died in the United States from 1968 up to 2014.</p>
                     <p>Many thanks to the US Center of Disease Control and Prevention (CDC) for this fantastic dataset.</p>
+                    <div class="note"><b>Note: </b>The data comes in three different formats, corresponding to different revisions of the International Statistical Classification of Diseases and Related Health Problems (ICD) encoding scheme. This made crunching the data somewhat more difficult but did not prove to be an insurmountable roadblock.</div>
           </div>
       </div>
-      <div id="data-processing-2" class="slide">
+        <div id="data-processing-2" class="slide">
           <div class="info">
                     <p>For each visualization, the data was sytematically read, crunched, reshaped, and saved to the disk as JSON files which directly translate to the data plotted using the javascript libraries <code>Cytoscape.js</code> and <code>Plotly.js</code>.</p>
                     <p>An example pipeline is as follows:</p>
@@ -51,12 +53,14 @@
                     <p>Depending on how much data was used for any given visualization, processing took anywhere from 30 seconds to roughly 15 minutes.</p>
           </div>
       </div>
-      <div id="data-processing-3" class="slide">
+        <div id="data-processing-3" class="slide">
           <div class="info">
                     <h3>without further ado...</h3>
+                <img src="images/tape.png" class="short" />
+
           </div>
       </div>
-      <div id="viz1" class="slide">
+        <div id="viz1" class="slide">
           <div class="info">
                     <h3>Cause of Death with Pre-Existing Conditions</h3>
                     <p>The data provided by the CDC contains <i>multiple cause of death</i> records. Each death is recorded with up to 20 pre-existing conditions that may have led to the subject's ultimate demise.</p>
@@ -64,21 +68,21 @@
                     <p>The weight of nodes and edges corresponds to their frequency of occurrence in the 2014 dataset.</p>
           </div>
       </div>
-      <div id="cod-graph" class="slide">
+          <div id="cod-graph" class="slide white">
                 <div id="cyto" class="viz"></div>
                 <div id="cyto-info" class="viz"></div>
       </div>
-      <div id="viz2" class="slide">
+        <div id="viz2" class="slide">
           <div class="info">
                     <h3>Evolution of Cause of Death over Time</h3>
                     <p>As medical technology advances and our understanding of biology increases, the effective danger of different maladies waxes and wanes.</p>
                     <p>The following visualization demonstrates this effect. From 1968 to 2014, each of the ~20 causes of death (as defined by the CDC) is shown with the total percentage of deaths that it is responsible for in each year.</p>
           </div>
       </div>
-      <div id="cod-timeseries" class="slide">
+          <div id="cod-timeseries" class="slide white">
                 <div id="cod" class="viz"></div>
       </div>
-      <div id="viz3" class="slide">
+        <div id="viz3" class="slide">
           <div class="info">
                     <h3>Age at Death</h3>
                     <p>We all know that life expectancy has increased more-or-less constantly over the past century, but how exactly has it progressed?</p>
@@ -86,20 +90,20 @@
                     <p>Moreso, what effects do relationship statuses have on age at death?</p>
           </div>
       </div>
-      <div id="age-timeseries" class="slide">
+          <div id="age-timeseries" class="slide white">
                 <div id="ages" class="viz"></div>
       </div>
-      <div id="viz4" class="slide">
+        <div id="viz4" class="slide">
           <div class="info">
                     <h3>Mean Age at Death, by Disease Type, by Year</h3>
                     <p>What is the mean age of those killed by a certain ailment?</p>
                     <p>How has medical technology influenced this characteristic since 1968?</p>
           </div>
       </div>
-      <div id="cod-by-age" class="slide">
+          <div id="cod-by-age" class="slide white">
                 <div id="cod-ages" class="viz"></div>
       </div>
-      <div id="viz5" class="slide">
+        <div id="viz5" class="slide">
           <div class="info">
                     <h3>Education and Age at Death</h3>
                     <p>There's a general consensus that the more educated one is, the longer they are likely to live.</p>
@@ -107,17 +111,17 @@
                     <p>Is this a misconception?</p>
           </div>
       </div>
-      <div id="edu-by-age" class="slide">
+          <div id="edu-by-age" class="slide white">
                 <div id="edu-ages" class="viz"></div>
       </div>
-      <div id="viz6" class="slide">
+        <div id="viz6" class="slide">
           <div class="info">
                     <h3>Danger of Diseases by Age</h3>
                     <p>When is one likely to be killed by a given cause?</p>
                     <p>Are different age groups in danger from different reasons? i.e. What kills teenagers? How about the elderly?</p>
           </div>
       </div>
-      <div id="dangers" class="slide">
+          <div id="dangers" class="slide white">
                 <div id="danger-ages" class="viz"></div>
             <div id="danger-overlay" class="info-overlay">
   <div class="navs">
@@ -133,10 +137,10 @@
 </div>
 
       </div>
-      <div id="dangerfun-viz" class="slide">
+          <div id="dangerfun-viz" class="slide white">
                 <div id="dangerfun" class="viz"></div>
       </div>
-      <div id="viz7" class="slide">
+        <div id="viz7" class="slide">
           <div class="info">
                     <h3>Modeling Causes of Death as Continuous Random Variables</h3>
                     <p>Time for a little statistical fun.</p>
@@ -145,13 +149,13 @@
                     <div class="note"><b>Note: </b>Though the data is given in discrete intervals (by intergral age), the PDF and CDF are modeled as continuous random variables.</div>
           </div>
       </div>
-      <div id="pdf-viz" class="slide">
+          <div id="pdf-viz" class="slide white">
                 <div id="pdf" class="viz"></div>
       </div>
-      <div id="cdf-viz" class="slide">
+          <div id="cdf-viz" class="slide white">
                 <div id="cdf" class="viz"></div>
       </div>
-      <div id="viz8" class="slide">
+        <div id="viz8" class="slide">
           <div class="info">
                     <h3>Age at Death by Geospatial Location</h3>
                     <p>The US is comprised of a collection of 50 states, each of which has a unique culture and history.</p>
@@ -160,7 +164,7 @@
                     <div class="note"><b>Note: </b>Unfortunately the CDC stopped encoding location data for deaths in 2002.</div>
           </div>
       </div>
-      <div id="states-viz1" class="slide">
+          <div id="states-viz1" class="slide white">
                 <div id="states-overall" class="viz"></div>
             <div id="states-overlay" class="info-overlay">
   <div class="navs">
@@ -179,10 +183,27 @@
 </div>
 
       </div>
-      <div id="states-viz2" class="slide">
+          <div id="states-viz2" class="slide white">
                 <div id="states-by-cod" class="viz"></div>
       </div>
-      <div id="end" class="slide">
+        <div id="viz9" class="slide">
+          <div class="info">
+                    <h3>3D Stuff wooo</h3>
+          </div>
+      </div>
+          <div id="cod-3d-viz" class="slide white">
+                <div id="cod-3d" class="viz"></div>
+            <div id="3d-overlay" class="info-overlay">
+  <div class="controls">
+    <span>cause of death:</span>
+    <select id="curcause-3d">
+      <option value=""></option>
+    </select>
+  </div>
+</div>
+
+      </div>
+        <div id="end" class="slide">
           <div class="info">
                     <h3>thanks for watching</h3>
           </div>

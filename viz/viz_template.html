@@ -27,8 +27,8 @@
     </div>
 
     {% for slide in data.slides %}
-      <div id="{{ slide.id }}" class="slide">
-        {% if slide.type == "slide" %}
+      {% if slide.type == "slide" %}
+        <div id="{{ slide.id }}" class="slide">
           <div class="info">
             {% for element in slide.contents %}
               {% if element is string %}
@@ -45,6 +45,7 @@
             {% endfor %}
           </div>
         {% elif slide.type == "viz" %}
+          <div id="{{ slide.id }}" class="slide white">
           {% for element in slide.contents %}
             {% if element is string %}
             {{ element }}

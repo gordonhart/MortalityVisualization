@@ -41,6 +41,10 @@ let read_year year = soi year
   |> sprintf "raw/MORT%s"
   |> (~~||>);;
 
+(* print and flush a notification when a year is finished *)
+let alert_progress year =
+  pass (fun _ -> print_endline (sprintf "finished processing %d" year));;
+
 (*
  * important mapping data
  *

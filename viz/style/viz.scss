@@ -30,7 +30,8 @@ $text-width: 500px;
 }
 
 html,body {
-  background: $white;
+  // background: $white;
+  background-image: url("../images/bg.png");
   color: $black;
   margin: 0;
   padding: 0;
@@ -40,9 +41,10 @@ html,body {
 }
 
 h1,h2,h3,h4,h5,h6 {
-  margin-bottom: 1em;
   font-family: $header;
   font-weight: bold;
+  max-width: $text-width;
+  margin: auto auto 1.5em auto;
 }
 
 h1 {
@@ -74,8 +76,11 @@ code {
 
 img {
   @include border-radius(25px);
-  width: 60%;
+  max-width: $text-width; // 60%;
   margin: 2em;
+  &.short {
+    max-height: 600px;
+  }
 }
 
 button {
@@ -128,6 +133,10 @@ button {
 #header-block {
   background: $black;
   color: $white;
+  .info {
+    padding: 0 !important;
+    background: rgba(0,0,0,0) !important;
+  }
   // margin-bottom: 2em;
 }
 
@@ -139,20 +148,30 @@ button {
   align-items: center;
   .note {
     color: $gray;
+    margin: auto;
     margin-top: 32px;
     font-size: 0.8em;
     max-width: $text-width;
+  }
+  &.white {
+    background: $white;
   }
 }
 
 .viz {
   width: 80%;
+  // padding: 0 10% 0 10%;
   height: 100vh;
+  background: $white;
   margin: auto;
 }
 
 .info { // vertically align info in slides
+  @include border-radius(25px);
   margin: auto;
+  padding: 4em;
+  background: $white;
+  max-width: calc(#{$text-width} + 8em);
 }
 
 #cyto {

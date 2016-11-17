@@ -2,7 +2,7 @@
  * STAT 3622 Project Stylesheet
  */
 html, body {
-  background: #FAFAFA;
+  background-image: url("../images/bg.png");
   color: #222222;
   margin: 0;
   padding: 0;
@@ -11,9 +11,10 @@ html, body {
   font-family: "Raleway", Arial, sans; }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-bottom: 1em;
   font-family: "Playfair Display SC", Courier, serif;
-  font-weight: bold; }
+  font-weight: bold;
+  max-width: 500px;
+  margin: auto auto 1.5em auto; }
 
 h1 {
   font-size: 2em; }
@@ -41,8 +42,10 @@ img {
   -moz-border-radius: 25px;
   -ms-border-radius: 25px;
   border-radius: 25px;
-  width: 60%;
+  max-width: 500px;
   margin: 2em; }
+  img.short {
+    max-height: 600px; }
 
 button {
   -webkit-border-radius: 25px;
@@ -99,6 +102,9 @@ button {
 #header-block {
   background: #222222;
   color: #FAFAFA; }
+  #header-block .info {
+    padding: 0 !important;
+    background: transparent !important; }
 
 .slide {
   height: 100vh;
@@ -107,17 +113,28 @@ button {
   align-items: center; }
   .slide .note {
     color: #6D6D6D;
+    margin: auto;
     margin-top: 32px;
     font-size: 0.8em;
     max-width: 500px; }
+  .slide.white {
+    background: #FAFAFA; }
 
 .viz {
   width: 80%;
   height: 100vh;
+  background: #FAFAFA;
   margin: auto; }
 
 .info {
-  margin: auto; }
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  border-radius: 25px;
+  margin: auto;
+  padding: 4em;
+  background: #FAFAFA;
+  max-width: calc(500px + 8em); }
 
 #cyto {
   width: 100%;

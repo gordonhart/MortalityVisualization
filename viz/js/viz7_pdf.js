@@ -58,8 +58,9 @@ let render_dangerfun = (data) => {
     }].concat(dangers); // for some reason the results are reverse
   }
 
+  let chart = document.getElementById("dangerfun");
   Plotly.newPlot(
-    document.getElementById("dangerfun"),
+    chart,
     dangers, {
       title: "Danger of Each Cause of Death by Age",
       yaxis: {

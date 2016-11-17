@@ -64,7 +64,7 @@ let render_states = () => {
 };
 
 let render_state_cause = (cause) => {
-  console.log("changing to " + cause);
+  // console.log("changing to " + cause);
   if(cause==="") return; // nothing for blank option
   let state_cause_data = $.extend(true,{},state_traces);
   state_cause_data.all_years = {};
@@ -176,7 +176,8 @@ $(() => {
     new_option.innerHTML = cause;
     curcause_div.appendChild(new_option);
   }
-  render_state_cause("Diabetes");
+  // render_state_cause("Diabetes");
+  render_state_cause("");
 
   // menu bar button behavior
   $("#states-set").on("click", () => {
