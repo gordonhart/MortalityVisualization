@@ -27,7 +27,7 @@
  *)
 
 module Viz7 : sig
-  val viz7_pmf : string -> unit
+  val viz7_pdf : string -> unit
   val viz7_cdf : string -> unit
   val viz7_dangerfun : string -> unit
 end = struct
@@ -106,7 +106,7 @@ end = struct
       List (List.map (fun (age,prob) ->
         Dict [("age",Int age);("percentage",Float prob)]) pts))) pmfs)
 
-  type fundesc = Pmf | Cdf | Danger
+  type fundesc = Pdf | Cdf | Danger
   let viz7 ftype fname =
     1968|..|2014
     |> List.map (fun y -> y
@@ -126,7 +126,7 @@ end = struct
     |> json_to_string
     |~~> fname
 
-  let viz7_pmf = viz7 Pmf
+  let viz7_pdf = viz7 Pdf
   let viz7_cdf = viz7 Cdf
   let viz7_dangerfun = viz7 Danger
 

@@ -19,8 +19,11 @@ $(() => {
       forward: () => scroll_to("header-block"),
       backward: () => scroll_to("header-block")
     },{
-      forward: () => scroll_to("data-processing"),
+      forward: () => scroll_to("about"),
       backward: () => scroll_to("header-block")
+    },{
+      forward: () => scroll_to("data-processing"),
+      backward: () => scroll_to("about")
     },{
       forward: () => scroll_to("data-processing-2"),
       backward: () => scroll_to("data-processing")
@@ -118,8 +121,18 @@ $(() => {
         scroll_to("danger-ages");
       }
     },{
+      forward: () => {
+        filter_chart("dangerfun",["Suicide","Homicide","Motor Vehicle Accidents",
+          "All Other External Causes"]);
+        update_dangerfun();
+      },
+      backward: () => {
+        filter_chart("dangerfun",[]);
+        update_dangerfun();
+      }
+    },{
       forward: () => scroll_to("viz7"),
-      backward: () => scroll_to("danger-ages")
+      backward: () => scroll_to("dangerfun")
     },{
       forward: () => scroll_to("pdf"),
       backward: () => scroll_to("viz7")

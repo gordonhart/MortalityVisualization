@@ -13,6 +13,7 @@ $monospaced: 'Source Code Pro', Courier, serif;
 
 $info-height: 60px;
 $text-width: 500px;
+$wide: 750px;
 
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
@@ -43,8 +44,9 @@ html,body {
 h1,h2,h3,h4,h5,h6 {
   font-family: $header;
   font-weight: bold;
-  max-width: $text-width;
+  max-width: $wide;
   margin: auto auto 1.5em auto;
+  color: $accent;
 }
 
 h1 {
@@ -67,17 +69,21 @@ p {
 
 b {
   font-family: $bold;
+  color: $accent;
 }
 
 code {
   font-family: $monospaced;
-  color: $gray;
+  color: $accent;
 }
 
 img {
   @include border-radius(25px);
   max-width: $text-width; // 60%;
-  margin: 2em;
+  margin: 2em auto;
+  &.wide {
+    max-width: $wide !important;
+  }
   &.short {
     max-height: 600px;
   }
@@ -136,6 +142,9 @@ button {
   .info {
     padding: 0 !important;
     background: rgba(0,0,0,0) !important;
+    h1,h2,h3,h4,h5,h6 {
+      color: $white;
+    }
   }
   // margin-bottom: 2em;
 }
@@ -171,7 +180,7 @@ button {
   margin: auto;
   padding: 4em;
   background: $white;
-  max-width: calc(#{$text-width} + 8em);
+  // max-width: calc(#{$text-width} + 8em);
 }
 
 #cyto {

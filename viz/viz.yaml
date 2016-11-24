@@ -17,7 +17,8 @@ jsfiles:
   - "viz9_3d.js"
 
 jsonfiles:
-  - "data.js" # all json in one file
+  - "data.js" # all json in one (or two) files
+  - "data_big.js"
 
 cssfiles:
   # - "https://fonts.googleapis.com/css?family=Playfair+Display+SC:700|Raleway"
@@ -36,6 +37,11 @@ header:
     - "images/intro.png"
 
 slides:
+  - id: "about"
+    type: "slide"
+    contents:
+      - h3: "The Data"
+        p: "Multiple cause of death data from 1968 to 2014"
   - id: "data-processing"
     type: "slide"
     contents:
@@ -52,7 +58,7 @@ slides:
       - p: "For each visualization, the data was sytematically read, crunched, reshaped, and saved to the disk as JSON files which directly translate to the data plotted using the javascript libraries <code>Cytoscape.js</code> and <code>Plotly.js</code>."
       - p: "An example pipeline is as follows:"
       - >
-        <img src="images/example_pipeline.png" />
+        <img src="images/example_pipeline.png" class="wide" />
       - p: "The data is first read into a list. This list is then passed through transformation functions that sequentially condense and extract the desired data for plotting."
       - p: "After the transformations are complete, the list is rendered as JSON and saved out, where it is retrieved at a later time by the frontend scripts that render the visualizations."
       - p: "Depending on how much data was used for any given visualization, processing took anywhere from 30 seconds to roughly 15 minutes."

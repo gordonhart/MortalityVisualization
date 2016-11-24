@@ -9,7 +9,12 @@ let render_pdfs = (div_id,data) => {
       x: data[cause].map((el) => el.age),
       y: data[cause].map((el) => el.percentage),
       line: {
-        width: 1
+        width: 1,
+      },
+      marker: {
+        line: {
+        colorscale: "Picnic" // "Viridis"
+        }
       },
       visible: true,
       name: cause

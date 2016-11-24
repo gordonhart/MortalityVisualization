@@ -33,11 +33,14 @@ let maptr f l = (* note that this reverses the list *)
   m [] l;;
 
 (* curryable substring *)
+(*
 let sub_string (start,len) str =
   String.sub str start len;;
+*)
 
 let read_year year = soi year
-  |> sub_string (2,2)
+  (* |> sub_string (2,2) *)
+  |> StringLabels.sub ~pos:2 ~len:2
   |> sprintf "raw/MORT%s"
   |> (~~||>);;
 

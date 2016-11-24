@@ -13,8 +13,9 @@ html, body {
 h1, h2, h3, h4, h5, h6 {
   font-family: "Playfair Display SC", Courier, serif;
   font-weight: bold;
-  max-width: 500px;
-  margin: auto auto 1.5em auto; }
+  max-width: 750px;
+  margin: auto auto 1.5em auto;
+  color: #662d91; }
 
 h1 {
   font-size: 2em; }
@@ -31,11 +32,12 @@ p {
   margin: 0 auto 1em auto; }
 
 b {
-  font-family: "Raleway-bold", Arial, sans; }
+  font-family: "Raleway-bold", Arial, sans;
+  color: #662d91; }
 
 code {
   font-family: "Source Code Pro", Courier, serif;
-  color: #6D6D6D; }
+  color: #662d91; }
 
 img {
   -webkit-border-radius: 25px;
@@ -43,7 +45,9 @@ img {
   -ms-border-radius: 25px;
   border-radius: 25px;
   max-width: 500px;
-  margin: 2em; }
+  margin: 2em auto; }
+  img.wide {
+    max-width: 750px !important; }
   img.short {
     max-height: 600px; }
 
@@ -105,6 +109,8 @@ button {
   #header-block .info {
     padding: 0 !important;
     background: transparent !important; }
+    #header-block .info h1, #header-block .info h2, #header-block .info h3, #header-block .info h4, #header-block .info h5, #header-block .info h6 {
+      color: #FAFAFA; }
 
 .slide {
   height: 100vh;
@@ -133,8 +139,7 @@ button {
   border-radius: 25px;
   margin: auto;
   padding: 4em;
-  background: #FAFAFA;
-  max-width: calc(500px + 8em); }
+  background: #FAFAFA; }
 
 #cyto {
   width: 100%;

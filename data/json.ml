@@ -37,15 +37,19 @@ type json =
  * (run it through a formatter if you want to read it) *)
 let json_to_string j =
   let chop_last s =
+    try String.sub s 0 (String.length s - 1) with _ -> s in
+  (*
     let len = String.length s in
     if len > 0 then String.sub s 0 (len - 1) else s in
+  *)
   let fold_chop f start_token l end_token =
-    List.fold_left f start_token l
+    List.fold_left f "" l
     |> chop_last
-    |> fun s -> s ^ end_token in
+    |> fun s -> start_token ^ s ^ end_token in
   let rec jsonify = function
-    | List l -> fold_chop (fun acc j -> acc ^ (jsonify j)) "[ " l "],"
-    | Dict d -> fold_chop (fun acc (k,v) -> acc ^ (sprintf "\"%s\":%s" k (jsonify v))) "{ " d "},"
+    (* | List l -> fold_chop (fun acc j -> acc ^ (jsonify j)) "[" l "]," *)
+    | List l -> fold_chop (fun acc j -> acc ^ (jsonify j)) "[" l "],"
+    | Dict d -> fold_chop (fun acc (k,v) -> acc ^ (sprintf "\"%s\":%s" k (jsonify v))) "{" d "},"
     | Float f -> sprintf "%0.7f," f
     | Int i -> sprintf "%d," i
     | String s -> sprintf "\"%s\"," s
@@ -72,7 +76,7 @@ let alz () =
   |> (function Dict l -> List.filter (fun (f,_) -> f="Alzheimer's") l | _ -> failwith "?")
   |> fun a -> List.nth a 0
   |> snd
-  |> (function List l -> l | _ -> failwith "?")q
+  |> (function List l -> l | _ -> failwith "?")
   |> List.map (function Dict a -> List.nth a 0, List.nth a 1 | _ -> failwith "?")
   |> List.map (function ((_,Int x),(_,Float y)) -> x,y | _ -> failwith "?");;
 

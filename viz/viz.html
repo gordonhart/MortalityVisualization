@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="style/fonts.css">
     <link rel="stylesheet" href="style/viz.css">
     <script type="text/javascript" src="json/data.js"></script>
+    <script type="text/javascript" src="json/data_big.js"></script>
     <script type="text/javascript" src="js/lib/jquery.js"></script>
     <script type="text/javascript" src="js/lib/cytoscape.js"></script>
     <script type="text/javascript" src="js/lib/plotly.js"></script>
@@ -31,6 +32,12 @@
       </div>
     </div>
 
+        <div id="about" class="slide">
+          <div class="info">
+                    <h3>The Data</h3>
+                    <p>Multiple cause of death data from 1968 to 2014</p>
+          </div>
+      </div>
         <div id="data-processing" class="slide">
           <div class="info">
                     <h3>Data Processing Pipeline</h3>
@@ -46,7 +53,7 @@
           <div class="info">
                     <p>For each visualization, the data was sytematically read, crunched, reshaped, and saved to the disk as JSON files which directly translate to the data plotted using the javascript libraries <code>Cytoscape.js</code> and <code>Plotly.js</code>.</p>
                     <p>An example pipeline is as follows:</p>
-                <img src="images/example_pipeline.png" />
+                <img src="images/example_pipeline.png" class="wide" />
 
                     <p>The data is first read into a list. This list is then passed through transformation functions that sequentially condense and extract the desired data for plotting.</p>
                     <p>After the transformations are complete, the list is rendered as JSON and saved out, where it is retrieved at a later time by the frontend scripts that render the visualizations.</p>
