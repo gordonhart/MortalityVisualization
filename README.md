@@ -5,6 +5,8 @@ Final project for STAT3622.
 Make a web application slideshow for visualizing CDC mortality data in
 the US between 1968 and 2014.
 
+[Hosted on AWS](http://stat3622-project.s3-website.ap-northeast-2.amazonaws.com).
+
 ## Organization
 
 1. 2014 Multiple Cause of Death graph
